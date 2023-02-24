@@ -1,4 +1,5 @@
 ﻿using Logistics.Core.Service;
+using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,18 @@ namespace Logistics.Core.Controller
         }
 
         [HttpGet("{id}")]
-        public async Task<Administrators> Get(int id) => await adminService.GetAsync(id);
+        public async Task<ActionResult<ApiResponse<Administrators>>> Get(int id) => await adminService.GetAsync(id);
 
         [HttpGet]
-        public async Task<IEnumerable<Administrators>> GetAll() => await adminService.GetAllAsync();
+        public async Task<ActionResult<ApiResponse<List<Administrators>>>> GetAll() => await adminService.GetAllAsync();
 
         [HttpPost]
-        public async Task<Administrators> Add([FromBody] Administrators admin) => await adminService.CreateAsync(admin);
+        public async Task<ActionResult<ApiResponse<Administrators>>> Add([FromBody] Administrators admin) => await adminService.CreateAsync(admin);
 
         [HttpPut]
-        public async Task<Administrators> Update([FromBody] Administrators admin) => await adminService.UpdateAsync(admin);
+        public async Task<ActionResult<ApiResponse<Administrators>>> Update([FromBody] Administrators admin) => await adminService.UpdateAsync(admin);
 
         [HttpDelete("{id}")]
-        public async Task<Administrators> Delete(int id) => await adminService.DeleteAsync(id);
+        public async Task<ActionResult<ApiResponse<Administrators>>> Delete(int id) => await adminService.DeleteAsync(id);
     }
 }

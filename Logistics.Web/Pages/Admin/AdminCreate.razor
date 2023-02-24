@@ -1,0 +1,41 @@
+﻿@page "/admin/create"
+@using System.Diagnostics.CodeAnalysis;
+@inject IAdminService adminService
+@inject NavigationManager NavigationManager
+
+<PageTitle>管理员创建</PageTitle>
+
+<h3>创建管理员</h3>
+
+<EditForm Model="admin" OnValidSubmit="HandleCreateAdmin">
+    <div class="mb-3">
+        <label for="Name">名字</label>
+        <input id="Name" @bind-value="admin.Name" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="Password">密码</label>
+        <input id="Password" type="password" @bind-value="admin.Password" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword">确认密码</label>
+        <input id="confirmPassword" type="password" @bind-value="admin.Password" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary">添加</button>
+</EditForm>
+@code {
+    [Inject]
+    [NotNull]
+    private ToastService? ToastService{ get; set; }
+    Administrators admin = new Administrators();
+    string confirmPassword = string.Empty;
+    async void HandleCreateAdmin() {
+        var result = adminService.AddAsync(admin);
+        if(result != null) {
+            await ToastService.Success("添加成功","已经添加一位管理员",true);
+        }
+        else {
+            await ToastService.Error("添加失败","添加一位管理员失败",true);
+        }
+        NavigationManager.NavigateTo("admin/");
+    }
+}

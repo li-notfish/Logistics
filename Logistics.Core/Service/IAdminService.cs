@@ -1,4 +1,5 @@
-﻿using Logistics.Shared.Model;
+﻿using Logistics.Shared;
+using Logistics.Shared.Model;
 
 namespace Logistics.Core.Service
 {

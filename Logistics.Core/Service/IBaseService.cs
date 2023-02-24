@@ -1,11 +1,14 @@
-﻿namespace Logistics.Core.Service
+﻿using Logistics.Shared.Model;
+using Logistics.Shared;
+
+namespace Logistics.Core.Service
 {
     public interface IBaseService<T> where T : class
     {
-        Task<T> CreateAsync(T entity);
-        Task<T> UpdateAsync(T entity);
-        Task<T> DeleteAsync(int id);
-        Task<T> GetAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<ApiResponse<T>> CreateAsync(T entity);
+        Task<ApiResponse<T>> UpdateAsync(T entity);
+        Task<ApiResponse<T>> DeleteAsync(int id);
+        Task<ApiResponse<T>> GetAsync(int id);
+        Task<ApiResponse<List<T>>> GetAllAsync();
     }
 }
