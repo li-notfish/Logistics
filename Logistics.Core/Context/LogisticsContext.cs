@@ -10,6 +10,12 @@ namespace Logistics.Core.Context
             
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Order>()
+                .Property(x => x.OrderState)
+                .HasConversion<int>();
+        }
+
         public DbSet<Administrators> Administrators { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }

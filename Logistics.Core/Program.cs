@@ -1,6 +1,7 @@
 
 using Logistics.Core.Context;
 using Logistics.Core.Service;
+using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Logistics.Core
@@ -23,6 +24,7 @@ namespace Logistics.Core
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddTransient<IAdminService, AdminService>();
+            builder.Services.AddScoped<IOrderService<Order>, OrderService>();
 
             var app = builder.Build();
 

@@ -1,10 +1,14 @@
 ﻿
+using Logistics.Shared.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Logistics.Shared.Model
 {
     public class Order
     {
+        [Column(TypeName = "varchar(64)")]
         public string OrderId { get; set; }
-        public string OrderState { get; set; }
+        public State OrderState { get; set; }
         public string Recipient { get; set; }
         public string RecipientPhone { get; set; }
         public string Sender { get; set; }
@@ -19,7 +23,7 @@ namespace Logistics.Shared.Model
             
         }
 
-        public Order(string orderId,string orderState, string recipient, string recipientPhone, string sender, string senderCity, string senderPhone, string recipientCity, string orderInfo, decimal cost)
+        public Order(string orderId,State orderState, string recipient, string recipientPhone, string sender, string senderCity, string senderPhone, string recipientCity, string orderInfo, decimal cost)
         {
             this.OrderId = orderId;
             this.OrderState = orderState;

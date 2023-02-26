@@ -88,12 +88,7 @@ namespace Logistics.Core.Service
             try
             {
                 var context = logisticsContext.Administrators;
-                var admins = await context.FindAsync(entity.Id);
-                if(admins == null)
-                {
-                    return new ApiResponse<Administrators>(false, "更新失败，没有该用户");
-                }
-                context.Entry(entity).State = EntityState.Modified;
+                context.Attach(entity).State = EntityState.Modified;
                 if(await logisticsContext.SaveChangesAsync()>0)
                 {
                     return new ApiResponse<Administrators>(entity,true,"更新成功");
