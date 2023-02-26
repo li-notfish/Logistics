@@ -1,0 +1,47 @@
+﻿@page "/order/"
+@inject NavigationManager NavigationManager;
+@inject IOrderService orderService;
+<h3>订单列表</h3>
+<div>
+    <a href="/order/create" class="btn btn-primary">
+    <i class="oi oi-plus"></i>添加订单
+    </a>
+    <Button Icon="fa-solid fa-arrows-rotate" Text="刷新一下" OnClick="ReGetData" class="my-2"/>
+    <Table AutoGenerateColumns="true" TItem="Order" Items=@Orders ShowExtendButtons="true" ShowExtendDeleteButton="false" ShowExtendEditButton="false">
+        <RowButtonTemplate>
+            <TableCellButton Color="Color.Info" Icon="fa-solid fa-pen" Text="编辑" OnClick="@(() => OnHandelToUpdate(context.OrderId))"/>
+        </RowButtonTemplate>
+    </Table>
+    @if(Orders== null|| Orders.Count == 0) {
+    <div>
+        <Empty Image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" Width="133" Text="暂时没有订单" />
+    </div>
+    }
+</div>
+
+@code {
+    private List<Order> Orders { get; set; }
+
+    protected override async Task OnInitializedAsync() {
+        var result = await orderService.GetAllAsync();
+        if(result != null) {
+            Orders = result;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if(!firstRender) {
+            await ReGetData();
+        }
+    }
+
+    private async Task ReGetData() {
+        var result = await orderService.GetAllAsync();
+        if(result == null) {
+            Orders = result;
+        }
+    }
+    private void OnHandelToUpdate(string id) {
+        NavigationManager.NavigateTo($"order/{id}");
+    }
+}

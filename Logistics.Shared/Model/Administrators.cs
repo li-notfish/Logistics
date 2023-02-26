@@ -11,7 +11,9 @@ namespace Logistics.Shared.Model
     public class Administrators
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Password { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [DataType(DataType.Date)]

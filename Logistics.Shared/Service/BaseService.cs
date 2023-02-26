@@ -47,5 +47,15 @@ namespace Logistics.Shared.Service {
             var content = await result.Content.ReadFromJsonAsync<ApiResponse<T>>();
             return content.Data;
         }
+
+        public async Task<T> DeleteAsync(string id) {
+            var result = await _httpClient.DeleteAsync(Route + $"{id}");
+            return result.Content.ReadFromJsonAsync<ApiResponse<T>>().Result.Data;
+        }
+
+        public async Task<T> GetFirstOfDefaultAsync(string id) {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<T>>(Route + $"{id}");
+            return result.Data;
+        }
     }
 }

@@ -1,12 +1,8 @@
 ﻿@page "/admin/"
-@using Logistics.Shared.Model;
 @using System.Diagnostics.CodeAnalysis;
 @inject NavigationManager NavigationManager;
 @inject IAdminService adminService;
 <h3>管理员列表</h3>
-@if(AdministratorsList == null || AdministratorsList.Count == 0) {
-    <span>Loading AdminList....</span>
-}
 <div>
     <a href="/admin/create" class="btn btn-primary">
     <i class="oi oi-plus"></i>添加管理员
@@ -22,6 +18,11 @@
             <TableCellButton Color="Color.Info" Icon="fa-solid fa-pen" Text="编辑" OnClick="@(() => OnHandelToUpdate(context.Id))"/>
         </RowButtonTemplate>
     </Table>
+    @if(AdministratorsList == null || AdministratorsList.Count == 0) {
+    <div>
+        <Empty Image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" Width="133" Text="暂时没有管理员" />
+    </div>
+}
 </div>
 
 @code {
@@ -36,7 +37,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if(!firstRender) {
-            System.Console.WriteLine("刷新啦");
             await ReGetData();
         }
     }

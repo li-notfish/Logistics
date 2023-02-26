@@ -11,7 +11,8 @@ namespace Logistics.Web {
             builder.RootComponents.Add<HeadOutlet>("head::after");
             builder.Services.AddBootstrapBlazor();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") });
-            builder.Services.AddTransient<IAdminService, AdminService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             await builder.Build().RunAsync();
         }
     }

@@ -1,0 +1,10 @@
+﻿@page "/order/{id:string}"
+
+<h3>订单详情</h3>
+
+@code {
+    private Order order = null;
+
+    [Parameter]
+    public string id { get; set; }
+}
