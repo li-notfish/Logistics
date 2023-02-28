@@ -57,5 +57,6 @@ namespace Logistics.Shared.Service {
             var result = await _httpClient.GetFromJsonAsync<ApiResponse<T>>(Route + $"{id}");
             return result.Data;
         }
+
     }
 }

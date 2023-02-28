@@ -48,7 +48,7 @@
         TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
         var time = (Convert.ToInt64(ts.TotalSeconds).ToString());
         order.OrderId = "LS" + time;
-        var result = orderService.AddAsync(order);
+        var result = await orderService.AddAsync(order);
         if(result != null) {
             await ToastService.Success("添加成功！","订单添加完成",true);
         }

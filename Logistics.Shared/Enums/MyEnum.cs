@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Logistics.Shared.Enums {
-    public enum State {
+    public enum OrderState {
         None,
         InWay,
         Dispatch,
@@ -13,6 +14,5 @@ namespace Logistics.Shared.Enums {
         SigningFailed,
         SendBack
     }
-    internal class MyEnum {
-    }
+
 }

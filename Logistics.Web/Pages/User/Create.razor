@@ -1,0 +1,73 @@
+﻿@page "/user/{id:int}"
+@page "/user/create"
+
+@inject IUserService UserService;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>创建用户</PageTitle>
+<h3>创建用户</h3>
+<EditorForm Model="@user">
+    <FieldItems>
+        <EditorItem @bind-Field="@context.Id" Editable="false" />
+        <EditorItem @bind-Field="@context.CreateTime" Editable="false" />
+    </FieldItems>
+    <Buttons>
+        @if(user.Id != 0) {
+            <Button Color="Color.Primary" OnClick="OnHandleUpdate">修改</Button>
+            <Button Color="Color.Danger" OnClick="OnHandleDelete">删除</Button>
+        }
+        else {
+            <Button ButtonType="ButtonType.Submit" Icon="fa-solid fa-floppy-disk" Text="提交" OnClick="OnHandleCreate"/>    
+        }
+        
+    </Buttons>
+</EditorForm>
+
+@code {
+    private User user = new User();
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnParametersSetAsync() {
+        if(Id != 0) {
+            user = await UserService.GetFirstOfDefaultAsync((int)Id);
+        }
+    }
+
+    [Inject]
+    private ToastService ToastService { get; set; }
+
+    private async Task OnHandleCreate() {
+        var result = await UserService.AddAsync(user);
+        if(result != null) {
+            await ToastService.Success("添加成功","已添加一名用户");
+        }
+        else {
+            await ToastService.Error("添加失败","添加用户失败");
+        }
+        NavigationManager.NavigateTo("user/");
+    }
+
+    private async Task OnHandleUpdate() {
+        var resutl = await UserService.UpdateAsync(user);
+        if(resutl != null) {
+            await ToastService.Success("修改成功",$"Id:{user.Id}的信息已经被修改！");
+        }
+        else {
+            await ToastService.Error("修改失败",$"Id:{user.Id}的信息修改失败！");
+        }
+        NavigationManager.NavigateTo("user/");
+    }
+
+    private async Task OnHandleDelete() {
+        var resutl = await UserService.DeleteAsync(user.Id);
+        if(resutl != null) {
+            await ToastService.Success("删除成功",$"Id:{user.Id}的信息已经被删除！");
+        }
+        else {
+            await ToastService.Error("删除成功",$"Id:{user.Id}的信息删除失败！");
+        }
+        NavigationManager.NavigateTo("user/");
+    }
+}

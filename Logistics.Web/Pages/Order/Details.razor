@@ -1,10 +1,60 @@
-﻿@page "/order/{id:string}"
+﻿@page "/order/{id}"
+@using System.Diagnostics.CodeAnalysis;
+@inject IOrderService OrderService;
+@inject NavigationManager NavigationManager;
 
 <h3>订单详情</h3>
+@if(order == null)
+{
+    <span>正在加载管理员</span>
+}
+else
+{
+    <EditorForm Model="@order">
+        <FieldItems>
+            <EditorItem @bind-Field="@context.OrderId" Editable="false" />
+        </FieldItems>
+        <Buttons>
+            <Button Color="Color.Primary" OnClick="OnHandleUpdate">修改</Button>
+            <Button Color="Color.Danger" OnClick="OnHandleDelete">删除</Button>
+        </Buttons>
+    </EditorForm>
+}
+
 
 @code {
-    private Order order = null;
+    private Order order = new Order();
 
     [Parameter]
-    public string id { get; set; }
+    public string? Id { get; set; }
+
+    [Inject]
+    [NotNull]
+    private ToastService? ToastService{ get; set; }
+
+    protected async override Task OnParametersSetAsync() {
+        order = await OrderService.GetFirstOfDefaultAsync(Id);
+    }
+
+    private async Task OnHandleUpdate() {
+        var result = await OrderService.UpdateAsync(order);
+        if(result != null) {
+            await ToastService.Success("修改成功",$"Id:{order.OrderId}的信息已经被修改！",true);
+        }
+        else {
+            await ToastService.Error("修改失败",$"Id:{order.OrderId}的信息修改失败！");
+        }
+        NavigationManager.NavigateTo("order/");
+    }
+
+    private async Task OnHandleDelete() {
+        var result = await OrderService.DeleteAsync(Id);
+        if(result != null) {
+            await ToastService.Success("删除成功",$"{order.OrderId}已经被删除！");
+        }
+        else {
+            await ToastService.Error("删除失败",$"{order.OrderId}删除失败！");
+        }
+        NavigationManager.NavigateTo("order/");
+    }
 }

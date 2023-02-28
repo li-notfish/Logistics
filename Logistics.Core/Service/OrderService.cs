@@ -16,7 +16,7 @@ namespace Logistics.Core.Service {
             try {
                 TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 var time = (Convert.ToInt64(ts.TotalSeconds).ToString());
-                entity.OrderId = "LS" + time;
+                entity.OrderId ??= "LS" + time;
                 context.Orders.Add(entity);
                 if(await context.SaveChangesAsync() > 0) {
                     return new ApiResponse<Order>(entity,true,"success");
@@ -60,7 +60,7 @@ namespace Logistics.Core.Service {
 
         public async Task<ApiResponse<Order>> GetAsync(string id) {
             try {
-                var order = await context.Orders.FindAsync(id);
+                var order = await context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
                 return new ApiResponse<Order>(order, true, "查询完成");
             }
             catch (Exception ex) {

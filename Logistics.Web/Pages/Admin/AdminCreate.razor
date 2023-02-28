@@ -29,7 +29,7 @@
     Administrators admin = new Administrators();
     string confirmPassword = string.Empty;
     async void HandleCreateAdmin() {
-        var result = adminService.AddAsync(admin);
+        var result = await adminService.AddAsync(admin);
         if(result != null) {
             await ToastService.Success("添加成功","已经添加一位管理员",true);
         }

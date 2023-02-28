@@ -10,7 +10,9 @@ namespace Logistics.Shared.Service {
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<T> DeleteAsync(int id);
+        Task<T> DeleteAsync(string id);
         Task<T> GetFirstOfDefaultAsync(int id);
+        Task<T> GetFirstOfDefaultAsync(string id);
         Task<List<T>> GetAllAsync();
     }
 }

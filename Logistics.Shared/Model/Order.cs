@@ -10,8 +10,8 @@ namespace Logistics.Shared.Model
         [DisplayName("订单号")]
         [Column(TypeName = "varchar(64)")]
         public string OrderId { get; set; }
-        [DisplayName("订单账号")]
-        public State OrderState { get; set; } = State.None;
+        [DisplayName("订单状态")]
+        public OrderState OrderState { get; set; } = OrderState.None;
         [DisplayName("收件人")]
         public string Recipient { get; set; }
         [DisplayName("收件人电话")]

@@ -13,6 +13,7 @@ namespace Logistics.Web {
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") });
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IUserService,UserService>();
             await builder.Build().RunAsync();
         }
     }

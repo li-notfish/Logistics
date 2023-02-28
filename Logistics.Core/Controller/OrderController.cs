@@ -25,7 +25,7 @@ namespace Logistics.Core.Controller {
 
         [HttpPut]
         public async Task<ActionResult<ApiResponse<Order>>> Update([FromBody] Order order) => await orderService.UpdateAsync(order);
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<ApiResponse<Order>>> Delete(string id) => await orderService.DeleteAsync(id); 
     }
 }

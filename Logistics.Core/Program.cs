@@ -23,8 +23,9 @@ namespace Logistics.Core
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddTransient<IAdminService, AdminService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService<Order>, OrderService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
