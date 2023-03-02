@@ -14,5 +14,8 @@ namespace Logistics.Shared.Enums {
         SigningFailed,
         SendBack
     }
-
+    public enum DeliveryState {
+        Busy,
+        Idle
+    }
 }

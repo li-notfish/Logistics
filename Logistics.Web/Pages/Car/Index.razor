@@ -1,0 +1,43 @@
+﻿@page "/car/"
+
+@inject NavigationManager NavigationManage;
+@inject ICarService CarService;
+
+<h3>货车列表</h3>
+    <Button Icon="fa-solid fas fa-plus" Text="添加货车" class="my-2" OnClick="OnHandleCreate"/>
+    <Button Icon="fa-solid fa-arrows-rotate" Text="刷新" OnClick="OnClick" class="my-2" />
+<Table AutoGenerateColumns="true" Items="Cars" TItem="Car" ShowExtendButtons="true" ShowExtendDeleteButton="false" ShowExtendEditButton="false">
+        <RowButtonTemplate>
+            <TableCellButton Color="Color.Info" Icon="fa-solid fa-pen" Text="编辑" OnClick="(() => OnHandleUpdate(context.CarId))"></TableCellButton>
+        </RowButtonTemplate>
+</Table>
+@if(Cars == null || Cars.Count == 0) {
+    <div>
+        <Empty Image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" Width="133" Text="暂时没有货车" />
+    </div>
+    }
+@code {
+    private List<Car> Cars { get; set; } = new List<Car>();
+
+    protected override async Task OnInitializedAsync() {
+        var result = await CarService.GetAllAsync();
+        if(result != null) {
+            Cars = result;
+        }
+    }
+
+    private async Task OnHandleUpdate(int id) {
+        NavigationManage.NavigateTo($"/car/{id}");
+    }
+
+    private async Task OnHandleCreate() {
+        NavigationManage.NavigateTo("/car/create");
+    }
+
+    private async Task OnClick() {
+        var result = await CarService.GetAllAsync();
+        if(result != null) {
+            Cars = result;
+        }
+    }
+}

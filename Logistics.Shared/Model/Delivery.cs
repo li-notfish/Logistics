@@ -1,28 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logistics.Shared.Enums;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Logistics.Shared.Model
 {
     public class Delivery
     {
         public int Id { get; set; }
+        [Required]
+        [DisplayName("姓名")]
         public string Name { get; set; }
+        [Required]
+        [DisplayName("密码")]
         public string Password { get; set; }
+        [Required]
+        [DisplayName("地址")]
         public string Address { get; set; }
+        [Required]
+        [DisplayName("电话号码")]
         public string Phone { get; set; }
+        [DisplayName("备注")]
         public string Description { get; set; }
-        public string State { get; set; }
+        [DisplayName("当前状态")]
+        public DeliveryState State { get; set; } = DeliveryState.Idle;
 
         public Delivery()
         {
             
         }
 
-        public Delivery(int id, string name, string password, string address, string phone, string log, string State)
+        public Delivery(int id, string name, string password, string address, string phone, string log)
         {
             this.Id = id;
             this.Name = name;
@@ -30,7 +38,6 @@ namespace Logistics.Shared.Model
             this.Address = address;
             this.Phone = phone;
             this.Description = log;
-            this.State = State;
         }
     }
 }

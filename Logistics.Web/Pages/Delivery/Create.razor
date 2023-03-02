@@ -1,0 +1,70 @@
+﻿@page "/delivery/{id:int}"
+@page "/delivery/create"
+
+@inject IDeliveryService DeliveryService;
+@inject NavigationManager NavigationManager;
+
+<EditorForm Model="@delivery">
+    <FieldItems>
+        <EditorItem @bind-Field="@context.Id" Editable="false" />
+    </FieldItems>
+    <Buttons>
+        @if(delivery.Id != 0) {
+            <Button Color="Color.Primary" OnClick="OnHandleUpdate">修改</Button>
+            <Button Color="Color.Danger" OnClick="OnHandleDelete">删除</Button>
+        }
+        else {
+            <Button ButtonType="ButtonType.Submit" Icon="fa-solid fa-floppy-disk" Text="提交" OnClick="OnHandleCreate"/>    
+        }
+        
+    </Buttons>
+</EditorForm>
+
+@code {
+    private Delivery delivery = new Delivery();
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    private ToastService ToastService { get; set; }
+
+    protected override async Task OnParametersSetAsync() {
+        if(Id != 0) {
+            delivery = await DeliveryService.GetFirstOfDefaultAsync(Id);
+        }
+    }
+
+    private async Task OnHandleUpdate() {
+        var result = await DeliveryService.UpdateAsync(delivery);
+        if(result != null) {
+            await ToastService.Success("修改成功",$"Id:{Id}修改成功");
+        }
+        else {
+            await ToastService.Error("修改失败",$"Id:{Id}修改失败");
+        }
+        NavigationManager.NavigateTo("delivery/");
+    }
+
+    private async Task OnHandleDelete() {
+        var result = await DeliveryService.DeleteAsync(Id);
+        if(result != null) {
+            await ToastService.Success("删除成功",$"Id:{Id}删除成功");
+        }
+        else {
+            await ToastService.Error("删除成功",$"Id:{Id}删除成功");
+        }
+        NavigationManager.NavigateTo("delivery/");
+    }
+
+    private async Task OnHandleCreate() {
+        var result = await DeliveryService.AddAsync(delivery);
+        if(result != null) {
+            await ToastService.Success("添加成功",$"Id:{Id}添加成功");
+        }
+        else {
+            await ToastService.Error("添加成功",$"Id:{Id}添加成功");
+        }
+        NavigationManager.NavigateTo("delivery/");
+    }
+}

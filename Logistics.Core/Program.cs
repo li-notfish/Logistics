@@ -26,6 +26,8 @@ namespace Logistics.Core
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService<Order>, OrderService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ICarService, CarService>();
+            builder.Services.AddScoped<IDeliveryService, DeliveryService>();
 
             var app = builder.Build();
 

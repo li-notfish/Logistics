@@ -53,7 +53,7 @@ namespace Logistics.Core.Service {
                 return new ApiResponse<List<Order>>(orders, true, "查询成功");
             }
             catch (Exception ex) {
-                return new ApiResponse<List<Order>>(false, "查询失败");
+                return new ApiResponse<List<Order>>(false, ex.Message);
             }
 
         }
@@ -64,7 +64,7 @@ namespace Logistics.Core.Service {
                 return new ApiResponse<Order>(order, true, "查询完成");
             }
             catch (Exception ex) {
-                return new ApiResponse<Order>(false, "查询失败");
+                return new ApiResponse<Order>(false, ex.Message);
             }
         }
 

@@ -63,7 +63,7 @@ namespace Logistics.Core.Service
             }
             catch (Exception ex)
             {
-                return new ApiResponse<List<Administrators>>(false,"查询失败");
+                return new ApiResponse<List<Administrators>>(false,ex.Message);
             }
 
         }
@@ -78,7 +78,7 @@ namespace Logistics.Core.Service
             }
             catch (Exception ex)
             {
-                return new ApiResponse<Administrators>(false, "查询失败");
+                return new ApiResponse<Administrators>(false, ex.Message);
             }
             
         }

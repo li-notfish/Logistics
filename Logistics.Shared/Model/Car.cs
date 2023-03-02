@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Logistics.Shared.Model
 {
-    public class Car
-    {
-        public string CarId { get; set; }
+    public class Car {
+        [DisplayName("Id")]
+        public int CarId { get; set; }
+        [Required]
+        [DisplayName("车名")]
         public string CarName { get; set; }
-        public string CarType { get; set; }
+        [Required]
+        [DisplayName("车类型")]
+        public string CarType { get; set; } = "大货车";
 
         public Car()
         {
             
         }
 
-        public Car(string carId, string carName, string carType)
+        public Car(int carId, string carName, string carType)
         {
             this.CarId = carId;
             this.CarName = carName;

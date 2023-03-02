@@ -14,6 +14,9 @@ namespace Logistics.Core.Context
             modelBuilder.Entity<Order>()
                 .Property(x => x.OrderState)
                 .HasConversion<int>();
+            modelBuilder.Entity<Delivery>()
+                .Property(x => x.State)
+                .HasConversion<int>();
         }
 
         public DbSet<Administrators> Administrators { get; set; }
