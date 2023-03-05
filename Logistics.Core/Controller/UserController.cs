@@ -1,11 +1,12 @@
-﻿using Logistics.Core.Service;
+﻿using Logistics.Core.Service.User;
 using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Logistics.Core.Controller {
+namespace Logistics.Core.Controller
+{
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase {

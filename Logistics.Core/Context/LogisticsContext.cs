@@ -11,11 +11,11 @@ namespace Logistics.Core.Context
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Order>()
-                .Property(x => x.OrderState)
-                .HasConversion<int>();
             modelBuilder.Entity<Delivery>()
                 .Property(x => x.State)
+                .HasConversion<int>();
+            modelBuilder.Entity<OrderDeliveryResponse>()
+                .Property(x => x.OrderState)
                 .HasConversion<int>();
         }
 
@@ -24,5 +24,6 @@ namespace Logistics.Core.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<OrderDeliveryResponse> OrderDeliveryResponse { get; set; }
     }
 }

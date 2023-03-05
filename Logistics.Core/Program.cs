@@ -1,6 +1,11 @@
 
 using Logistics.Core.Context;
-using Logistics.Core.Service;
+using Logistics.Core.Service.Admin;
+using Logistics.Core.Service.Auth;
+using Logistics.Core.Service.Car;
+using Logistics.Core.Service.Delivery;
+using Logistics.Core.Service.Order;
+using Logistics.Core.Service.User;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +33,7 @@ namespace Logistics.Core
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             var app = builder.Build();
 

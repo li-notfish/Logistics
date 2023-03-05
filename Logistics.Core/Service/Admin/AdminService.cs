@@ -3,7 +3,7 @@ using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logistics.Core.Service
+namespace Logistics.Core.Service.Admin
 {
     public class AdminService : IAdminService
     {
@@ -20,11 +20,11 @@ namespace Logistics.Core.Service
             {
                 entity.CreateTime = DateTime.Now;
                 logisticsContext.Administrators.Add(entity);
-                if(await logisticsContext.SaveChangesAsync() > 0)
+                if (await logisticsContext.SaveChangesAsync() > 0)
                 {
                     return new ApiResponse<Administrators>(entity, true, "success");
                 }
-                return new ApiResponse<Administrators>(false,"创建失败");
+                return new ApiResponse<Administrators>(false, "创建失败");
             }
             catch (Exception ex)
             {
@@ -40,9 +40,9 @@ namespace Logistics.Core.Service
                 if (admin != null)
                 {
                     logisticsContext.Administrators.Remove(admin);
-                    if(await logisticsContext.SaveChangesAsync() > 0)
+                    if (await logisticsContext.SaveChangesAsync() > 0)
                     {
-                        return new ApiResponse<Administrators>(admin,true,"删除成功");
+                        return new ApiResponse<Administrators>(admin, true, "删除成功");
                     }
                 }
                 return new ApiResponse<Administrators>(false, "删除失败");
@@ -59,11 +59,11 @@ namespace Logistics.Core.Service
             {
                 var context = logisticsContext.Administrators;
                 var admins = await context.ToListAsync();
-                return new ApiResponse<List<Administrators>>(admins,true,"查询成功");
+                return new ApiResponse<List<Administrators>>(admins, true, "查询成功");
             }
             catch (Exception ex)
             {
-                return new ApiResponse<List<Administrators>>(false,ex.Message);
+                return new ApiResponse<List<Administrators>>(false, ex.Message);
             }
 
         }
@@ -80,7 +80,7 @@ namespace Logistics.Core.Service
             {
                 return new ApiResponse<Administrators>(false, ex.Message);
             }
-            
+
         }
 
         public async Task<ApiResponse<Administrators>> UpdateAsync(Administrators entity)
@@ -89,11 +89,11 @@ namespace Logistics.Core.Service
             {
                 var context = logisticsContext.Administrators;
                 context.Attach(entity).State = EntityState.Modified;
-                if(await logisticsContext.SaveChangesAsync()>0)
+                if (await logisticsContext.SaveChangesAsync() > 0)
                 {
-                    return new ApiResponse<Administrators>(entity,true,"更新成功");
+                    return new ApiResponse<Administrators>(entity, true, "更新成功");
                 }
-                return new ApiResponse<Administrators>(false,"");
+                return new ApiResponse<Administrators>(false, "");
             }
             catch (Exception ex)
             {

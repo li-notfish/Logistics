@@ -1,5 +1,6 @@
 ﻿@page "/admin/create"
 @using System.Diagnostics.CodeAnalysis;
+@using System.ComponentModel.DataAnnotations;
 @inject IAdminService adminService
 @inject NavigationManager NavigationManager
 
@@ -8,6 +9,7 @@
 <h3>创建管理员</h3>
 
 <EditForm Model="admin" OnValidSubmit="HandleCreateAdmin">
+    <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="Name">名字</label>
         <input id="Name" @bind-value="admin.Name" class="form-control"/>
@@ -18,16 +20,16 @@
     </div>
     <div class="mb-3">
         <label for="confirmPassword">确认密码</label>
-        <input id="confirmPassword" type="password" @bind-value="confirmPassword" class="form-control"/>
+        <input id="confirmPassword" type="password" @bind-value="admin.ConfirmPassword" class="form-control"/>
     </div>
     <button type="submit" class="btn btn-primary">添加</button>
+    <ValidationSummary />
 </EditForm>
 @code {
     [Inject]
     [NotNull]
     private ToastService? ToastService{ get; set; }
     Administrators admin = new Administrators();
-    string confirmPassword = string.Empty;
     async void HandleCreateAdmin() {
         var result = await adminService.AddAsync(admin);
         if(result != null) {

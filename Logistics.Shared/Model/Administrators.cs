@@ -11,13 +11,16 @@ namespace Logistics.Shared.Model
     public class Administrators
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="这是必填的")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "这是必填的"), StringLength(18,MinimumLength = 8,ErrorMessage ="密码长度不符合要求")]
         public string Password { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [DataType(DataType.Date)]
         public DateTime CreateTime { get; set; }
+
+        [NotMapped]
+        [Compare("Password", ErrorMessage = "密码不一致")]
+        public string ConfirmPassword { get;set; }
 
         public Administrators()
         {

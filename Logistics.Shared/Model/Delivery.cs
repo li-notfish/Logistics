@@ -11,13 +11,13 @@ namespace Logistics.Shared.Model
         [Required]
         [DisplayName("姓名")]
         public string Name { get; set; }
-        [Required]
+        [Required,StringLength(18,MinimumLength = 8)]
         [DisplayName("密码")]
         public string Password { get; set; }
         [Required]
         [DisplayName("地址")]
         public string Address { get; set; }
-        [Required]
+        [Required,Phone]
         [DisplayName("电话号码")]
         public string Phone { get; set; }
         [DisplayName("备注")]

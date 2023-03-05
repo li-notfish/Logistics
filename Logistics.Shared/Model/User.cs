@@ -17,7 +17,7 @@ namespace Logistics.Shared.Model
         [DisplayName("用户名")]
         public string Name { get; set; }
 
-        [Required]
+        [Required,Phone]
         [DisplayName("手机号码")]
         public string Phone { get; set; }
 
@@ -25,7 +25,7 @@ namespace Logistics.Shared.Model
         [DisplayName("用户地址")]
         public string Address { get; set; }
 
-        [Required]
+        [Required, StringLength(18,MinimumLength = 8)]
         [DisplayName("用户密码")]
         public string Password { get; set; }
 

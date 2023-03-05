@@ -1,0 +1,26 @@
+﻿@page "/login"
+
+<PageTitle>登录</PageTitle>
+<h3>登录</h3>
+
+<EditForm Model="login" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name">名字</label>
+        <input id="Name" @bind-value="login.Name" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="Password">密码</label>
+        <input id="Password" type="password" @bind-value="login.Password" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary">登录</button>
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    private LoginRequest login = new LoginRequest();
+
+    private async Task HandleLogin() {
+        
+    }
+}

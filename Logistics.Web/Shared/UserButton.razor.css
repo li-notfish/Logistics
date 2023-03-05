@@ -3,11 +3,11 @@
 }
 
 .user-button {
-    margin-left: .5em;
+    margin-left: 1px;
 }
 
 .top-row a {
-    margin-left: 0;
+    margin-left: 5px;
 }
 
 .dropdown-item:hover {

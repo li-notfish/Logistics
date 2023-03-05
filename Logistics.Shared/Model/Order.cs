@@ -1,6 +1,6 @@
-﻿
-using Logistics.Shared.Enums;
+﻿using Logistics.Shared.Enums;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Logistics.Shared.Model
@@ -10,14 +10,14 @@ namespace Logistics.Shared.Model
         [DisplayName("订单号")]
         [Column(TypeName = "varchar(64)")]
         public string OrderId { get; set; }
-        [DisplayName("订单状态")]
-        public OrderState OrderState { get; set; } = OrderState.None;
         [DisplayName("收件人")]
         public string Recipient { get; set; }
+        [Phone]
         [DisplayName("收件人电话")]
         public string RecipientPhone { get; set; }
         [DisplayName("寄件人")]
         public string Sender { get; set; }
+        [Phone]
         [DisplayName("寄件人电话")]
         public string SenderPhone { get; set; }
         [DisplayName("寄件人地址")]
@@ -28,7 +28,7 @@ namespace Logistics.Shared.Model
         public string OrderInfo { get; set; }
         [DisplayName("费用")]
         public decimal Cost { get; set; } = decimal.Zero;
-
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         public Order()
         {
             

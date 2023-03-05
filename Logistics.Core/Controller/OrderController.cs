@@ -1,10 +1,11 @@
-﻿using Logistics.Core.Service;
+﻿using Logistics.Core.Service.Order;
 using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Logistics.Core.Controller {
+namespace Logistics.Core.Controller
+{
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase {

@@ -2,11 +2,14 @@
     <button @onclick="ToggleUserMenu"
             @onfocusout="HideUserMenu"
             class="btn btn-secondary dropdown-toggle user-button">
-        <Avatar IsCircle="true" Text="User" Size="Size.ExtraSmall" />
+        <i class="oi oi-person"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-xxl-end @UserMenuCssClass">
-            <a href="register" calss="dropdown-item">
-                <i class="oi oi-signal"></i>注册
+            <a href="/admin/create" class="dropdown-item">
+                注册
+            </a>
+            <a href="/login"  class="dropdown-item">
+                登录
             </a>
         </div>
 </div>
