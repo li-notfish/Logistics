@@ -3,6 +3,7 @@ using System;
 using Logistics.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logistics.Core.Migrations
 {
     [DbContext(typeof(LogisticsContext))]
-    partial class LogisticsContextModelSnapshot : ModelSnapshot
+    [Migration("20230306034428_ConfigOneTOMany")]
+    partial class ConfigOneTOMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
@@ -102,9 +105,6 @@ namespace Logistics.Core.Migrations
                     b.Property<decimal>("Cost")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DeliveryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
@@ -141,9 +141,23 @@ namespace Logistics.Core.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("DeliveryId");
-
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.OrderItems", b =>
+                {
+                    b.Property<int>("DeliveryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DeliveryId1")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DeliveryId");
+
+                    b.HasIndex("DeliveryId1");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Logistics.Shared.Model.User", b =>
@@ -177,18 +191,20 @@ namespace Logistics.Core.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Logistics.Shared.Model.Order", b =>
+            modelBuilder.Entity("Logistics.Shared.Model.OrderItems", b =>
                 {
                     b.HasOne("Logistics.Shared.Model.Delivery", "Delivery")
-                        .WithMany("Orders")
-                        .HasForeignKey("DeliveryId");
+                        .WithMany("Details")
+                        .HasForeignKey("DeliveryId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Delivery");
                 });
 
             modelBuilder.Entity("Logistics.Shared.Model.Delivery", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

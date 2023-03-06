@@ -1,6 +1,6 @@
 ﻿using Logistics.Shared.Model;
 
-namespace Logistics.Core.Service.User
+namespace Logistics.Core.Service.Users
 {
     public interface IUserService : IBaseService<User>
     {

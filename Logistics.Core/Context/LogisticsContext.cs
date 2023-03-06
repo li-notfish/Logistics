@@ -14,9 +14,13 @@ namespace Logistics.Core.Context
             modelBuilder.Entity<Delivery>()
                 .Property(x => x.State)
                 .HasConversion<int>();
-            modelBuilder.Entity<OrderDeliveryResponse>()
+            modelBuilder.Entity<Order>()
+                .HasOne(d => d.Delivery)
+                .WithMany(ds => ds.Orders);
+            modelBuilder.Entity<Order>()
                 .Property(x => x.OrderState)
                 .HasConversion<int>();
+            
         }
 
         public DbSet<Administrators> Administrators { get; set; }
@@ -24,6 +28,5 @@ namespace Logistics.Core.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<OrderDeliveryResponse> OrderDeliveryResponse { get; set; }
     }
 }

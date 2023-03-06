@@ -1,4 +1,4 @@
-﻿using Logistics.Core.Service.Delivery;
+﻿using Logistics.Core.Service.Deliveries;
 using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Mvc;

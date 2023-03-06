@@ -3,6 +3,7 @@ using System;
 using Logistics.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logistics.Core.Migrations
 {
     [DbContext(typeof(LogisticsContext))]
-    partial class LogisticsContextModelSnapshot : ModelSnapshot
+    [Migration("20230306065235_Configrelation")]
+    partial class Configrelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
@@ -102,7 +105,7 @@ namespace Logistics.Core.Migrations
                     b.Property<decimal>("Cost")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DeliveryId")
+                    b.Property<int>("DeliveryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("OrderDate")
@@ -181,7 +184,9 @@ namespace Logistics.Core.Migrations
                 {
                     b.HasOne("Logistics.Shared.Model.Delivery", "Delivery")
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryId");
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Delivery");
                 });

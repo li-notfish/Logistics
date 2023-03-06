@@ -3,7 +3,7 @@ using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logistics.Core.Service.Car
+namespace Logistics.Core.Service.Cars
 {
     public class CarService : ICarService
     {

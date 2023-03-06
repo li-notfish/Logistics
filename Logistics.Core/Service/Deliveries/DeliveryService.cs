@@ -3,7 +3,7 @@ using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logistics.Core.Service.Delivery
+namespace Logistics.Core.Service.Deliveries
 {
     public class DeliveryService : IDeliveryService
     {

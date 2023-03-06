@@ -3,7 +3,7 @@ using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logistics.Core.Service.User
+namespace Logistics.Core.Service.Users
 {
     public class UserService : IUserService
     {

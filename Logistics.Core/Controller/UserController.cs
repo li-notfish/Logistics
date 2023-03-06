@@ -1,4 +1,4 @@
-﻿using Logistics.Core.Service.User;
+﻿using Logistics.Core.Service.Users;
 using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Mvc;

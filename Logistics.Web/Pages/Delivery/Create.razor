@@ -7,6 +7,7 @@
 <EditorForm Model="@delivery">
     <FieldItems>
         <EditorItem @bind-Field="@context.Id" Editable="false" />
+        <EditorItem @bind-Field="@context.Orders" Editable="false" />
     </FieldItems>
     <Buttons>
         @if(delivery.Id != 0) {

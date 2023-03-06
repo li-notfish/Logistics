@@ -28,7 +28,13 @@ namespace Logistics.Shared.Model
         public string OrderInfo { get; set; }
         [DisplayName("费用")]
         public decimal Cost { get; set; } = decimal.Zero;
+        [DisplayName("创建日期")]
         public DateTime OrderDate { get; set; } = DateTime.Now;
+        [DisplayName("订单状态")]
+        public OrderState OrderState { get; set; } = OrderState.None;
+
+        public int? DeliveryId { get; set; }
+        public Delivery? Delivery { get; set; }
         public Order()
         {
             

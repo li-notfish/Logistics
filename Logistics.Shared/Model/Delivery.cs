@@ -25,6 +25,8 @@ namespace Logistics.Shared.Model
         [DisplayName("当前状态")]
         public DeliveryState State { get; set; } = DeliveryState.Idle;
 
+        public List<Order> Orders { get; set; } = new List<Order>();
+
         public Delivery()
         {
             

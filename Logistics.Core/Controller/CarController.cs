@@ -1,4 +1,4 @@
-﻿using Logistics.Core.Service.Car;
+﻿using Logistics.Core.Service.Cars;
 using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.AspNetCore.Mvc;

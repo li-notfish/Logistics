@@ -1,11 +1,10 @@
-
 using Logistics.Core.Context;
 using Logistics.Core.Service.Admin;
 using Logistics.Core.Service.Auth;
-using Logistics.Core.Service.Car;
-using Logistics.Core.Service.Delivery;
-using Logistics.Core.Service.Order;
-using Logistics.Core.Service.User;
+using Logistics.Core.Service.Cars;
+using Logistics.Core.Service.Deliveries;
+using Logistics.Core.Service.Orders;
+using Logistics.Core.Service.Users;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +28,7 @@ namespace Logistics.Core
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IAdminService, AdminService>();
-            builder.Services.AddScoped<IOrderService<Order>, OrderService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();

@@ -8,6 +8,10 @@
     </a>
     <Button Icon="fa-solid fa-arrows-rotate" Text="刷新一下" OnClick="ReGetData" class="my-2"/>
     <Table AutoGenerateColumns="true" TItem="Order" Items=@Orders ShowExtendButtons="true" ShowExtendDeleteButton="false" ShowExtendEditButton="false">
+        <TableColumns>
+            <TableColumn @bind-Field="@context.DeliveryId" Visible="false"/>
+            <TableColumn @bind-Field="@context.Delivery" Visible="false"/>
+        </TableColumns>
         <RowButtonTemplate>
             <TableCellButton Color="Color.Info" Icon="fa-solid fa-pen" Text="编辑" OnClick="@(() => OnHandelToUpdate(context.OrderId))"/>
         </RowButtonTemplate>

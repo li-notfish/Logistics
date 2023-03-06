@@ -3,9 +3,9 @@ using Logistics.Shared;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logistics.Core.Service.Order
+namespace Logistics.Core.Service.Orders
 {
-    public class OrderService : IOrderService<Order>
+    public class OrderService : IOrderService
     {
         private readonly LogisticsContext context;
 
