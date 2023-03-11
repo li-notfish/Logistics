@@ -1,0 +1,84 @@
+﻿<MNavigationDrawer Value="Value"
+                   ValueChanged="ValueChanged"
+                   Id="@ElementId"
+                   App
+                   Floating
+                   Width="300"
+                   Clipped>
+    <MListItem>
+            <MListItemContent>
+                <MListItemTitle class="text-h6">
+                    物流配送管理系统
+                </MListItemTitle>
+            </MListItemContent>
+        </MListItem>
+    <MDivider></MDivider>
+    <MList Class="doc-list-nav">
+           <MListItem Exact
+           Class="m-list-item--default" Href="/">
+               <MListItemIcon>
+                   <MIcon>Home
+                   </MIcon>
+               </MListItemIcon>
+               <MListItemContent>
+                    <MListItemTitle>主页</MListItemTitle>
+               </MListItemContent>
+           </MListItem>
+            <MListItem Exact
+           Class="m-list-item--default" Href="/admin/">
+               <MListItemIcon>
+                   <MIcon>H
+                   </MIcon>
+               </MListItemIcon>
+               <MListItemContent>
+                    <MListItemTitle>管理员管理</MListItemTitle>
+               </MListItemContent>
+           </MListItem>
+            <MListItem Exact
+           Class="m-list-item--default" Href="/order/">
+               <MListItemIcon>
+                   <MIcon>H
+                   </MIcon>
+               </MListItemIcon>
+               <MListItemContent>
+                    <MListItemTitle>订单管理</MListItemTitle>
+               </MListItemContent>
+           </MListItem>
+           <MListItem Exact
+           Class="m-list-item--default" Href="/user/">
+               <MListItemIcon>
+                   <MIcon>H
+                   </MIcon>
+               </MListItemIcon>
+               <MListItemContent>
+                    <MListItemTitle>用户管理</MListItemTitle>
+               </MListItemContent>
+           </MListItem>
+           <MListItem Exact
+           Class="m-list-item--default" Href="/delivery/">
+               <MListItemIcon>
+                   <MIcon>H
+                   </MIcon>
+               </MListItemIcon>
+               <MListItemContent>
+                    <MListItemTitle>派送员管理</MListItemTitle>
+               </MListItemContent>
+           </MListItem>
+    </MList>
+</MNavigationDrawer>
+
+@code {
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    public string ElementId => "nav-drawer";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+    }
+}

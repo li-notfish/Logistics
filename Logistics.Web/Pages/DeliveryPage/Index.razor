@@ -1,0 +1,85 @@
+﻿@page "/delivery/"
+@inject IDeliveryService DeliveryService;
+
+<MDataTable Headers="_header" Items="Deliveries" Class="elevation-1">
+    <ItemColContent>
+        @if (context.Header.Value == "actions")
+        {
+            <MIcon Small
+               Class="mr-2"
+               OnClick="()=>EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small
+               OnClick="()=>DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+    </ItemColContent>
+    <NoDataContent>
+        <MButton Color="primary"
+                 OnClick="GetDataAsync">
+            Reset
+        </MButton>
+    </NoDataContent>
+</MDataTable>
+
+
+@code {
+    private List<Delivery> Deliveries { get; set; }
+
+    private Delivery delivery { get; set; }
+
+    private bool _dialog;
+    private bool _dialogDelete;
+
+    protected async override Task OnInitializedAsync() {
+        var result = await DeliveryService.GetAllAsync();
+        if(result != null) {
+            Deliveries = result;
+        }
+    }
+
+    private async Task GetDataAsync() {
+        var result = await DeliveryService.GetAllAsync();
+        if(result != null) {
+            Deliveries = result;
+        }
+    }
+
+    private void EditItem(Delivery delivery) {
+        this.delivery = delivery;
+        _dialog = true;
+    }
+
+    private void DeleteItem(Delivery delivery) {
+        this.delivery = delivery;
+        _dialogDelete = true;
+    }
+
+    private List<DataTableHeader<Delivery>> _header = new List<DataTableHeader<Delivery>>
+    {
+        new() {
+            Text="ID",
+            Sortable=true,
+            Value=nameof(Delivery.Id)
+        },
+        new() {
+            Text="姓名",
+            Value=nameof(Delivery.Name)
+        },
+        new() {
+          Text="地址",
+          Value=nameof(Delivery.Address)
+        },
+        new() {
+          Text="电话号码",
+          Value=nameof(Delivery.Phone)
+        },
+        new() {
+            Text="状态",
+            Value=nameof(Delivery.State)
+        },
+        new (){ Text= "Actions", Value= "actions",Sortable=false }
+    };
+}

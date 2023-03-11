@@ -9,7 +9,9 @@ namespace Logistics.Web {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
-            builder.Services.AddBootstrapBlazor();
+            // Add services to the container.
+            builder.Services.AddMasaBlazor();
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") });
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();

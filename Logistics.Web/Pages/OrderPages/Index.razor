@@ -1,0 +1,189 @@
+﻿@page "/order/"
+@inject IOrderService orderService;
+<div>
+    <MDataTable Headers="_header"
+                Items="Orders"
+                Class="elevation-1">
+        <TopContent>
+            <MToolbar Flat>
+                <MToolbarTitle>订单列表</MToolbarTitle>
+                <MDivider Class="mx-4" Inset Vertical></MDivider>
+                <MSpacer></MSpacer>
+                <MButton Color="primary"
+                    Dark
+                    Class="mb-2"
+                    OnClick="()=> _dialog = true">新建订单
+                </MButton>
+                <MDialog @bind-Value="_dialog">
+                    <MCard>
+                        <MCardTitle>
+                            <span class="text-h5">@FormTitle</span>
+                        </MCardTitle>
+                        <MCardText>
+                            <MContainer>
+                                <MRow>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.Sender" Label="寄件人"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.SenderPhone" Label="寄件人电话"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.SenderCity" Label="寄件人地址"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.Recipient" Label="收件人"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.RecipientPhone" Label="收件人电话"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.RecipientCity" Label="收件人地址"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.OrderInfo" Label="订单信息"></MTextField>
+                                    </MCol>
+                                    @if(order.OrderId !=null) {
+                                        <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.DeliveryId" Label="派送员ID"></MTextField>
+                                    </MCol>
+                                    <MCol Cols="12" Sm="6" Md="4">
+                                        <MTextField @bind-Value="order.OrderDate" Label="创建日期"></MTextField>
+                                    </MCol>
+                                    }
+                                </MRow>
+                            </MContainer>
+                        </MCardText>
+                        <MCardActions>
+                            <MSpacer></MSpacer>
+                            <MButton Color="blue darken-1" Text OnClick="Close">取消</MButton>
+                            <MButton Color="blue darken-1" Text OnClick="Save">保存</MButton>
+                        </MCardActions>
+                    </MCard>
+                </MDialog>
+                <MDialog @bind-Value="_dialogDelete" MaxWidth="500">
+                    <MCard>
+                        <MCardTitle Class="text-5">你真的想删除这个订单吗？</MCardTitle>
+                        <MCardActions>
+                            <MSpacer></MSpacer>
+                            <MButton Color="blue darken-1" Text OnClick="CloseDelete">取消删除</MButton>
+                            <MButton Color="blue darken-1" Text OnClick="DeleteItemConfirm">确认删除</MButton>
+                            <MSpacer></MSpacer>
+                        </MCardActions>
+                    </MCard>
+                </MDialog>
+            </MToolbar>
+        </TopContent>
+        <ItemColContent>
+            @if (context.Header.Value == "actions")
+        {
+            <MIcon Small
+               Class="mr-2"
+               OnClick="()=> EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small
+               OnClick="()=> DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+        </ItemColContent>
+        <NoDataContent>
+        <MButton Color="primary"
+                 OnClick="ReGetData">
+            刷新
+        </MButton>
+    </NoDataContent>
+    </MDataTable>
+</div>
+
+@code {
+    private List<Order> Orders { get; set; }
+
+    private Order order { get; set; }
+
+    public string FormTitle
+    {
+        get
+        {
+            Console.WriteLine(order.OrderId);
+            return order.OrderId == null ? "新建" : "修改";
+        }
+    }
+
+    private bool  _dialog;
+    private bool  _dialogDelete;
+
+    protected override async Task OnInitializedAsync() {
+        var result = await orderService.GetAllAsync();
+        if(result != null) {
+            Orders = result;
+        }
+    }
+
+    private async Task ReGetData() {
+        var result = await orderService.GetAllAsync();
+        if(result == null) {
+            Orders = result;
+        }
+    }
+
+    public void Close() {
+        _dialog = false;
+        order = new Order();
+    }
+
+    public async void Save() {
+        var result = await orderService.AddAsync(order);
+        if(result !=null) {
+
+        }
+        Close();
+    }
+
+    private void EditItem(Order item) {
+        order = item;
+        Console.WriteLine(order.OrderId);
+        _dialog = true;
+    }
+
+    private void DeleteItem(Order item) {
+        order = item;
+        _dialogDelete = true;
+    }
+
+    private async Task DeleteItemConfirm() {
+        var result = await orderService.DeleteAsync(order.OrderId);
+        if(result != null) {
+            
+        }
+        CloseDelete();
+    }
+
+    private void CloseDelete() {
+        _dialogDelete = false;
+        order = new Order();
+    }
+
+    private List<DataTableHeader<Order>> _header = new List<DataTableHeader<Order>>
+    {
+           new ()
+           {
+            Text= "订单号",
+            Sortable= false,
+            Value= nameof(Order.OrderId)
+          },
+          new DataTableHeader<Order>(){ Text= "派送员ID" , Value= nameof(Order.DeliveryId)},
+          new (){ Text= "收件人", Value= nameof(Order.Recipient)},
+          new (){ Text= "收件人电话", Value= nameof(Order.RecipientPhone)},
+          new (){ Text= "收件地址", Value= nameof(Order.RecipientCity)},
+          new (){ Text= "寄件人", Value= nameof(Order.Sender)},
+          new (){ Text= "寄件人电话", Value= nameof(Order.SenderPhone)},
+          new (){ Text= "寄件人地址", Value=nameof(Order.SenderCity) },
+          new (){ Text= "订单日期", Value=nameof(Order.OrderDate)},
+          new (){ Text= "订单详情", Value=nameof(Order.OrderInfo)},
+          new (){ Text= "费用", Value=nameof(Order.Cost)},
+          new (){ Text= "状态", Value=nameof(Order.OrderState)},
+          new (){ Text= "Actions", Value= "actions",Sortable=false }  
+      };
+}

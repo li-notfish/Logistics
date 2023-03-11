@@ -1,0 +1,84 @@
+﻿@page "/user/"
+@inject IUserService UserService;
+
+<PageTitle>用户列表</PageTitle>
+<MDataTable Headers="_header" Items="Users" Class="elevation-1">
+    <ItemColContent>
+        @if (context.Header.Value == "actions")
+        {
+            <MIcon Small
+               Class="mr-2"
+               OnClick="()=>EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small
+               OnClick="()=>DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+    </ItemColContent>
+    <NoDataContent>
+        <MButton Color="primary"
+                 OnClick="GetData">
+            Reset
+        </MButton>
+    </NoDataContent>
+</MDataTable>
+
+@code {
+    private List<User> Users { get; set; } = new List<User>();
+    private User user { get; set; }
+
+    private bool  _dialog;
+    private bool  _dialogDelete;
+
+    private async void OnClick() {
+        await GetData();
+    }
+
+    protected override async Task OnInitializedAsync() {
+        await GetData();
+    }
+
+    private async Task GetData() {
+        var result = await UserService.GetAllAsync();
+        if(result != null) {
+            Users = result;
+        }
+    }
+   private void EditItem(User item) {
+        user = item;
+        _dialog = true;
+    }
+
+    private void DeleteItem(User item) {
+        user = item;
+        _dialogDelete = true;
+    }
+
+    private List<DataTableHeader<User>> _header = new List<DataTableHeader<User>>
+    {
+        new() {
+            Text="ID",
+            Sortable=true,
+            Value=nameof(User.Id)
+        },
+        new() {
+            Text="姓名",
+            Value=nameof(User.Name)
+        },
+        new() {
+          Text="地址",
+          Value=nameof(User.Address)
+        },
+        new() {
+          Text="电话号码",
+          Value=nameof(User.Phone)
+        },
+        new() {
+            Text="创建日期",
+            Value=nameof(User.CreateTime)
+        },
+        new (){ Text= "Actions", Value= "actions",Sortable=false }
+    };
+}

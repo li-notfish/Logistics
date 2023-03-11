@@ -33,6 +33,7 @@ namespace Logistics.Shared.Model
         [DisplayName("订单状态")]
         public OrderState OrderState { get; set; } = OrderState.None;
 
+        [DisplayName("派送员ID")]
         public int? DeliveryId { get; set; }
         public Delivery? Delivery { get; set; }
         public Order()

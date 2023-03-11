@@ -1,0 +1,104 @@
+﻿@page "/admin/"
+@inject IAdminService adminService;
+
+<MDataTable Headers="_header" Items="AdministratorsList" Class="elevation-1">
+    <TopContent>
+            <MToolbar Flat>
+                <MToolbarTitle>管理员列表</MToolbarTitle>
+                <MDivider Class="mx-4" Inset Vertical></MDivider>
+                <MSpacer></MSpacer>
+                <MButton Color="primary"
+                    Dark
+                    Class="mb-2"
+                    OnClick="()=> _dialog = true">新建订单
+                </MButton>
+                <AdminDialog admin="admin" OnClose="Close" OnSave="Save" _dialog="_dialog" DialogChanged="OnDialogValueChanged"/>
+            </MToolbar>
+        </TopContent>
+    <ItemColContent>
+        @if (context.Header.Value == "actions")
+        {
+            <MIcon Small
+               Class="mr-2"
+               OnClick="()=>EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small
+               OnClick="()=>DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+    </ItemColContent>
+    <NoDataContent>
+        <MButton Color="primary"
+                 OnClick="ReGetData">
+            Reset
+        </MButton>
+    </NoDataContent>
+</MDataTable>
+
+@code {
+    private static List<Administrators> AdministratorsList = new List<Administrators>();
+    private Administrators admin { get; set; }
+    private bool _dialog;
+    private bool _dialogDelete;
+
+    protected override async Task OnInitializedAsync() {
+        var result = await adminService.GetAllAsync();
+        if(result!=null) {
+            AdministratorsList = result;
+        }
+    }
+
+    private async Task ReGetData() {
+        var result = await adminService.GetAllAsync();
+        if(result!=null) {
+            AdministratorsList = result;
+        }
+    }
+    public void Close() {
+        _dialog = false;
+        admin = new Administrators();
+    }
+
+    public async void Save() {
+        var result = await adminService.AddAsync(admin);
+        if(result !=null) {
+
+        }
+        Close();
+    }
+
+    private void EditItem(Administrators admin) {
+        this.admin = admin;
+        _dialog = true;
+    }
+
+    private void DeleteItem(Administrators admin) {
+        this.admin = admin;
+        _dialogDelete = true;
+    }
+
+    private List<DataTableHeader<Administrators>> _header = new List<DataTableHeader<Administrators>>
+    {
+        new() {
+            Text="ID",
+            Sortable=true,
+            Value=nameof(Administrators.Id)
+        },
+        new() {
+            Text="管理员名",
+            Value=nameof(Administrators.Name)
+        },
+        new() {
+          Text="创建日期",
+          Value=nameof(Administrators.CreateTime)
+        },
+        new (){ Text= "Actions", Value= "actions",Sortable=false }
+    };
+
+    private void OnDialogValueChanged(bool _dialog)
+    {
+        this._dialog = _dialog;
+    }
+}

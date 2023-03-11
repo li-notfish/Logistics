@@ -1,0 +1,30 @@
+﻿@inject MasaBlazor MasaBlazor
+
+<MAppBar Id="app-bar"
+         App
+         Class="m-bar--underline"
+         Flat
+         ClippedRight
+         ClippedLeft
+         Color="white"
+         Height="@(MasaBlazor.Breakpoint.Xs ? 96 : 64)"
+         Style="left: 0">
+    <div Class="hidden-md-and-down" style="min-width:300px">
+        <Logo />
+    </div>
+    @if (HideAppBarNavIcon is false)
+    {
+        <MAppBarNavIcon Class="hidden-lg-and-up emphasize2-color"
+                        @onclick="OnAppBarNavIconClick" />
+    }
+    <AppBarItems OnDotClick="OnDotClick">
+    </AppBarItems>
+</MAppBar>
+@code {
+    [Parameter]
+    public EventCallback OnAppBarNavIconClick { get; set; }
+    [Parameter]
+    public bool HideAppBarNavIcon { get; set; }
+    [Parameter]
+    public EventCallback OnDotClick { get; set; }
+}
