@@ -1,5 +1,63 @@
 ﻿@page "/"
+@using Logistics.Shared.Enums;
+@inject IOrderService OrderService;
 
 <PageTitle>主页</PageTitle>
+<div style="display:flex; flex-direction:row;">
+<Chart ChartType="ChartType.Pie" OnInitAsync="OnOrderSenderChartInit" LoadingText="正在加载数据" @ref="OrderSenderChart" Width="50%"/>
+ <Chart ChartType="ChartType.Bar" OnInitAsync="OnMonthChart" LoadingText="正在加载数据" @ref="MonthChart" Width="50%"/>
+</div>
+@code{
+    private Random random = new Random();
 
-<h1>欢迎来到物流配送管理系统</h1>
+    private Chart? OrderSenderChart{ get; set; }
+
+    private Chart? MonthChart { get; set; }
+
+    private async Task<ChartDataSource> OnOrderSenderChartInit() {
+        var cds = new ChartDataSource();
+        cds.Options.Title = "派单详情";
+        var orderlist = await OrderService.GetAllAsync();
+        var ordergroup =  orderlist.GroupBy(x => x.OrderState);
+        List<int> count = new List<int>();
+        List<string> StateString = new List<string>();
+        foreach (var item in ordergroup) {
+            count.Add(item.Count());
+            StateString.Add(UtilityChart.EnmuToStirng((int)item.Key));
+        }
+        cds.Labels = StateString;
+        for(int i = 0; i < 1; i++)
+        {
+            cds.Data.Add(new ChartDataset() {
+                    Data = count.Cast<object>()
+            });
+        }
+        return cds;
+    }
+
+    private async Task<ChartDataSource> OnMonthChart() {
+        var cds = new ChartDataSource();
+        cds.Options.Title = "每月订单数量";
+        cds.Options.X.Title = "月份";
+        cds.Options.Y.Title = "订单数";
+        cds.Options.X.Stacked = false;
+        cds.Options.Y.Stacked = false;
+        var orderList = await OrderService.GetAllAsync();
+
+        var ordergroup = orderList.GroupBy(x => x.OrderDate.Month);
+        List<int> count = new List<int>();
+        List<string> labelString = new List<string>();
+        foreach (var item in ordergroup) {
+            System.Console.WriteLine(item.Count());
+            count.Add(item.Count());
+            labelString.Add(item.Key.ToString()+"月份");
+        }
+        for(int i = 0; i < 1; i++)
+        {
+            cds.Data.Add(new ChartDataset() {
+                    Data = count.Cast<object>()
+        });
+        }
+        return cds;
+    }
+}

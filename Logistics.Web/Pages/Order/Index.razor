@@ -13,6 +13,7 @@
             <TableColumn @bind-Field="@context.Delivery" Visible="false"/>
         </TableColumns>
         <RowButtonTemplate>
+            <TableCellButton Color="Color.Light" Icon="fa-solid fa-pen" Text="派单" OnClick="@(() => ShowDialog(context.OrderId))" />
             <TableCellButton Color="Color.Info" Icon="fa-solid fa-pen" Text="编辑" OnClick="@(() => OnHandelToUpdate(context.OrderId))"/>
         </RowButtonTemplate>
     </Table>
@@ -25,6 +26,28 @@
 
 @code {
     private List<Order> Orders { get; set; }
+
+    [Inject]
+    private DialogService? DialogService { get; set; }
+
+    private async Task ShowDialog(string id) {
+        var item = Orders.FirstOrDefault(x => x.OrderId.Equals(id));
+        var option = new EditDialogOption<Order>()
+            {
+                Title = "安排派送",
+                Model = item,
+                ItemsPerRow = 2,
+                RowType = RowType.Inline,
+                OnCloseAsync = () => {
+                    return Task.FromResult(true);
+                },
+                OnEditAsync = async context => {
+                   var result = await orderService.UpdateAsync(item);
+                    return true;
+                },
+    };
+        await DialogService.ShowEditDialog(option);
+    }
 
     protected override async Task OnInitializedAsync() {
         var result = await orderService.GetAllAsync();

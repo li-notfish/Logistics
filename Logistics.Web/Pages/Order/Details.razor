@@ -13,6 +13,7 @@ else
     <EditorForm Model="@order">
         <FieldItems>
             <EditorItem @bind-Field="@context.OrderId" Editable="false" />
+            <EditorItem @bind-Field="@context.Delivery" Editable="false" />
         </FieldItems>
         <Buttons>
             <Button Color="Color.Primary" OnClick="OnHandleUpdate">修改</Button>
