@@ -13,17 +13,19 @@
     private object _MondthOption = new object();
     private object _OrderState = new object();
 
-    private List<Order> Orders { get; set; }
-    private IEnumerable<int> monthString { get; set;}
-    private IEnumerable<int> monthCount { get; set;}
-    private IEnumerable<OrderState> states { get; set; }
-    private IEnumerable<int> stateCount { get; set;}
+    private List<Order> Orders { get; set; } = new List<Order>();
+    private IEnumerable<int> monthString { get; set; } = new List<int>();
+    private IEnumerable<int> monthCount { get; set;} = new List<int>();
+    private IEnumerable<OrderState> states { get; set; } = new List<OrderState>();
+    private IEnumerable<int> stateCount { get; set;} = new List<int>();
     protected async override Task OnInitializedAsync() {
         Orders = await OrderService.GetAllAsync();
-        monthString = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Key);
-        monthCount = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Count());
-        states = Orders.GroupBy(x => x.OrderState).Select(x => x.Key);
-        stateCount = Orders.GroupBy(x => x.OrderState).Select(x => x.Count());
+        if(Orders != null) {
+            monthString = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Key);
+            monthCount = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Count());
+            states = Orders.GroupBy(x => x.OrderState).Select(x => x.Key);
+            stateCount = Orders.GroupBy(x => x.OrderState).Select(x => x.Count());
+        }
         InitOption(monthString,monthCount);
         InitOption(states,stateCount);
     }

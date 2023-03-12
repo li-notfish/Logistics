@@ -1,31 +1,35 @@
-﻿<div class="dropdown">
-    <button @onclick="ToggleUserMenu"
-            @onfocusout="HideUserMenu"
-            class="btn btn-secondary dropdown-toggle user-button">
-        <i class="oi oi-person"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-xxl-end @UserMenuCssClass">
-            <a href="/admin/create" class="dropdown-item">
-                注册
-            </a>
-            <a href="/login"  class="dropdown-item">
-                登录
-            </a>
-        </div>
-</div>
-@*
-    todo
-    改成BlazorBootstrap的下拉样式
-*@
+﻿<MContainer Fluid Style="height:50px">
+	<MRow Justify="JustifyTypes.Center">
+		<MMenu Bottom MinWidth="200" Rounded="@true">
+			<ActivatorContent>
+				<MButton Icon XLarge @attributes="@context.Attrs">
+					<MAvatar Color="brown" Size="48">
+						<span class="white--text text-h5">Hi</span>
+					</MAvatar>
+				</MButton>
+			</ActivatorContent>
+			<ChildContent>
+				<MCard>
+					<MListItemContent Class="justify-center">
+						<div class="mx-auto text-center">
+							<MAvatar Color="brown">
+								<span class="white--text text-h5">Hi</span>
+							</MAvatar>
+							<h3>Hello</h3>
+							<MDivider class="my-3"></MDivider>
+							<MButton Depressed Rounded Text>账号管理</MButton>
+							<MDivider class="my-3"></MDivider>
+							<MButton Depressed Rounded Text>登录</MButton>
+							<MDivider class="my-3"></MDivider>
+							<MButton Depressed Rounded Text>登出</MButton>
+						</div>
+					</MListItemContent>
+				</MCard>
+			</ChildContent>
+		</MMenu>
+	</MRow>
+</MContainer>
 
 @code {
-    private bool showUserMenu = false;
-    private string UserMenuCssClass => showUserMenu ? "show-menu" : null;
-    private void ToggleUserMenu() {
-        showUserMenu = !showUserMenu;
-    }
-    private async Task HideUserMenu() {
-        await Task.Delay(200);
-        showUserMenu = false;
-    }
+    
 }

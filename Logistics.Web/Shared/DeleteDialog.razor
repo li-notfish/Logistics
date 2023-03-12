@@ -1,0 +1,22 @@
+﻿<MDialog @bind-Value="_dialogDelete" MaxWidth="500">
+    <MCard>
+        <MCardTitle Class="text-5">你真的想删除吗？</MCardTitle>
+            <MCardActions>
+                <MSpacer></MSpacer>
+                <MButton Color="blue darken-1" Text OnClick="CloseDelete">取消删除</MButton>
+                <MButton Color="blue darken-1" Text OnClick="DeleteItemConfirm">确认删除</MButton>
+                <MSpacer></MSpacer>
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+@code {
+    [Parameter]
+    public bool _dialogDelete { get; set; }
+
+    [Parameter]
+    public EventCallback CloseDelete { get; set; }
+
+    [Parameter]
+    public EventCallback DeleteItemConfirm { get; set; }
+}

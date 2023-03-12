@@ -1,0 +1,64 @@
+﻿@using Logistics.Shared.Enums;
+<MDialog @bind-Value="dialog">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+        <MCardText>
+            <MContainer>
+                <MRow>
+                    <MCol>
+                        <MForm Model="Delivery" EnableValidation>
+                            <MTextField @bind-Value="Delivery.Name" Label="用户名" />
+                            <MTextField @bind-Value="Delivery.Phone" Label="电话号码" />
+                            <MTextField @bind-Value="Delivery.Address" Label="地址" />
+                            <MTextField @bind-Value="Delivery.Password" Label="密码" Type="Password" />
+                            <MSelect TItem="StateItem"
+                                     TItemValue="int"
+                                     TValue="DeliveryState"
+                                     Items="stateItems"
+                                     @bind-Value="Delivery.State"
+                                     ItemText="x => x.State"
+                                     ItemValue="x => x.Number"
+                                     Label="当前状态"
+                                     OnSelectedItemUpdate="item => Delivery.State = (DeliveryState)item.Number"
+                                     Filled></MSelect>
+                            <MTextField @bind-Value="Delivery.Description" Label="备注" />
+                        </MForm>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </MCardText>
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1" Text OnClick="Close">取消</MButton> 
+            <MButton Color="blue darken-1" Text OnClick="Save" Type="submit">保存</MButton>
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+@code {
+    [Parameter]
+    public Delivery Delivery { get; set; }
+
+    [Parameter]
+    public bool dialog { get; set; }
+    [Parameter]
+    public EventCallback Save { get; set; }
+    [Parameter]
+    public EventCallback Close{ get; set; }
+
+    public string FormTitle {
+        get {
+            return Delivery.Id == 0 ? "创建" : "修改";
+        }
+    }
+
+    record StateItem(string State, int Number);
+
+    private List<StateItem> stateItems = new()
+    {
+        new("繁忙",0),
+        new("空闲",1),
+    };
+}

@@ -18,9 +18,6 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-                var time = Convert.ToInt64(ts.TotalSeconds).ToString();
-                entity.OrderId ??= "LS" + time;
                 context.Orders.Add(entity);
                 if (await context.SaveChangesAsync() > 0)
                 {
@@ -42,7 +39,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var order = context.Orders.FirstOrDefault(x => x.OrderId.Equals(id));
+                var order = context.Orders.Include(x => x.Delivery).FirstOrDefault(x => x.OrderId.Equals(id));
                 if (order != null)
                 {
                     context.Orders.Remove(order);
@@ -63,7 +60,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var orders = await context.Orders.ToListAsync();
+                var orders = await context.Orders.Include(a => a.Delivery).ToListAsync();
                 return new ApiResponse<List<Order>>(orders, true, "查询成功");
             }
             catch (Exception ex)
@@ -77,7 +74,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var order = await context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
+                var order = await context.Orders.Include(x => x.Delivery).FirstOrDefaultAsync(x => x.OrderId == id);
                 return new ApiResponse<Order>(order, true, "查询完成");
             }
             catch (Exception ex)
@@ -90,6 +87,16 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
+                //if(entity.DeliveryId != null) {
+                //    var Delivery = await context.Deliveries.FirstOrDefaultAsync(x => x.Id == entity.DeliveryId);
+                //    entity.Delivery = Delivery;
+                //}
+                //if(entity.DeliveryId !=null) {
+                //    var delivery = await context.Deliveries.FirstOrDefaultAsync(x => x.Id == entity.DeliveryId);
+                //    entity.OrderState = Shared.Enums.OrderState.InWay;
+                //    delivery.State = Shared.Enums.DeliveryState.Busy;
+                //    context.Deliveries.Attach(delivery).State = EntityState.Modified;
+                //}
                 context.Orders.Attach(entity).State = EntityState.Modified;
                 if (await context.SaveChangesAsync() > 0)
                 {

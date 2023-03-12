@@ -6,14 +6,19 @@
             <MToolbar Flat>
                 <MToolbarTitle>管理员列表</MToolbarTitle>
                 <MDivider Class="mx-4" Inset Vertical></MDivider>
+                <MButton Color="primary" Dark Class="mb-2" OnClick="ReGetData">
+                    刷新
+                </MButton>
                 <MSpacer></MSpacer>
                 <MButton Color="primary"
                     Dark
                     Class="mb-2"
-                    OnClick="()=> _dialog = true">新建订单
+                    OnClick="()=> _dialog = true">新建管理员
                 </MButton>
                 <AdminDialog admin="admin" OnClose="Close" OnSave="Save" _dialog="_dialog" DialogChanged="OnDialogValueChanged"/>
+                <DeleteDialog _dialogDelete="_dialogDelete" CloseDelete="CloseDelete" DeleteItemConfirm="DeleteItemConfirm"/>
             </MToolbar>
+            <Message MessageStr="@message" _snackbar="snackbar" />
         </TopContent>
     <ItemColContent>
         @if (context.Header.Value == "actions")
@@ -39,14 +44,17 @@
 
 @code {
     private static List<Administrators> AdministratorsList = new List<Administrators>();
-    private Administrators admin { get; set; }
+    private Administrators admin = new Administrators();
     private bool _dialog;
     private bool _dialogDelete;
+    private bool snackbar;
+    private string message = string.Empty;
 
     protected override async Task OnInitializedAsync() {
         var result = await adminService.GetAllAsync();
         if(result!=null) {
             AdministratorsList = result;
+
         }
     }
 
@@ -61,11 +69,21 @@
         admin = new Administrators();
     }
 
-    public async void Save() {
-        var result = await adminService.AddAsync(admin);
-        if(result !=null) {
-
+    public async Task Save() {
+        Administrators result; 
+        if(admin.Id == 0) {
+            result = await adminService.AddAsync(admin);    
         }
+        else {
+            result = await adminService.UpdateAsync(admin);
+        }
+        if(result !=null) {
+            message = "管理员信息保存成功！";
+        }
+        else {
+            message = "管理员信息保存失败！";
+        }
+        snackbar = true;
         Close();
     }
 
@@ -100,5 +118,22 @@
     private void OnDialogValueChanged(bool _dialog)
     {
         this._dialog = _dialog;
+    }
+
+    private void CloseDelete() {
+        admin = new Administrators();
+        _dialogDelete = false;
+    }
+
+    private async Task DeleteItemConfirm() {
+        var result = await adminService.DeleteAsync(admin.Id);
+        if(result != null) {
+            message = "管理员删除成功！";
+        }
+        else {
+            message = "管理员删除失败！";
+        }
+        snackbar = true;
+        CloseDelete();
     }
 }

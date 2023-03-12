@@ -16,7 +16,9 @@ namespace Logistics.Core.Context
                 .HasConversion<int>();
             modelBuilder.Entity<Order>()
                 .HasOne(d => d.Delivery)
-                .WithMany(ds => ds.Orders);
+                .WithMany(ds => ds.Orders)
+                .HasForeignKey(o => o.DeliveryId)
+                .IsRequired(false);
             modelBuilder.Entity<Order>()
                 .Property(x => x.OrderState)
                 .HasConversion<int>();

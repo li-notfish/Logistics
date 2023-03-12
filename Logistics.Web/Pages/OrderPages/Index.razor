@@ -1,19 +1,64 @@
 ﻿@page "/order/"
+@using Logistics.Shared.Enums;
 @inject IOrderService orderService;
+@inject IDeliveryService DeliveryService;
 <div>
     <MDataTable Headers="_header"
+                ShowSelect
+                @bind-Value="_selected"
                 Items="Orders"
-                Class="elevation-1">
+                Class="elevation-1"
+                ItemKey="o => o.OrderId"
+                Loading="load"
+                LoadingText="Loading... Please wait">
         <TopContent>
             <MToolbar Flat>
                 <MToolbarTitle>订单列表</MToolbarTitle>
                 <MDivider Class="mx-4" Inset Vertical></MDivider>
+                <MButton Color="primary" Dark Class="mb-2" OnClick="ReGetData">
+                    刷新
+                </MButton>
                 <MSpacer></MSpacer>
                 <MButton Color="primary"
                     Dark
                     Class="mb-2"
                     OnClick="()=> _dialog = true">新建订单
                 </MButton>
+                <MSpacer></MSpacer>
+                <MButton Color="primary"
+                    Dark
+                    Class="mb-2"
+                    OnClick="() => _dialogDelivery = true" Disabled="_selected.Count() == 0">派送</MButton>
+                <MDialog @bind-Value="_dialogDelivery">
+                    <MCard>
+                        <MCardTitle>
+                            <span class="text-h5">派送</span>
+                        </MCardTitle>
+                        <MCardText>
+                            <MContainer>
+                                <MRow>
+                                    <MCol Cols="6">
+                                        <MSelect TItem="Delivery"
+                                                TItemValue="int"
+                                                TValue="Delivery"
+                                                Items="Deliveries"
+                                                @bind-Value="delivery"
+                                                ItemText="d => d.Name"
+                                                ItemValue="d => d.Id"
+                                                Label="选择派送员"
+                                                OnSelectedItemUpdate="item => delivery = item">
+                                        </MSelect>
+                                    </MCol>
+                                </MRow>
+                            </MContainer>
+                        </MCardText>
+                        <MCardActions>
+                            <MSpacer></MSpacer>
+                            <MButton Color="blue darken-1" Text OnClick="CloseDelivery">取消</MButton>
+                            <MButton Color="blue darken-1" Text OnClick="SendOrderConfirm">保存</MButton>
+                        </MCardActions>
+                        </MCard>
+                </MDialog>
                 <MDialog @bind-Value="_dialog">
                     <MCard>
                         <MCardTitle>
@@ -22,33 +67,65 @@
                         <MCardText>
                             <MContainer>
                                 <MRow>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="6" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.Sender" Label="寄件人"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="8" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.SenderPhone" Label="寄件人电话"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="8" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.SenderCity" Label="寄件人地址"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="6" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.Recipient" Label="收件人"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="8" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.RecipientPhone" Label="收件人电话"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="8" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.RecipientCity" Label="收件人地址"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
+                                    <MCol Cols="8" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.OrderInfo" Label="订单信息"></MTextField>
                                     </MCol>
                                     @if(order.OrderId !=null) {
-                                        <MCol Cols="12" Sm="6" Md="4">
+                                        <MCol Cols="6" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.DeliveryId" Label="派送员ID"></MTextField>
                                     </MCol>
-                                    <MCol Cols="12" Sm="6" Md="4">
-                                        <MTextField @bind-Value="order.OrderDate" Label="创建日期"></MTextField>
+                                    <MCol Cols="6" Sm="6" Md="4">
+                                        <MMenu @bind-Value="menu" CloseOnContentClick="false" Transition="scale-transition" OffsetY MinWidth="@("auto")">
+                                            <ActivatorContent>
+                                                <MTextField @bind-Value="order.OrderDate" 
+                                                    Label="创建日期" 
+                                                    Readonly 
+                                                    PrependIcon="mdi-calendar" 
+                                                    @attributes="context.Attrs"
+                                                ></MTextField>
+                                            </ActivatorContent>
+                                            <ChildContent>
+                                                <MDatePicker @bind-Value="order.OrderDate" 
+                                                        NoTitle 
+                                                        Scrollable>
+                                                    <MSpacer></MSpacer>
+                                                    <MButton Text Color="primary" OnClick="() => menu = false">取消</MButton>
+                                                    <MButton Text Color="primary" OnClick="() => menu = false">保存</MButton>
+                                                </MDatePicker>
+                                            </ChildContent>
+                                        </MMenu>
+                                    </MCol>
+                                    <MCol Cols="8" Sm="6" Md="4">
+                                        <MSelect TItem="StateItem" 
+                                            TItemValue="int" 
+                                            TValue="OrderState" 
+                                            Items="_items" 
+                                            @bind-Value="order.OrderState" 
+                                            ItemText="x => x.State" 
+                                            ItemValue="x => x.Number" 
+                                            Filled Label="当前状态" 
+                                            OnSelectedItemUpdate="item => order.OrderState = (OrderState)item.Number"
+                                            SingleLine
+                                            Dense>
+                                        </MSelect>
                                     </MCol>
                                     }
                                 </MRow>
@@ -72,6 +149,7 @@
                         </MCardActions>
                     </MCard>
                 </MDialog>
+                <Message MessageStr="message" _snackbar="snackbar" />
             </MToolbar>
         </TopContent>
         <ItemColContent>
@@ -82,6 +160,9 @@
                OnClick="()=> EditItem(context.Item)">mdi-pencil</MIcon>
             <MIcon Small
                OnClick="()=> DeleteItem(context.Item)">mdi-delete</MIcon>
+            <MIcon Small OnClick="() => SendOrder()">
+                mdi-local_shipping
+            </MIcon>
         }
         else
         {
@@ -98,33 +179,62 @@
 </div>
 
 @code {
-    private List<Order> Orders { get; set; }
+    private List<Order> Orders { get; set; } = new List<Order>();
 
-    private Order order { get; set; }
+    private IEnumerable<Order> _selected = new List<Order>();
+
+    private Delivery delivery = new Delivery();
+
+    private List<Delivery> Deliveries = new List<Delivery>();
+
+    private Order order = new Order();
+    private bool menu;
+    private bool load = true;
 
     public string FormTitle
     {
         get
         {
-            Console.WriteLine(order.OrderId);
             return order.OrderId == null ? "新建" : "修改";
         }
     }
 
+    record StateItem(string State, int Number);
+
+    List<StateItem> _items = new() {
+        new StateItem("无信息",0),
+        new StateItem("正在运送",1),
+        new StateItem("正在派件",2),
+        new StateItem("已签收",3),
+        new StateItem("签收失败",4),
+        new StateItem("已送回",5),
+    };
+
     private bool  _dialog;
     private bool  _dialogDelete;
+    private bool _dialogDelivery;
+    private bool snackbar;
+    private string message = string.Empty;
+
 
     protected override async Task OnInitializedAsync() {
         var result = await orderService.GetAllAsync();
+        Deliveries = await DeliveryService.GetAllAsync();
+        if(Deliveries != null) {
+            delivery = Deliveries.FirstOrDefault();
+        }
         if(result != null) {
             Orders = result;
+            load = false;
         }
     }
 
-    private async Task ReGetData() {
-        var result = await orderService.GetAllAsync();
-        if(result == null) {
+    private void ReGetData() {
+        load = true;
+        var result = orderService.GetAllAsync().Result;
+        if(result != null) {
             Orders = result;
+            load = false;
         }
     }
 
@@ -133,11 +243,22 @@
         order = new Order();
     }
 
-    public async void Save() {
-        var result = await orderService.AddAsync(order);
-        if(result !=null) {
-
+    public async Task Save() {
+        Order result;
+        Console.WriteLine(order.ToString());
+        if(order.OrderId == null) {
+            result = await orderService.AddAsync(order);
         }
+        else {
+            result = await orderService.UpdateAsync(order);
+        }
+        if(result !=null) {
+            message = "订单信息保存成功！";
+        }
+        else {
+            message = "订单信息保存失败！";
+        }
+        snackbar = true;
         Close();
     }
 
@@ -152,17 +273,45 @@
         _dialogDelete = true;
     }
 
+    private void SendOrder() {
+        _dialogDelivery = true;
+    }
+
     private async Task DeleteItemConfirm() {
         var result = await orderService.DeleteAsync(order.OrderId);
         if(result != null) {
-            
+            message = "订单删除成功！";
         }
+        else {
+            message = "订单删除失败！";
+        }
+        snackbar = true;
         CloseDelete();
+    }
+
+    private async Task SendOrderConfirm() {
+        foreach (var item in _selected) {
+            item.DeliveryId = delivery.Id;
+        }
+        delivery.Orders.AddRange(_selected);
+        var result = await DeliveryService.UpdateAsync(delivery);
+        if(result != null) {
+            message = "派单成功！";
+        }
+        else {
+            message = "派单失败！";
+        }
+        snackbar = true;
+        CloseDelivery();
     }
 
     private void CloseDelete() {
         _dialogDelete = false;
         order = new Order();
+    }
+
+    private void CloseDelivery() {
+        _dialogDelivery = false;
     }
 
     private List<DataTableHeader<Order>> _header = new List<DataTableHeader<Order>>

@@ -62,7 +62,7 @@ namespace Logistics.Core.Service.Deliveries
                     return new ApiResponse<List<Delivery>>(false, "");
                 }
 
-                var deliveries = await logisticsContext.Deliveries.ToListAsync();
+                var deliveries = await logisticsContext.Deliveries.Include(x => x.Orders).ToListAsync();
                 return new ApiResponse<List<Delivery>>(deliveries, true, "success");
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace Logistics.Core.Service.Deliveries
                     return new ApiResponse<Delivery>(false, "");
                 }
 
-                var delivery = await logisticsContext.Deliveries.FirstOrDefaultAsync(x => x.Id == id);
+                var delivery = await logisticsContext.Deliveries.Include(x => x.Orders).FirstOrDefaultAsync(x => x.Id == id);
 
                 return new ApiResponse<Delivery>(delivery, true, "success");
             }
@@ -94,7 +94,15 @@ namespace Logistics.Core.Service.Deliveries
         {
             try
             {
-                logisticsContext.Deliveries.Attach(entity).State = EntityState.Modified;
+                if(entity.Orders.Count() != 0) {
+                    foreach (var item in entity.Orders) {
+                        if(item.DeliveryId != entity.Id) {
+                            item.DeliveryId = entity.Id;
+                        }
+                    }
+                }
+                logisticsContext.Deliveries.Update(entity);
+                //logisticsContext.Deliveries.Attach(entity).State = EntityState.Modified;
                 if (await logisticsContext.SaveChangesAsync() > 0)
                 {
                     return new ApiResponse<Delivery>(entity, true, "更新成功");

@@ -1,0 +1,28 @@
+﻿<div class="text-center">
+    <MSnackbar @bind-Value="_snackbar"
+                Timeout="2000" Dark>
+        <ChildContent>
+            @MessageStr
+        </ChildContent>
+        <ActionContent>
+            <MButton Color="blue"
+                     Text
+                     OnClick="()=>_snackbar = false">
+                关闭
+            </MButton>
+        </ActionContent>
+    </MSnackbar>
+</div>
+
+    @code {
+    [Parameter]
+    public bool _snackbar { get; set; }
+
+    [Parameter]
+    public string MessageStr { get; set; }
+
+    protected override Task OnParametersSetAsync() {
+        Console.WriteLine(MessageStr);
+        return base.OnParametersSetAsync();
+    }
+}

@@ -3,6 +3,20 @@
 
 <PageTitle>用户列表</PageTitle>
 <MDataTable Headers="_header" Items="Users" Class="elevation-1">
+    <TopContent>
+        <MToolbar Flat>
+            <MToolbarTitle>用户列表</MToolbarTitle>
+            <MDivider Class="mx-4" Inset Vertical></MDivider>
+            <MButton Color="primary" Dark Class="mb-2" OnClick="GetData">
+                    刷新
+            </MButton>
+            <MSpacer></MSpacer>
+            <MButton Color="primary" Dark Class="mb-2" OnClick="() => _dialog = true">新建</MButton>
+        </MToolbar>
+        <UserDialog user="user" dialog="_dialog" Close="Close" Save="Save"></UserDialog>
+        <DeleteDialog CloseDelete="CloseDelete" DeleteItemConfirm="DeleteItemConfirm" _dialogDelete="_dialogDelete"></DeleteDialog>
+        <Message MessageStr="@message" _snackbar="snackbar" />
+    </TopContent>
     <ItemColContent>
         @if (context.Header.Value == "actions")
         {
@@ -27,10 +41,12 @@
 
 @code {
     private List<User> Users { get; set; } = new List<User>();
-    private User user { get; set; }
+    private User user = new User();
 
     private bool  _dialog;
     private bool  _dialogDelete;
+    private bool snackbar;
+    private string message = string.Empty;
 
     private async void OnClick() {
         await GetData();
@@ -46,7 +62,29 @@
             Users = result;
         }
     }
-   private void EditItem(User item) {
+    private void Close() {
+        user = new User();
+        _dialog = false;
+    }
+
+    private async Task Save() {
+        User result;
+        if(user.Id == 0) {
+            result = await  UserService.AddAsync(user);
+        }
+        else {
+            result = await UserService.UpdateAsync(user);
+        }
+        if(result != null) {
+            message = "用户信息保存成功！";
+        }
+        else {
+            message = "用户信息保存失败！";
+        }
+        snackbar = true;
+        Close();
+    }
+    private void EditItem(User item) {
         user = item;
         _dialog = true;
     }
@@ -56,6 +94,22 @@
         _dialogDelete = true;
     }
 
+    private void CloseDelete() {
+        user = new User();
+        _dialogDelete = false;
+    }
+
+    private async Task DeleteItemConfirm() {
+        var result = UserService.DeleteAsync(user.Id);
+        if(result != null) {
+            message = "删除成功！";
+        }
+        else {
+            message = "删除失败";
+        }
+        snackbar = true;
+        CloseDelete();
+    }
     private List<DataTableHeader<User>> _header = new List<DataTableHeader<User>>
     {
         new() {

@@ -1,0 +1,44 @@
+﻿<MDialog @bind-Value="dialog">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+        <MCardText>
+            <MContainer>
+                <MRow>
+                    <MCol>
+                        <MForm Model="user" EnableValidation>
+                            <MTextField @bind-Value="user.Name" Label="用户名" />
+                            <MTextField @bind-Value="user.Phone" Label="电话号码"/>
+                            <MTextField @bind-Value="user.Address" Label="地址" />
+                            <MTextField @bind-Value="user.Password" Label="密码" Type="Password"/>
+                        </MForm>
+                    </MCol>
+                </MRow>
+            </MContainer>
+        </MCardText>
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1" Text OnClick="Close">取消</MButton>
+            <MButton Color="blue darken-1" Text Type="submit" OnClick="Save">保存</MButton> 
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+
+@code {
+    [Parameter]
+    public User user { get; set; }
+    [Parameter]
+    public bool dialog { get; set; }
+    [Parameter]
+    public EventCallback Save { get; set; }
+    [Parameter]
+    public EventCallback Close { get; set; }
+
+    public string FormTitle {
+        get {
+            return user.Id == 0 ? "创建" : "修改";
+        }
+    }
+}

@@ -7,6 +7,7 @@ using Logistics.Core.Service.Orders;
 using Logistics.Core.Service.Users;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Logistics.Core
 {
@@ -22,10 +23,14 @@ namespace Logistics.Core
                 var connectionString = builder.Configuration.GetConnectionString("LogisticsConnection");
                 options.UseSqlite(connectionString);
             });
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            
 
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();

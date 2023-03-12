@@ -52,5 +52,9 @@ namespace Logistics.Shared.Model
             this.RecipientCity = recipientCity;
             this.OrderInfo = orderInfo;
         }
+
+        public override string ToString() {
+            return $"OrderId:{OrderId},DeliveryId:{DeliveryId},OrderInfo:{OrderInfo}";
+        }
     }
 }

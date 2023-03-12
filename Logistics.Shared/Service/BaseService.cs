@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logistics.Shared.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
@@ -22,6 +23,11 @@ namespace Logistics.Shared.Service {
         }
 
         public async Task<T> AddAsync(T entity) {
+            if(entity is Order) {
+                TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                var time = Convert.ToInt64(ts.TotalSeconds).ToString();
+                (entity as Order).OrderId ??= "LS" + time;
+            }
             var response = await _httpClient.PostAsJsonAsync(Route,entity);
             return response.Content.ReadFromJsonAsync<ApiResponse<T>>().Result.Data;
         }
