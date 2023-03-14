@@ -97,7 +97,6 @@
                                             <ActivatorContent>
                                                 <MTextField @bind-Value="order.OrderDate" 
                                                     Label="创建日期" 
-                                                    Readonly 
                                                     PrependIcon="mdi-calendar" 
                                                     @attributes="context.Attrs"
                                                 ></MTextField>
@@ -149,8 +148,8 @@
                         </MCardActions>
                     </MCard>
                 </MDialog>
-                <Message MessageStr="message" _snackbar="snackbar" />
             </MToolbar>
+            <Message MessageStr="@message" _snackbar="snackbar" />
         </TopContent>
         <ItemColContent>
             @if (context.Header.Value == "actions")
@@ -229,9 +228,9 @@
         }
     }
 
-    private void ReGetData() {
+    private async Task ReGetData() {
         load = true;
-        var result = orderService.GetAllAsync().Result;
+        var result = await orderService.GetAllAsync();
         if(result != null) {
             Orders = result;
             load = false;
@@ -258,6 +257,7 @@
         else {
             message = "订单信息保存失败！";
         }
+        ReGetData();
         snackbar = true;
         Close();
     }
@@ -286,13 +286,11 @@
             message = "订单删除失败！";
         }
         snackbar = true;
+        await ReGetData();
         CloseDelete();
     }
 
     private async Task SendOrderConfirm() {
-        foreach (var item in _selected) {
-            item.DeliveryId = delivery.Id;
-        }
         delivery.Orders.AddRange(_selected);
         var result = await DeliveryService.UpdateAsync(delivery);
         if(result != null) {
@@ -302,6 +300,7 @@
             message = "派单失败！";
         }
         snackbar = true;
+        await ReGetData();
         CloseDelivery();
     }
 

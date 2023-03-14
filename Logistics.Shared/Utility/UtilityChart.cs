@@ -10,21 +10,24 @@ namespace Logistics.Shared.Utility {
             string stateString = string.Empty;
             switch (state) {
                 case 0:
-                    stateString = "无信息";
+                    stateString = "待寄出";
                     break;
                 case 1:
-                    stateString = "正在运送"; break;
+                    stateString = "运输中"; break;
                 case 2: 
-                    stateString = "正在派送";
+                    stateString = "派送中";
                     break;
                 case 3:
-                    stateString = "已接收";
+                    stateString = "已签收";
                     break;
                 case 4:
                     stateString = "签收失败";
                     break;
                 case 5:
                     stateString = "已退回";
+                    break;
+                case 6:
+                    stateString = "待签收";
                     break;
                 default:
                     break;

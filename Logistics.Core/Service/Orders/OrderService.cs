@@ -1,7 +1,9 @@
 ﻿using Logistics.Core.Context;
 using Logistics.Shared;
+using Logistics.Shared.Enums;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Logistics.Core.Service.Orders
 {
@@ -56,15 +58,26 @@ namespace Logistics.Core.Service.Orders
             }
         }
 
-        public async Task<ApiResponse<List<Order>>> GetAllAsync()
+        public async Task<ApiResponse<List<Order>>> GetAllAsync(OrderState? orderState)
         {
             try
             {
-                var orders = await context.Orders.Include(a => a.Delivery).ToListAsync();
+                var orders = await context.Orders.Where(x => x.OrderState == orderState).Include(a => a.Delivery).ToListAsync();
                 return new ApiResponse<List<Order>>(orders, true, "查询成功");
             }
             catch (Exception ex)
             {
+                return new ApiResponse<List<Order>>(false, ex.Message);
+            }
+
+        }
+
+        public async Task<ApiResponse<List<Order>>> GetAllAsync() {
+            try {
+                var orders = await context.Orders.Include(a => a.Delivery).ToListAsync();
+                return new ApiResponse<List<Order>>(orders, true, "查询成功");
+            }
+            catch (Exception ex) {
                 return new ApiResponse<List<Order>>(false, ex.Message);
             }
 
@@ -87,17 +100,8 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                //if(entity.DeliveryId != null) {
-                //    var Delivery = await context.Deliveries.FirstOrDefaultAsync(x => x.Id == entity.DeliveryId);
-                //    entity.Delivery = Delivery;
-                //}
-                //if(entity.DeliveryId !=null) {
-                //    var delivery = await context.Deliveries.FirstOrDefaultAsync(x => x.Id == entity.DeliveryId);
-                //    entity.OrderState = Shared.Enums.OrderState.InWay;
-                //    delivery.State = Shared.Enums.DeliveryState.Busy;
-                //    context.Deliveries.Attach(delivery).State = EntityState.Modified;
-                //}
-                context.Orders.Attach(entity).State = EntityState.Modified;
+                entity.Delivery = null;
+                context.Orders.Update(entity);
                 if (await context.SaveChangesAsync() > 0)
                 {
                     return new ApiResponse<Order>(entity, true, "更新成功");

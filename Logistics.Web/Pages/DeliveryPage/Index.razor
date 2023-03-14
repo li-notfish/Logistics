@@ -84,6 +84,7 @@
             message = "派送员的信息保存失败！";
         }
         snackbar = true;
+        GetDataAsync();
         Close();
     }
 
@@ -111,6 +112,7 @@
             message = "派送员信息删除失败！";
         }
         snackbar = true;
+        GetDataAsync();
         CloseDelete();
     }
 

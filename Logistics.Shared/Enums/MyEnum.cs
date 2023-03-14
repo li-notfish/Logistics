@@ -6,7 +6,9 @@ namespace Logistics.Shared.Enums {
         Dispatch,
         Received,
         SigningFailed,
-        SendBack
+        SendBack,
+        WaitRecived,
+
     }
     public enum DeliveryState {
         Busy,

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Logistics.AppClient.Pages.NewOrderPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
+    x:DataType="vm:NewOrderViewModel">
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+    </ContentPage.Resources>
+    <Frame>
+        <ScrollView>
+            <VerticalStackLayout Margin="10" Spacing="16">
+                <Label Text="寄件人" />
+                <Entry Placeholder="输入寄件人" Text="{Binding Order.Sender}">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior
+                            Flags="ValidateOnValueChanged"
+                            InvalidStyle="{StaticResource InvalidEntryStyle}"
+                            ValidStyle="{StaticResource ValidEntryStyle}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="寄件人地址" />
+                <Entry Placeholder="输入寄件地址" Text="{Binding Order.SenderCity}" />
+                <Label Text="寄件人电话" />
+                <Entry Placeholder="寄件人电话" Text="{Binding Order.SenderPhone}" />
+                <Label Text="收件人" />
+                <Entry Placeholder="请输入收件人信息" Text="{Binding Order.Recipient}" />
+                <Label Text="收件人地址" />
+                <Entry Placeholder="请输入收件人地址" Text="{Binding Order.RecipientCity}" />
+                <Label Text="收件人电话" />
+                <Entry Placeholder="请输入收件人电话" Text="{Binding Order.RecipientPhone}" />
+                <Label Text="订单详情" />
+                <Entry Placeholder="请输入订单详情" Text="{Binding Order.OrderInfo}" />
+                <Button Command="{Binding BackCommand}" Text="返回" />
+                <Button Command="{Binding SubmitCommand}" Text="提交" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Frame>
+</ContentPage>

@@ -94,13 +94,6 @@ namespace Logistics.Core.Service.Deliveries
         {
             try
             {
-                if(entity.Orders.Count() != 0) {
-                    foreach (var item in entity.Orders) {
-                        if(item.DeliveryId != entity.Id) {
-                            item.DeliveryId = entity.Id;
-                        }
-                    }
-                }
                 logisticsContext.Deliveries.Update(entity);
                 //logisticsContext.Deliveries.Attach(entity).State = EntityState.Modified;
                 if (await logisticsContext.SaveChangesAsync() > 0)
