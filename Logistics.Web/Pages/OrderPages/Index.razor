@@ -92,38 +92,16 @@
                                         <MCol Cols="6" Sm="6" Md="4">
                                         <MTextField @bind-Value="order.DeliveryId" Label="派送员ID"></MTextField>
                                     </MCol>
-                                    <MCol Cols="6" Sm="6" Md="4">
-                                        <MMenu @bind-Value="menu" CloseOnContentClick="false" Transition="scale-transition" OffsetY MinWidth="@("auto")">
-                                            <ActivatorContent>
-                                                <MTextField @bind-Value="order.OrderDate" 
-                                                    Label="创建日期" 
-                                                    PrependIcon="mdi-calendar" 
-                                                    @attributes="context.Attrs"
-                                                ></MTextField>
-                                            </ActivatorContent>
-                                            <ChildContent>
-                                                <MDatePicker @bind-Value="order.OrderDate" 
-                                                        NoTitle 
-                                                        Scrollable>
-                                                    <MSpacer></MSpacer>
-                                                    <MButton Text Color="primary" OnClick="() => menu = false">取消</MButton>
-                                                    <MButton Text Color="primary" OnClick="() => menu = false">保存</MButton>
-                                                </MDatePicker>
-                                            </ChildContent>
-                                        </MMenu>
-                                    </MCol>
                                     <MCol Cols="8" Sm="6" Md="4">
                                         <MSelect TItem="StateItem" 
-                                            TItemValue="int" 
-                                            TValue="OrderState" 
-                                            Items="_items" 
-                                            @bind-Value="order.OrderState" 
+                                            TItemValue="string" 
+                                            TValue="string"
+                                            @bind-Value="selectIndex"
+                                            Items="_items"
                                             ItemText="x => x.State" 
-                                            ItemValue="x => x.Number" 
+                                            ItemValue="x => x.State" 
                                             Filled Label="当前状态" 
-                                            OnSelectedItemUpdate="item => order.OrderState = (OrderState)item.Number"
-                                            SingleLine
-                                            Dense>
+                                            OnSelectedItemUpdate="item => order.OrderState = (OrderState)item.Number">
                                         </MSelect>
                                     </MCol>
                                     }
@@ -187,8 +165,10 @@
     private List<Delivery> Deliveries = new List<Delivery>();
 
     private Order order = new Order();
+    private string selectIndex = string.Empty;
     private bool menu;
     private bool load = true;
+
 
     public string FormTitle
     {
@@ -264,6 +244,7 @@
 
     private void EditItem(Order item) {
         order = item;
+        selectIndex = _items.FirstOrDefault(x => x.Number == (int)order.OrderState).State;
         Console.WriteLine(order.OrderId);
         _dialog = true;
     }

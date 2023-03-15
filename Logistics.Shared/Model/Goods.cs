@@ -1,17 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Logistics.Shared.Model
 {
-    public class Goods
+    public partial class Goods : ObservableValidator
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Count { get; set; }
+        private int id;
 
+        public int Id {
+            get => id;
+            set => SetProperty(ref id, value,true);
+        }
+
+        private string name;
+        [Required]
+        public string Name {
+            get => name;
+            set => SetProperty(ref name, value,true);
+        }
+
+        private int count;
+        [Required]
+        public int Count {
+            get => count;
+            set => SetProperty(ref count,value,true);
+        }
+
+        [JsonIgnore]
+        [ObservableProperty]
+        private ICollection<WareHouseGoods> warehouses = new List<WareHouseGoods>();
+
+        public Goods()
+        {
+            
+        }
+
+        public Goods(string name, int count)
+        {
+            this.Name = name;
+            this.count = count;
+        }
     }
 }

@@ -16,7 +16,6 @@ namespace Logistics.Web {
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService,UserService>();
-            builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
             await builder.Build().RunAsync();
         }

@@ -2,11 +2,94 @@
 <ContentPage
     x:Class="Logistics.AppClient.Pages.ExpressPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <VerticalStackLayout>
-        <Label
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels">
+    <Grid BackgroundColor="AntiqueWhite">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <HorizontalStackLayout
+            Grid.Row="0"
             HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+            Spacing="10"
+            VerticalOptions="Center">
+            <Button Command="{Binding GetRecOrderCommand}" Text="收" />
+            <Button Command="{Binding GetSendOrderCommand}" Text="寄" />
+        </HorizontalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <CollectionView EmptyView="没有查到订单" ItemsSource="{Binding Orders}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="10"
+                            BackgroundColor="AliceBlue"
+                            BorderColor="Gray"
+                            CornerRadius="10">
+                            <Frame.Shadow>
+                                <Shadow
+                                    Brush="black"
+                                    Opacity="1"
+                                    Radius="40"
+                                    Offset="20,20" />
+                            </Frame.Shadow>
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout VerticalOptions="Start">
+                                    <Label
+                                        FontSize="18"
+                                        Text="订单编号："
+                                        VerticalOptions="Start" />
+                                    <Label
+                                        FontSize="12"
+                                        Text="{Binding OrderId}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <VerticalStackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="{Binding SenderCity}" />
+                                        <Label
+                                            FontSize="14"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Sender}" />
+                                    </VerticalStackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="====&gt;" />
+                                    <VerticalStackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="{Binding RecipientCity}" />
+                                        <Label
+                                            FontSize="14"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Recipient}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                                <BoxView
+                                    HeightRequest="1"
+                                    HorizontalOptions="Fill"
+                                    Color="Gray" />
+                                <HorizontalStackLayout
+                                    HorizontalOptions="End"
+                                    Spacing="20"
+                                    VerticalOptions="End">
+                                    <Button Text="添加备注" />
+                                    <Button Margin="0,0,20,0" Text="删除订单" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

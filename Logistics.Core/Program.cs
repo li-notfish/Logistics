@@ -1,7 +1,6 @@
 using Logistics.Core.Context;
 using Logistics.Core.Service.Admin;
 using Logistics.Core.Service.Auth;
-using Logistics.Core.Service.Cars;
 using Logistics.Core.Service.Deliveries;
 using Logistics.Core.Service.Orders;
 using Logistics.Core.Service.Users;
@@ -35,7 +34,6 @@ namespace Logistics.Core
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 

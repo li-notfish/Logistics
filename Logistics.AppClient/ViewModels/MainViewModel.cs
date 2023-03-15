@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Logistics.AppClient.Pages;
 using Logistics.Shared.Model;
@@ -19,20 +21,27 @@ namespace Logistics.AppClient.ViewModels
         [ObservableProperty]
         private ObservableCollection<OrderStateColletion> data;
 
-        private List<Order> Orders = new List<Order>();
+        [ObservableProperty]
+        private List<Order> orders = new List<Order>();
 
         public MainViewModel(IOrderService orderService)
         {
             this._orderService = orderService;
-            GetOrderList();
             GetRecOrderCount();
         }
 
         private async Task GetOrderList() {
-            var result = await _orderService.GetAllAsync();
-            if(result != null) {
-                Orders = result;
+            try {
+                var result = await _orderService.GetAllAsync();
+                if (result != null) {
+                    Orders = result;
+                }
             }
+            catch (Exception ex) {
+                var toast = Toast.Make(ex.Message, ToastDuration.Short, 14);
+                await toast.Show();
+            }
+            
         }
 
         [RelayCommand]
@@ -41,7 +50,8 @@ namespace Logistics.AppClient.ViewModels
         }
 
         [RelayCommand]
-        public void GetRecOrderCount() {
+        public async Task GetRecOrderCount() {
+            await GetOrderList();
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("派送中",0),
                 new OrderStateColletion("运输中",0),
@@ -70,7 +80,8 @@ namespace Logistics.AppClient.ViewModels
         }
 
         [RelayCommand]
-        public void GetSendOrderCount() {
+        public async Task GetSendOrderCount() {
+            await GetOrderList();
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("待寄出",0),
                 new OrderStateColletion("待收件",0),

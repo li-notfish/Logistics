@@ -14,12 +14,12 @@
                             <MTextField @bind-Value="Delivery.Address" Label="地址" />
                             <MTextField @bind-Value="Delivery.Password" Label="密码" Type="Password" />
                             <MSelect TItem="StateItem"
-                                     TItemValue="int"
-                                     TValue="DeliveryState"
+                                     TItemValue="string"
+                                     TValue="string"
                                      Items="stateItems"
-                                     @bind-Value="Delivery.State"
+                                     @bind-Value="selectState"
                                      ItemText="x => x.State"
-                                     ItemValue="x => x.Number"
+                                     ItemValue="x => x.State"
                                      Label="当前状态"
                                      OnSelectedItemUpdate="item => Delivery.State = (DeliveryState)item.Number"
                                      Filled></MSelect>
@@ -48,6 +48,8 @@
     [Parameter]
     public EventCallback Close{ get; set; }
 
+    private string selectState = string.Empty;
+
     public string FormTitle {
         get {
             return Delivery.Id == 0 ? "创建" : "修改";
@@ -61,4 +63,10 @@
         new("繁忙",0),
         new("空闲",1),
     };
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        selectState = stateItems.FirstOrDefault(x => x.Number == (int)Delivery.State).State;
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }
