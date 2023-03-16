@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client;
+@inject MasaBlazor MasaBlazor;
+@inject NavigationManager Navigation;
+
+<MMenu Bottom MinWidth="400" Rounded="@true" OffsetY>
+    <ActivatorContent>
+        <MButton @attributes="@context.Attrs" Icon="MasaBlazor.Breakpoint.SmAndDown" Class="emphasize1-color px-0 px-md-2" Text>
+            <MIcon>@doorbell</MIcon> 
+        </MButton>
+    </ActivatorContent>
+    <ChildContent>
+        <MCard>
+	        <MList >
+                @foreach (var item in Messages)
+                {
+                    <MListItem>
+                        <MListItemContent>
+                            <MListItemTitle>@item</MListItemTitle>
+                        </MListItemContent>
+                    </MListItem>
+                }
+            </MList>	
+        </MCard>
+    </ChildContent>
+</MMenu>
+@code {
+    private string doorbell
+    {
+        get => activeNewMessage ? "notifications_active" : "notifications";
+    }
+
+    private HubConnection? hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5173/sendorderhub")
+            .Build();
+
+        await hubConnection.StartAsync();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var encodeMsg = $"{user}创建了一个订单，订单号为：{message}";
+            Messages.Add(encodeMsg);
+            StateHasChanged();
+        });
+    }
+
+    private bool activeNewMessage = false;
+
+    private List<string> Messages = new List<string>();
+}

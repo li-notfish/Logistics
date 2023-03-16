@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Logistics.AppClient.Pages;
 using Logistics.Shared.Model;
 using Logistics.Shared.Service;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,21 +19,54 @@ namespace Logistics.AppClient.ViewModels
     {
         private readonly IOrderService _orderService;
 
+        private readonly HubConnection hubConnection;
+
         [ObservableProperty]
         private Order order;
+
+        [ObservableProperty]
+        private List<string> users;
 
         public NewOrderViewModel(IOrderService orderService)
         {
             this._orderService = orderService;
             order = new Order();
+
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl("http://localhost:5173/sendorderhub")
+                .Build();
+            hubConnection.On<List<string>>("Users",RefreshUsers);
+
+            LinkTo();
         }
+
+        private async void LinkTo()
+        {
+            try
+            {
+                await hubConnection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("SignalR错误", ex.Message,"Ok");
+            }
+        }
+        
 
         [RelayCommand]
         public async Task Submit() {
             if(Order.HasErrors != true) {
                 try {
+                    if (Order.Goods == null)
+                    {
+                        Order.Goods = new Goods();
+                        Order.Goods.Warehouse = new Warehouse();
+                    }
+                    Order.Goods.Name = Order.OrderInfo;
+                    Order.Goods.Warehouse.Address = Order.SenderCity;
                     var result = await _orderService.AddAsync(Order);
                     if (result != null) {
+                        await hubConnection.InvokeAsync("SendMessage", Order.Sender,Order.OrderId);
                         await Shell.Current.GoToAsync("../");
                     }
                     else {
@@ -53,6 +87,11 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         public async Task Back() {
             await Shell.Current.GoToAsync("../");
+        }
+
+        private void RefreshUsers(List<string> users)
+        {
+            this.Users = users;
         }
     }
 }
