@@ -3,6 +3,7 @@ using System;
 using Logistics.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logistics.Core.Migrations
 {
     [DbContext(typeof(LogisticsContext))]
-    partial class LogisticsContextModelSnapshot : ModelSnapshot
+    [Migration("20230315132814_AddRelationInOrderGoods")]
+    partial class AddRelationInOrderGoods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
@@ -84,26 +87,17 @@ namespace Logistics.Core.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GoodsState")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrderId")
-                        .IsRequired()
                         .HasColumnType("varchar(64)");
-
-                    b.Property<int?>("WarehouseId")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId")
                         .IsUnique();
-
-                    b.HasIndex("WarehouseId");
 
                     b.ToTable("Goodes");
                 });
@@ -117,6 +111,9 @@ namespace Logistics.Core.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("DeliveryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GoodsId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("OrderDate")
@@ -191,6 +188,21 @@ namespace Logistics.Core.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Logistics.Shared.Model.WareHouseGoods", b =>
+                {
+                    b.Property<int?>("GoodsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("GoodsId", "WarehouseId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("WareHouseGoods");
+                });
+
             modelBuilder.Entity("Logistics.Shared.Model.Warehouse", b =>
                 {
                     b.Property<int>("Id")
@@ -213,17 +225,9 @@ namespace Logistics.Core.Migrations
                 {
                     b.HasOne("Logistics.Shared.Model.Order", "Order")
                         .WithOne("Goods")
-                        .HasForeignKey("Logistics.Shared.Model.Goods", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Logistics.Shared.Model.Warehouse", "Warehouse")
-                        .WithMany("Goods")
-                        .HasForeignKey("WarehouseId");
+                        .HasForeignKey("Logistics.Shared.Model.Goods", "OrderId");
 
                     b.Navigation("Order");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("Logistics.Shared.Model.Order", b =>
@@ -235,9 +239,29 @@ namespace Logistics.Core.Migrations
                     b.Navigation("Delivery");
                 });
 
+            modelBuilder.Entity("Logistics.Shared.Model.WareHouseGoods", b =>
+                {
+                    b.HasOne("Logistics.Shared.Model.Goods", "Goods")
+                        .WithMany("Warehouses")
+                        .HasForeignKey("GoodsId");
+
+                    b.HasOne("Logistics.Shared.Model.Warehouse", "Warehouse")
+                        .WithMany("Goods")
+                        .HasForeignKey("WarehouseId");
+
+                    b.Navigation("Goods");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("Logistics.Shared.Model.Delivery", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.Goods", b =>
+                {
+                    b.Navigation("Warehouses");
                 });
 
             modelBuilder.Entity("Logistics.Shared.Model.Order", b =>

@@ -8,10 +8,9 @@
         <MContainer>
             <MRow>
                 <MCol>
-                <MForm Model="admin" EnableValidation >
-                <MTextField @bind-Value="admin.Name" Label="用户名"/>
-                <MTextField @bind-Value="admin.Password" Label="密码" Type="Password" />
-                <MTextField @bind-Value="admin.ConfirmPassword" Label="再次输入密码" Type="Password"/>
+                <MForm Model="warehouse" EnableValidation >
+                <MTextField @bind-Value="warehouse.Capacity" Label="仓库容量"/>
+                <MTextField @bind-Value="warehouse.Address" Label="仓库地址"/>
             </MForm>
             </MCol>
             </MRow>
@@ -26,7 +25,7 @@
 </MDialog>
 @code {
     [Parameter]
-    public Administrators admin { get; set; }
+    public Warehouse warehouse { get; set; }
     [Parameter]
     public EventCallback OnClose { get; set; }
     [Parameter]
@@ -40,7 +39,7 @@
     {
         get
         {
-            return admin.Id == 0 ? "新建" : "修改";
+            return warehouse.Id == 0 ? "新建" : "修改";
         }
     }
 

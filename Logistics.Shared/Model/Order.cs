@@ -106,6 +106,10 @@ namespace Logistics.Shared.Model
 
         [ObservableProperty]
         private Delivery? delivery;
+
+        [ObservableProperty]
+        private Goods? goods;
+
         public Order()
         {
             

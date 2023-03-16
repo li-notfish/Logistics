@@ -9,14 +9,14 @@ namespace Logistics.Shared.Model {
     public partial class WareHouseGoods : ObservableObject {
 
         [ObservableProperty]
-        private int warehouseId;
+        private int? warehouseId;
         [ObservableProperty]
-        private Warehouse warehouse;
+        private Warehouse? warehouse;
 
         [ObservableProperty]
-        private int goodsId;
+        private int? goodsId;
         [ObservableProperty]
-        private Goods goods;
+        private Goods? goods;
 
     }
 }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistics.Shared", "Logisti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistics.Web", "Logistics.Web\Logistics.Web.csproj", "{4E4FC1EC-C7FE-43AE-8E0A-448C9ADE564D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logistics.AppClient", "Logistics.AppClient\Logistics.AppClient.csproj", "{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistics.AppClient", "Logistics.AppClient\Logistics.AppClient.csproj", "{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,6 +4,7 @@ using Logistics.Core.Service.Auth;
 using Logistics.Core.Service.Deliveries;
 using Logistics.Core.Service.Orders;
 using Logistics.Core.Service.Users;
+using Logistics.Core.Service.WarehouseGoodes;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -36,6 +37,8 @@ namespace Logistics.Core
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+            builder.Services.AddScoped<IGoodsService, GoodsService>();  
 
             var app = builder.Build();
 

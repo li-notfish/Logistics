@@ -13,15 +13,24 @@ namespace Logistics.Shared.Model {
 
         private int capacity;
 
-        [Required]
+        [Required(ErrorMessage = "这是必须填写的")]
         public int Capacity {
             get => capacity;
             set => SetProperty(ref capacity, value,true);
         }
 
+        private string? address = string.Empty;
+
+        [Required(ErrorMessage ="这是必须填写的")]
+        public string? Address
+        {
+            get => address;
+            set => SetProperty<string>(ref address, value,true);
+        }
+
         [JsonIgnore]
         [ObservableProperty]
-        private ICollection<WareHouseGoods> goods = new List<WareHouseGoods>();
+        private ICollection<Goods>? goods = new List<Goods>();
 
         public Warehouse()
         {

@@ -11,6 +11,13 @@ namespace Logistics.Core.Context
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Goods>()
+                .HasOne(o => o.Order)
+                .WithOne(g => g.Goods)
+                .HasForeignKey<Goods>(g => g.OrderId);
+            modelBuilder.Entity<Goods>()
+                .Property(g => g.GoodsState)
+                .HasConversion<int>();
             modelBuilder.Entity<Delivery>()
                 .Property(x => x.State)
                 .HasConversion<int>();
@@ -22,11 +29,11 @@ namespace Logistics.Core.Context
             modelBuilder.Entity<Order>()
                 .Property(x => x.OrderState)
                 .HasConversion<int>();
-            modelBuilder.Entity<WareHouseGoods>().
-                HasKey(wg => new {wg.GoodsId,wg.WarehouseId});
-            modelBuilder.Entity<WareHouseGoods>()
-                .HasOne(wg => wg.Warehouse).WithMany(w => w.Goods).HasForeignKey(wg => wg.WarehouseId);
-            modelBuilder.Entity<WareHouseGoods>().HasOne(wg => wg.Goods).WithMany(g => g.Warehouses).HasForeignKey(wg => wg.GoodsId);
+            modelBuilder.Entity<Goods>()
+                .HasOne<Warehouse>(w => w.Warehouse)
+                .WithMany(g => g.Goods)
+                .HasForeignKey(fk => fk.WarehouseId)
+                .IsRequired(false);
         }
 
         public DbSet<Administrators> Administrators { get; set; }
@@ -35,6 +42,5 @@ namespace Logistics.Core.Context
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Goods> Goodes { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
-        public DbSet<WareHouseGoods> WareHouseGoods { get; set; }
     }
 }

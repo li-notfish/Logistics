@@ -65,11 +65,11 @@
 
     private void InitOption(IEnumerable<OrderState> states, IEnumerable<int> count) {
         var stateString = states.Select(x => UtilityChart.EnmuToStirng((int)x)).ToArray<string>();
-
-        var pieDataItemList =
-        from state in stateString
-        from num in count
-        select new PieDataItem(state,num);
+        List<PieDataItem> pieDataItemList = new List<PieDataItem>();
+        for (int i = 0; i < stateString.Count(); i++)
+        {
+            pieDataItemList.Add(new PieDataItem(stateString[i], count.ElementAt(i)));
+        }
 
         _OrderState = new
         {

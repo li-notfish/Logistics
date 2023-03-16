@@ -1,4 +1,5 @@
 using Logistics.Shared.Service;
+using Logistics.Shared.Service.WarehouseGoodsServices;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,8 @@ namespace Logistics.Web {
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService,UserService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+            builder.Services.AddScoped<IGoodsService, GoodsService>();
+            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
             await builder.Build().RunAsync();
         }
     }

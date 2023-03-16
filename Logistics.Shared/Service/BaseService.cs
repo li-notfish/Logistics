@@ -27,6 +27,7 @@ namespace Logistics.Shared.Service {
                 TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 var time = Convert.ToInt64(ts.TotalSeconds).ToString();
                 (entity as Order).OrderId ??= "LS" + time;
+                (entity as Order).Goods.OrderId = (entity as Order).OrderId;
             }
             var response = await _httpClient.PostAsJsonAsync(Route,entity);
             return response.Content.ReadFromJsonAsync<ApiResponse<T>>().Result.Data;

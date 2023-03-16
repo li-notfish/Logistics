@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Logistics.Shared.Enums;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,9 @@ namespace Logistics.Shared.Model
             get => id;
             set => SetProperty(ref id, value,true);
         }
+
+        [ObservableProperty]
+        private GoodsStates goodsState = GoodsStates.In;
 
         private string name;
         [Required]
@@ -27,19 +31,33 @@ namespace Logistics.Shared.Model
             set => SetProperty(ref count,value,true);
         }
 
-        [JsonIgnore]
         [ObservableProperty]
-        private ICollection<WareHouseGoods> warehouses = new List<WareHouseGoods>();
+        private int? warehouseId;
+
+        [ObservableProperty]
+        private Warehouse? warehouse;
+
+        private string orderId;
+
+        public string OrderId
+        {
+            get => orderId;
+            set => SetProperty(ref orderId, value, true);
+        }
+
+        [ObservableProperty]
+        private Order? order;
 
         public Goods()
         {
             
         }
 
-        public Goods(string name, int count)
+        public Goods(string name, int count,string orderId)
         {
             this.Name = name;
             this.count = count;
+            this.OrderId = orderId;
         }
     }
 }

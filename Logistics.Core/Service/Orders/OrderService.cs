@@ -41,7 +41,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var order = context.Orders.Include(x => x.Delivery).FirstOrDefault(x => x.OrderId.Equals(id));
+                var order = context.Orders.Include(x => x.Goods).FirstOrDefault(x => x.OrderId.Equals(id));
                 if (order != null)
                 {
                     context.Orders.Remove(order);
@@ -62,7 +62,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var orders = await context.Orders.Where(x => x.OrderState == orderState).Include(a => a.Delivery).ToListAsync();
+                var orders = await context.Orders.Include(x => x.Goods).Where(x => x.OrderState == orderState).ToListAsync();
                 return new ApiResponse<List<Order>>(orders, true, "查询成功");
             }
             catch (Exception ex)
@@ -74,7 +74,7 @@ namespace Logistics.Core.Service.Orders
 
         public async Task<ApiResponse<List<Order>>> GetAllAsync() {
             try {
-                var orders = await context.Orders.Include(a => a.Delivery).ToListAsync();
+                var orders = await context.Orders.Include(x => x.Goods).ToListAsync();
                 return new ApiResponse<List<Order>>(orders, true, "查询成功");
             }
             catch (Exception ex) {
@@ -87,7 +87,7 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                var order = await context.Orders.Include(x => x.Delivery).FirstOrDefaultAsync(x => x.OrderId == id);
+                var order = await context.Orders.Include(x => x.Goods).FirstOrDefaultAsync(x => x.OrderId == id);
                 return new ApiResponse<Order>(order, true, "查询完成");
             }
             catch (Exception ex)
@@ -100,7 +100,6 @@ namespace Logistics.Core.Service.Orders
         {
             try
             {
-                entity.Delivery = null;
                 context.Orders.Update(entity);
                 if (await context.SaveChangesAsync() > 0)
                 {

@@ -34,5 +34,37 @@ namespace Logistics.Shared.Utility {
             }
             return stateString;
         }
+        public static string DeliveryEnmuToString(int state)
+        {
+            string stateString = string.Empty;
+            switch (state)
+            {
+                case 0:
+                    stateString = "繁忙";
+                    break;
+                case 1:
+                    stateString = "空闲";
+                    break;
+            }
+
+            return stateString;
+        }
+
+        public static string GoodsStateToString(int state)
+        {
+            string stateString = string.Empty;  
+
+            switch (state)
+            {
+                case 0:
+                    stateString = "出库";
+                    break;
+                case 1:
+                    stateString = "已入库";
+                    break;
+            }
+
+            return stateString;
+        }
     }
 }

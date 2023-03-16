@@ -1,0 +1,203 @@
+﻿@page "/goods/"
+@using Logistics.Shared.Enums;
+
+@inject IGoodsService GoodsService;
+@inject IWarehouseService WarehouseService;
+
+<MDataTable Headers="_headers" Items="GoodsList" ItemKey="G => G.OrderId">
+    <TopContent>
+        <MToolbar Flat>
+            <MToolbarTitle>物品列表</MToolbarTitle>
+            <MDivider Class="mx-4" Inset Vertical></MDivider>
+            <MSpacer></MSpacer>
+            <MButton Color="primary" Dark Class="mb-2" OnClick="() => _dialog = true">批量处理</MButton>
+        </MToolbar>
+        <MDialog @bind-Value="_dialog">
+            <MCard>
+                <MCardTitle>
+                    <span class="text-h5">处理</span>
+                </MCardTitle>
+                <MCardText>
+                    <MContainer>
+                        <MRow>
+                            <MCol Cols="6">
+                                <MTextField @bind-Value="goods.Name" Label="物品名称"/>
+                                <MTextField @bind-Value="goods.OrderId" Label="订单编号"  Readonly/>
+                                <MSelect Items="Warehouses" 
+                                    TItemValue="string" 
+                                    TValue="string"
+                                    @bind-Value="Address"
+                                    TItem="Warehouse" 
+                                    ItemText="x => x.Address" 
+                                    ItemValue="x => x.Address" 
+                                    Label="设置仓库" 
+                                    OnSelectedItemUpdate="item => warehouse = item">
+                                </MSelect>
+                                <MSelect Items="_items" 
+                                    TItemValue="string" 
+                                    TValue="string" 
+                                    @bind-Value="selectString"
+                                    TItem="StateItem"
+                                ItemText="x => x.State"
+                                ItemValue="x => x.State"
+                                Label="当前状态"
+                                OnSelectedItemUpdate="item => goods.GoodsState = (GoodsStates)item.Number">
+                                </MSelect>
+                            </MCol>
+                        </MRow>
+                    </MContainer>
+                </MCardText>
+                <MCardActions>
+                    <MSpacer></MSpacer>
+                    <MButton Color="blue darken-1" Text OnClick="Close">取消</MButton>'
+                    <MButton Color="blue darken-1" Text OnClick="Save">保存</MButton>
+                </MCardActions>
+            </MCard>
+        </MDialog>
+        <Message MessageStr="@message" _snackbar="snackbar"/>
+    </TopContent>
+    <ItemColContent>
+         @if(context.Header.Value == "actions")
+        {
+            <MIcon Small
+                Class="mr-2"
+                OnClick="() => EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small OnClick="() => DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+    </ItemColContent>
+</MDataTable>
+
+@code {
+    private List<Goods> GoodsList = new List<Goods>();
+    private List<Warehouse> Warehouses = new List<Warehouse>();
+
+    private Goods goods = new Goods();
+    private string Address = string.Empty;
+    private Warehouse warehouse = new Warehouse();
+    record StateItem(string State, int Number);
+
+    List<StateItem> _items = new() {
+        new StateItem("已出库",0),
+        new StateItem("已入库",1),
+    };
+
+    private string selectString = string.Empty;
+
+    private bool _dialog;
+    private bool _dialogDelete;
+    private bool snackbar;
+    private string message = string.Empty;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Initializ();
+    }
+
+    private void Close()
+    {
+        goods = new Goods();
+        _dialog = false;
+    }
+
+    private async Task Save()
+    {
+        message = "修改失败！";
+        if(goods.GoodsState == GoodsStates.In)
+        {
+            goods.WarehouseId = warehouse.Id;
+        }
+        else
+        {
+            goods.WarehouseId = null;
+        }
+        var result = await GoodsService.UpdateAsync(goods);
+        if(result != null)
+        {
+            message = "修改成功！";
+        }
+        snackbar = true;
+        Close();
+    }
+
+    private async Task Initializ()
+    {
+        var result = await GoodsService.GetAllAsync();
+        var warehouseResult = await WarehouseService.GetAllAsync();
+        if(result != null)
+        {
+            GoodsList = result;
+        }
+        if(warehouseResult != null)
+        {
+            Warehouses = warehouseResult;
+        }
+    }
+
+    private void EditItem(Goods goods)
+    {
+        this.goods = goods;
+        if(this.goods.WarehouseId != null)
+        {
+            var obj = Warehouses.FirstOrDefault(x => x.Id == this.goods.WarehouseId);
+            Address = obj.Address;
+        }
+        else
+        {
+            Address = this.goods.Order.SenderCity;
+        }
+        selectString = _items.FirstOrDefault(x => x.Number == (int)goods.GoodsState).State;
+        _dialog = true;
+    }
+
+    public void DeleteItem(Goods goods)
+    {
+        this.goods = goods;
+        _dialogDelete = true;
+    }
+
+    public async Task DeleteItemConfirm()
+    {
+        Goods result;
+
+        message = "删除失败";
+        result = await GoodsService.DeleteAsync(goods.Id);
+        if(result != null)
+        {
+            message = "删除成功！";
+        }
+        snackbar = true;
+        await CloseDelete();
+    }
+
+    public async Task CloseDelete()
+    {
+        _dialogDelete = true;
+        goods = new Goods();
+
+        await Initializ();
+    }
+
+    private List<DataTableHeader<Goods>> _headers = new List<DataTableHeader<Goods>>()
+    {
+        new DataTableHeader<Goods>()
+        {
+            Text = "物品名字",
+            Value = nameof(Goods.Name),
+        },
+        new DataTableHeader<Goods>()
+        {
+            Text = "订单号",
+            Value = nameof(Goods.OrderId),
+        },
+        new DataTableHeader<Goods>()
+        {
+            Text="物品状态",
+            Value = nameof(Goods.GoodsState)
+        },
+        new (){ Text= "操作", Value= "actions",Sortable=false }
+    };
+}

@@ -3,6 +3,7 @@ using System;
 using Logistics.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logistics.Core.Migrations
 {
     [DbContext(typeof(LogisticsContext))]
-    partial class LogisticsContextModelSnapshot : ModelSnapshot
+    [Migration("20230315142049_addColmunToGoods")]
+    partial class addColmunToGoods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
@@ -96,6 +99,7 @@ namespace Logistics.Core.Migrations
                         .HasColumnType("varchar(64)");
 
                     b.Property<int?>("WarehouseId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -117,6 +121,9 @@ namespace Logistics.Core.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("DeliveryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GoodsId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("OrderDate")
@@ -219,7 +226,9 @@ namespace Logistics.Core.Migrations
 
                     b.HasOne("Logistics.Shared.Model.Warehouse", "Warehouse")
                         .WithMany("Goods")
-                        .HasForeignKey("WarehouseId");
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 

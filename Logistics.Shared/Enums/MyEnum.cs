@@ -14,4 +14,10 @@ namespace Logistics.Shared.Enums {
         Busy,
         Idle
     }
+
+    public enum GoodsStates
+    {
+        Out,
+        In,
+    }
 }

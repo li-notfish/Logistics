@@ -22,7 +22,6 @@
     public string MessageStr { get; set; }
 
     protected override Task OnParametersSetAsync() {
-        Console.WriteLine(MessageStr);
         return base.OnParametersSetAsync();
     }
 }

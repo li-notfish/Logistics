@@ -84,7 +84,7 @@
             message = "管理员信息保存失败！";
         }
         snackbar = true;
-        ReGetData();
+        await ReGetData();
         Close();
     }
 
@@ -135,7 +135,7 @@
             message = "管理员删除失败！";
         }
         snackbar = true;
-        ReGetData();
+        await ReGetData();
         CloseDelete();
     }
 }
