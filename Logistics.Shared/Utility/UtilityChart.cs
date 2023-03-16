@@ -10,15 +10,15 @@ namespace Logistics.Shared.Utility {
             string stateString = string.Empty;
             switch (state) {
                 case 0:
-                    stateString = "无信息";
+                    stateString = "待寄出";
                     break;
                 case 1:
-                    stateString = "正在运送"; break;
+                    stateString = "运输中"; break;
                 case 2: 
-                    stateString = "正在派送";
+                    stateString = "派送中";
                     break;
                 case 3:
-                    stateString = "已接收";
+                    stateString = "已签收";
                     break;
                 case 4:
                     stateString = "签收失败";
@@ -26,9 +26,44 @@ namespace Logistics.Shared.Utility {
                 case 5:
                     stateString = "已退回";
                     break;
+                case 6:
+                    stateString = "待签收";
+                    break;
                 default:
                     break;
             }
+            return stateString;
+        }
+        public static string DeliveryEnmuToString(int state)
+        {
+            string stateString = string.Empty;
+            switch (state)
+            {
+                case 0:
+                    stateString = "繁忙";
+                    break;
+                case 1:
+                    stateString = "空闲";
+                    break;
+            }
+
+            return stateString;
+        }
+
+        public static string GoodsStateToString(int state)
+        {
+            string stateString = string.Empty;  
+
+            switch (state)
+            {
+                case 0:
+                    stateString = "出库";
+                    break;
+                case 1:
+                    stateString = "已入库";
+                    break;
+            }
+
             return stateString;
         }
     }

@@ -1,0 +1,52 @@
+﻿<MNavigationDrawer Value="Value"
+                   ValueChanged="ValueChanged"
+                   Class="pt-2"
+                   Width="240"
+                   Right
+                   Fixed
+                   Floating
+                   Temporary>
+    <MList Nav @key="Value">
+        <MListItemGroup>
+            <MListItem Href="/"
+              Target="">
+                <MListItemContent>
+                    <MListItemTitle Class="emphasize1-color">主页</MListItemTitle>
+                    </MListItemContent>
+             </MListItem>
+              <MListItem Href="/admin/"
+              Target="">
+                <MListItemContent>
+                    <MListItemTitle Class="emphasize1-color">管理员管理</MListItemTitle>
+                    </MListItemContent>
+             </MListItem>
+              <MListItem Href="/order/"
+              Target="">
+                <MListItemContent>
+                    <MListItemTitle Class="emphasize1-color">订单管理</MListItemTitle>
+                    </MListItemContent>
+             </MListItem>
+              <MListItem Href="/user/"
+              Target="">
+                <MListItemContent>
+                    <MListItemTitle Class="emphasize1-color">用户管理</MListItemTitle>
+                    </MListItemContent>
+             </MListItem>
+             <MListItem Href="/delivery/"
+              Target="">
+                <MListItemContent>
+                    <MListItemTitle Class="emphasize1-color">派送员管理</MListItemTitle>
+                    </MListItemContent>
+             </MListItem>
+            <MDivider />
+        </MListItemGroup>
+    </MList>
+</MNavigationDrawer>
+
+@code {
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+}

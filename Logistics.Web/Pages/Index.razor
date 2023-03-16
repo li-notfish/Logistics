@@ -4,60 +4,99 @@
 
 <PageTitle>主页</PageTitle>
 <div style="display:flex; flex-direction:row;">
-<Chart ChartType="ChartType.Pie" OnInitAsync="OnOrderSenderChartInit" LoadingText="正在加载数据" @ref="OrderSenderChart" Width="50%"/>
- <Chart ChartType="ChartType.Bar" OnInitAsync="OnMonthChart" LoadingText="正在加载数据" @ref="MonthChart" Width="50%"/>
+    <MECharts Option="_MondthOption" Width="@("50%")">
+    </MECharts>
+    <MECharts Option="_OrderState" Width="@("50%")"></MECharts>
+    
 </div>
 @code{
-    private Random random = new Random();
+    private object _MondthOption = new object();
+    private object _OrderState = new object();
 
-    private Chart? OrderSenderChart{ get; set; }
-
-    private Chart? MonthChart { get; set; }
-
-    private async Task<ChartDataSource> OnOrderSenderChartInit() {
-        var cds = new ChartDataSource();
-        cds.Options.Title = "派单详情";
-        var orderlist = await OrderService.GetAllAsync();
-        var ordergroup =  orderlist.GroupBy(x => x.OrderState);
-        List<int> count = new List<int>();
-        List<string> StateString = new List<string>();
-        foreach (var item in ordergroup) {
-            count.Add(item.Count());
-            StateString.Add(UtilityChart.EnmuToStirng((int)item.Key));
+    private List<Order> Orders { get; set; } = new List<Order>();
+    private IEnumerable<int> monthString { get; set; } = new List<int>();
+    private IEnumerable<int> monthCount { get; set;} = new List<int>();
+    private IEnumerable<OrderState> states { get; set; } = new List<OrderState>();
+    private IEnumerable<int> stateCount { get; set;} = new List<int>();
+    protected async override Task OnInitializedAsync() {
+        Orders = await OrderService.GetAllAsync();
+        if(Orders != null) {
+            monthString = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Key);
+            monthCount = Orders.GroupBy(x => x.OrderDate.Month).Select(x => x.Count());
+            states = Orders.GroupBy(x => x.OrderState).Select(x => x.Key);
+            stateCount = Orders.GroupBy(x => x.OrderState).Select(x => x.Count());
         }
-        cds.Labels = StateString;
-        for(int i = 0; i < 1; i++)
-        {
-            cds.Data.Add(new ChartDataset() {
-                    Data = count.Cast<object>()
-            });
-        }
-        return cds;
+        InitOption(monthString,monthCount);
+        InitOption(states,stateCount);
     }
 
-    private async Task<ChartDataSource> OnMonthChart() {
-        var cds = new ChartDataSource();
-        cds.Options.Title = "每月订单数量";
-        cds.Options.X.Title = "月份";
-        cds.Options.Y.Title = "订单数";
-        cds.Options.X.Stacked = false;
-        cds.Options.Y.Stacked = false;
-        var orderList = await OrderService.GetAllAsync();
-
-        var ordergroup = orderList.GroupBy(x => x.OrderDate.Month);
-        List<int> count = new List<int>();
-        List<string> labelString = new List<string>();
-        foreach (var item in ordergroup) {
-            System.Console.WriteLine(item.Count());
-            count.Add(item.Count());
-            labelString.Add(item.Key.ToString()+"月份");
-        }
-        for(int i = 0; i < 1; i++)
+    private void InitOption(IEnumerable<int> monthString, IEnumerable<int> count) {
+        _MondthOption = new
         {
-            cds.Data.Add(new ChartDataset() {
-                    Data = count.Cast<object>()
-        });
-        }
-        return cds;
+            Title = new
+            {
+                Left = "center",
+                Text = "每月订单数量"
+            },
+            Tooltip = new { },
+            Legend = new
+            {
+                Right = "20px",
+                Data = monthString
+            },
+            XAxis = new
+            {
+                Data = monthString
+            },
+            YAxis = new {
+                Type="value"    
+            },
+            Series = new[]
+        {
+            new
+            {
+                Name = "月份",
+                Type = "bar",
+                Data = count
+            }
     }
+        };
+    }
+
+    private void InitOption(IEnumerable<OrderState> states, IEnumerable<int> count) {
+        var stateString = states.Select(x => UtilityChart.EnmuToStirng((int)x)).ToArray<string>();
+        List<PieDataItem> pieDataItemList = new List<PieDataItem>();
+        for (int i = 0; i < stateString.Count(); i++)
+        {
+            pieDataItemList.Add(new PieDataItem(stateString[i], count.ElementAt(i)));
+        }
+
+        _OrderState = new
+        {
+            Title = new
+            {
+                Left = "center",
+                Text = "订单状态"
+            },
+            Legend = new {
+                Orient = "vertical",
+                Left = "Left"
+            },
+            Tooltip = new{
+                Trigger = "item"
+            },
+            Series = new[]
+            {
+                new
+                {
+                    Name = "订单状态",
+                    Radius = new[] { "0", "50%" },
+                    Type = "pie",
+                    Data = pieDataItemList
+                }
+            }
+        };
+    }
+
+    record PieDataItem(string Name, int Value);
 }

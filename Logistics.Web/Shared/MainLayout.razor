@@ -1,18 +1,30 @@
 ﻿@inherits LayoutComponentBase
+@layout BaseLayout
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<!-- MainLayout.razor -->
+<NavDrawer Value="_showDrawer"
+           ValueChanged="OnNavDrawerValueChanged"/>
 
-    <main>
-        <div class="top-row px-4">
-            <UserButton />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MMain Class="masa">@Body</MMain>
+@code{
+    [CascadingParameter]
+    private BaseLayout BaseLayout { get; set; } = null!;
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    [Inject]
+    public IJSRuntime Js { get; set; } = null!;
+
+    private bool _showDrawer;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        BaseLayout.OnAppBarNavIconClick = EventCallback.Factory.Create<bool>(this, val => { _showDrawer = val; });
+    }
+
+    private void OnNavDrawerValueChanged(bool val)
+    {
+        _showDrawer = val;
+        BaseLayout.ShowDrawer = val;
+    }
+}

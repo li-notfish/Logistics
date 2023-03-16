@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Logistics.AppClient.Pages.MePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="Azure">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0" Margin="10">
+            <Frame BackgroundColor="AliceBlue">
+                <HorizontalStackLayout Spacing="10">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="100"
+                        Source="touxiang.jpg"
+                        WidthRequest="100">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                Center="50,50"
+                                RadiusX="50"
+                                RadiusY="50" />
+                        </Image.Clip>
+                    </Image>
+                    <VerticalStackLayout>
+                        <Label
+                            Padding="10"
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            Text="UserName" />
+                        <Label
+                            Padding="10"
+                            FontAttributes="None"
+                            FontSize="20"
+                            Text="地址" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="10"
+            Spacing="10">
+            <Button Text="管理手机号" />
+            <Button Text="修改地址" />
+            <Button Text="修改密码" />
+            <Button Text="设置" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

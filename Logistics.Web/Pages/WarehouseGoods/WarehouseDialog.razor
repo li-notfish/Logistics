@@ -1,0 +1,46 @@
+﻿<MDialog @bing-Value="_dialog" Value="_dialog" ValueChanged="DialogChanged">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+    
+    <MCardText>
+        <MContainer>
+            <MRow>
+                <MCol>
+                <MForm Model="warehouse" EnableValidation >
+                <MTextField @bind-Value="warehouse.Capacity" Label="仓库容量"/>
+                <MTextField @bind-Value="warehouse.Address" Label="仓库地址"/>
+            </MForm>
+            </MCol>
+            </MRow>
+        </MContainer>
+    </MCardText>
+    <MCardActions>
+        <MSpacer></MSpacer>
+        <MButton Color="blue darken-1" Text OnClick="OnClose">取消</MButton>
+        <MButton Color="blue darken-1" Type="submit" Text OnClick="OnSave">保存</MButton>
+    </MCardActions>
+    </MCard>
+</MDialog>
+@code {
+    [Parameter]
+    public Warehouse warehouse { get; set; }
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+    [Parameter]
+    public EventCallback OnSave { get; set; }
+    [Parameter]
+    public EventCallback<bool> DialogChanged { get; set; }
+
+    [Parameter]
+    public bool _dialog { get; set; }
+    public string FormTitle
+    {
+        get
+        {
+            return warehouse.Id == 0 ? "新建" : "修改";
+        }
+    }
+
+}

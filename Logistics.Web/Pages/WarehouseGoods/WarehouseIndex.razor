@@ -1,0 +1,148 @@
+﻿@page "/warehouse/"
+@inject IWarehouseService WarehouseService;
+
+<MDataTable Headers="_headers" Items="warehouses" Class="elevation-1">
+    <TopContent>
+        <MToolbar Flat>
+            <MToolbarTitle>仓库列表</MToolbarTitle>
+            <MDivider Class="mx-4" Inset Vertical></MDivider>
+            <MSpacer></MSpacer>
+            <MButton Color="primary" Dark Class="mb-2" OnClick="()=> _dialog=true">
+                新建仓库
+            </MButton>
+            <WarehouseDialog OnClose="Close" OnSave="Save" _dialog="_dialog" warehouse="warehouse"/>
+            <DeleteDialog CloseDelete="CloseDelete" DeleteItemConfirm="DeleteItemConfirm" _dialogDelete="_dialogDelete" />
+        </MToolbar>
+        <Message MessageStr="@message" _snackbar="snackbar" />
+    </TopContent>
+    <ItemColContent>
+        @if(context.Header.Value == "actions")
+        {
+            <MIcon Small
+                Class="mr-2"
+                OnClick="() => EditItem(context.Item)">mdi-pencil</MIcon>
+            <MIcon Small OnClick="() => DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else
+        {
+            @context.Value
+        }
+    </ItemColContent>
+    <NoDataContent>
+        <MIcon Large>mdi-error</MIcon>
+    </NoDataContent>
+</MDataTable>
+
+@code {
+
+    private List<Warehouse> warehouses = new List<Warehouse>();
+    private Warehouse warehouse = new Warehouse();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Initialize();
+    }
+
+    private async Task Initialize()
+    {
+        var result = await WarehouseService.GetAllAsync();
+        if(result != null)
+        {
+            warehouses = result;
+        }
+    }
+
+    private bool _dialog;
+    private bool _dialogDelete;
+    private bool snackbar;
+    private string message = string.Empty;
+
+
+    public void Close()
+    {
+        _dialog = false;
+        warehouse = new Warehouse();
+    }
+
+    public async Task Save()
+    {
+        Warehouse result;
+        message = "保存失败!";
+        if(warehouse.Id > 0)
+        {
+            result = await WarehouseService.UpdateAsync(warehouse);
+            if(result != null)
+            {
+                message = "保存成功!";
+                snackbar = true;
+            }
+        }
+        else
+        {
+            result = await WarehouseService.AddAsync(warehouse);
+            if(result != null)
+            {
+                message = "保存成功!";
+                snackbar = true;
+            }
+        }
+        await Initialize();
+        Close();
+    }
+
+    public void EditItem(Warehouse warehouse)
+    {
+        this.warehouse = warehouse;
+        _dialog = true;
+    }
+
+    public void DeleteItem(Warehouse warehouse)
+    {
+        this.warehouse = warehouse;
+        _dialogDelete = true;
+    }
+
+    public async void DeleteItemConfirm()
+    {
+        Warehouse result;
+        message = "删除失败";
+        result = await WarehouseService.DeleteAsync(warehouse.Id);
+
+        if(result != null)
+        {
+            message = "删除成功!";
+        }
+
+        snackbar = true;
+        CloseDelete();
+    }
+
+    public void CloseDelete()
+    {
+        _dialogDelete = false;
+        warehouse = new Warehouse();
+    }
+
+    private List<DataTableHeader<Warehouse>> _headers = new List<DataTableHeader<Warehouse>>()
+    {
+        new DataTableHeader<Warehouse>()
+        {
+            Text="仓库编号",
+            Sortable = true,
+            Value = nameof(Warehouse.Id)
+        },
+        new DataTableHeader<Warehouse>()
+        {
+            Text = "仓库容量",
+            Sortable = true,
+            Value = nameof(Warehouse.Capacity),
+        },
+        new DataTableHeader<Warehouse>()
+        {
+            Text = "仓库地址",
+            Value = nameof(Warehouse.Address)
+        },
+        new (){ Text= "操作", Value= "actions",Sortable=false }
+    };
+}

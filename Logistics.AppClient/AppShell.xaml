@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Logistics.AppClient.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Logistics.AppClient.Pages"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Shell.FlyoutBehavior="Disabled">
+
+    <Tab Title="主页" Icon="home_black_24dp.png">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+    </Tab>
+    <Tab Title="快递" Icon="local_shipping_black_24dp.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ExpressPage}" Route="ExpressPage" />
+    </Tab>
+    <Tab Title="我的" Icon="person_black_24dp.png">
+        <ShellContent ContentTemplate="{DataTemplate local:MePage}" Route="MePage" />
+    </Tab>
+
+</Shell>

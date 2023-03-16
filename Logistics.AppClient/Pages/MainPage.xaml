@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Logistics.AppClient.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Logistics.AppClient.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <Grid BackgroundColor="Azure">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Frame
+            Grid.Row="0"
+            Margin="5"
+            BackgroundColor="AntiqueWhite">
+            <VerticalStackLayout Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Text="订单查询" />
+                <SearchBar Placeholder="请输入你的订单" />
+                <HorizontalStackLayout Spacing="20">
+                    <Button Text="取快递" />
+                    <Button Command="{Binding ToCreateOrderCommand}" Text="寄快递" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        <Frame
+            Grid.Row="1"
+            Margin="5"
+            BackgroundColor="Coral">
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <HorizontalStackLayout
+                    Grid.Row="0"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="10"
+                    VerticalOptions="Start">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        Text="在途包裹"
+                        VerticalOptions="Start" />
+                    <ScrollView
+                        Margin="-5"
+                        Orientation="Horizontal"
+                        VerticalOptions="CenterAndExpand">
+                        <HorizontalStackLayout>
+                            <Button
+                                BackgroundColor="Transparent"
+                                BorderColor="Transparent"
+                                Command="{Binding GetRecOrderCountCommand}"
+                                CornerRadius="12"
+                                FontSize="14"
+                                Text="收"
+                                TextColor="Black">
+                                <Button.Shadow>
+                                    <Shadow
+                                        Opacity="0.2"
+                                        Radius="20"
+                                        Offset="00,10" />
+                                </Button.Shadow>
+                            </Button>
+                            <Button
+                                BackgroundColor="Transparent"
+                                BorderColor="Transparent"
+                                Command="{Binding GetSendOrderCountCommand}"
+                                CornerRadius="12"
+                                FontSize="14"
+                                Text="寄"
+                                TextColor="Black">
+                                <Button.Shadow>
+                                    <Shadow
+                                        Opacity="0.2"
+                                        Radius="20"
+                                        Offset="00,10" />
+                                </Button.Shadow>
+                            </Button>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </HorizontalStackLayout>
+                <CollectionView
+                    Grid.Row="1"
+                    EmptyView="No Data"
+                    ItemsSource="{Binding Data}"
+                    VerticalOptions="Start">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Margin="5">
+                                <Label
+                                    FontAttributes="None"
+                                    FontSize="14"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Number}" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Frame>
+    </Grid>
+
+</ContentPage>

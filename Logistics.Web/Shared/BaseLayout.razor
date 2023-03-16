@@ -1,0 +1,59 @@
+﻿@inherits LayoutComponentBase
+<HeadContent>
+    <PageTitle>主页</PageTitle>
+    <link rel="icon" href="./icon-192.png" type="image/x-icon">
+</HeadContent>
+<MApp>
+    <MErrorHandler>
+        <AppBar OnAppBarNavIconClick="HandleOnAppBarNavIconClick"
+                OnDotClick="HandleOnDotClick"
+                HideAppBarNavIcon="@_hideAppBarNavIcon" />
+            <CascadingValue Value="this" IsFixed>
+                @Body
+            </CascadingValue>
+         <MobileMenuList @bind-Value="_showMobileMenuList" />
+         </MErrorHandler>
+
+</MApp>
+
+@code {
+
+    internal bool ShowDrawer;
+    private bool _hideAppBarNavIcon;
+    private bool _showMobileMenuList;
+    internal EventCallback<bool> OnAppBarNavIconClick { get; set; }
+
+    private void HandleOnAppBarNavIconClick()
+    {
+        ShowDrawer = !ShowDrawer;
+        OnAppBarNavIconClick.InvokeAsync(ShowDrawer);
+    }
+
+    internal void HideAppBarNavIcon()
+    {
+        if (_hideAppBarNavIcon)
+        {
+            return;
+        }
+
+        _hideAppBarNavIcon = true;
+        StateHasChanged();
+    }
+
+    internal void ShowAppBarNavIcon()
+    {
+        if (_hideAppBarNavIcon is false)
+        {
+            return;
+        }
+
+        _hideAppBarNavIcon = false;
+        StateHasChanged();
+    }
+
+    private void HandleOnDotClick()
+    {
+        _showMobileMenuList = !_showMobileMenuList;
+    }
+
+}

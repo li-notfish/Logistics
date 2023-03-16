@@ -1,0 +1,24 @@
+﻿@inject MasaBlazor MasaBlazor
+
+<div class="flex-1-1-auto d-flex align-center justify-end">
+
+    @if (MasaBlazor.Breakpoint.XsOnly)
+    {
+        <MSpacer />
+    }
+
+    @if (MasaBlazor.Breakpoint.SmAndUp) {
+        
+    }
+    else
+    {
+        <MobileToolIcons OnDotClick="OnDotClick" />
+    }
+
+    
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnDotClick { get; set; }
+}

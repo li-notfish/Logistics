@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Logistics.Shared.Enums {
     public enum OrderState {
         None,
@@ -12,10 +6,18 @@ namespace Logistics.Shared.Enums {
         Dispatch,
         Received,
         SigningFailed,
-        SendBack
+        SendBack,
+        WaitRecived,
+
     }
     public enum DeliveryState {
         Busy,
         Idle
+    }
+
+    public enum GoodsStates
+    {
+        Out,
+        In,
     }
 }

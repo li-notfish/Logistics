@@ -1,0 +1,47 @@
+﻿<MDialog @bing-Value="_dialog" Value="_dialog" ValueChanged="DialogChanged">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">@FormTitle</span>
+        </MCardTitle>
+    
+    <MCardText>
+        <MContainer>
+            <MRow>
+                <MCol>
+                <MForm Model="admin" EnableValidation >
+                <MTextField @bind-Value="admin.Name" Label="用户名"/>
+                <MTextField @bind-Value="admin.Password" Label="密码" Type="Password" />
+                <MTextField @bind-Value="admin.ConfirmPassword" Label="再次输入密码" Type="Password"/>
+            </MForm>
+            </MCol>
+            </MRow>
+        </MContainer>
+    </MCardText>
+    <MCardActions>
+        <MSpacer></MSpacer>
+        <MButton Color="blue darken-1" Text OnClick="OnClose">取消</MButton>
+        <MButton Color="blue darken-1" Type="submit" Text OnClick="OnSave">保存</MButton>
+    </MCardActions>
+    </MCard>
+</MDialog>
+@code {
+    [Parameter]
+    public Administrators admin { get; set; }
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+    [Parameter]
+    public EventCallback OnSave { get; set; }
+    [Parameter]
+    public EventCallback<bool> DialogChanged { get; set; }
+
+    [Parameter]
+    public bool _dialog { get; set; }
+    public string FormTitle
+    {
+        get
+        {
+            return admin.Id == 0 ? "新建" : "修改";
+        }
+    }
+
+}

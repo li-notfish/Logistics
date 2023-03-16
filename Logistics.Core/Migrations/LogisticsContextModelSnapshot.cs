@@ -40,25 +40,6 @@ namespace Logistics.Core.Migrations
                     b.ToTable("Administrators");
                 });
 
-            modelBuilder.Entity("Logistics.Shared.Model.Car", b =>
-                {
-                    b.Property<int>("CarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CarName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CarType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CarId");
-
-                    b.ToTable("Cars");
-                });
-
             modelBuilder.Entity("Logistics.Shared.Model.Delivery", b =>
                 {
                     b.Property<int>("Id")
@@ -92,6 +73,39 @@ namespace Logistics.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Deliveries");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.Goods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GoodsState")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Goodes");
                 });
 
             modelBuilder.Entity("Logistics.Shared.Model.Order", b =>
@@ -177,6 +191,41 @@ namespace Logistics.Core.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Logistics.Shared.Model.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.Goods", b =>
+                {
+                    b.HasOne("Logistics.Shared.Model.Order", "Order")
+                        .WithOne("Goods")
+                        .HasForeignKey("Logistics.Shared.Model.Goods", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Logistics.Shared.Model.Warehouse", "Warehouse")
+                        .WithMany("Goods")
+                        .HasForeignKey("WarehouseId");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("Logistics.Shared.Model.Order", b =>
                 {
                     b.HasOne("Logistics.Shared.Model.Delivery", "Delivery")
@@ -189,6 +238,16 @@ namespace Logistics.Core.Migrations
             modelBuilder.Entity("Logistics.Shared.Model.Delivery", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.Order", b =>
+                {
+                    b.Navigation("Goods");
+                });
+
+            modelBuilder.Entity("Logistics.Shared.Model.Warehouse", b =>
+                {
+                    b.Navigation("Goods");
                 });
 #pragma warning restore 612, 618
         }
