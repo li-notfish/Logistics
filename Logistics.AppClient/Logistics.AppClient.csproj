@@ -87,6 +87,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="DeliveryShell.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\ExpressPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

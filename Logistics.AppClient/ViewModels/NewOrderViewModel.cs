@@ -60,10 +60,8 @@ namespace Logistics.AppClient.ViewModels
                     if (Order.Goods == null)
                     {
                         Order.Goods = new Goods();
-                        Order.Goods.Warehouse = new Warehouse();
                     }
                     Order.Goods.Name = Order.OrderInfo;
-                    Order.Goods.Warehouse.Address = Order.SenderCity;
                     var result = await _orderService.AddAsync(Order);
                     if (result != null) {
                         await hubConnection.InvokeAsync("SendMessage", Order.Sender,Order.OrderId);

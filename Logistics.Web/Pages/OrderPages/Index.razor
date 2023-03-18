@@ -239,10 +239,8 @@
             if(order.Goods == null)
             {
                 order.Goods = new Goods();
-                order.Goods.Warehouse = new Warehouse();
             }
             order.Goods.Name = order.OrderInfo;
-            order.Goods.Warehouse.Address = order.SenderCity;
             result = await orderService.AddAsync(order);
         }
         else {

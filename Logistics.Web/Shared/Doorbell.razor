@@ -4,7 +4,7 @@
 
 <MMenu Bottom MinWidth="400" Rounded="@true" OffsetY>
     <ActivatorContent>
-        <MButton @attributes="@context.Attrs" Icon="MasaBlazor.Breakpoint.SmAndDown" Class="emphasize1-color px-0 px-md-2" Text>
+        <MButton @attributes="@context.Attrs" OnClick="() => activeNewMessage = false" Icon="MasaBlazor.Breakpoint.SmAndDown" Class="emphasize1-color px-0 px-md-2" Text>
             <MIcon>@doorbell</MIcon> 
         </MButton>
     </ActivatorContent>
@@ -43,6 +43,7 @@
         {
             var encodeMsg = $"{user}创建了一个订单，订单号为：{message}";
             Messages.Add(encodeMsg);
+            activeNewMessage = true;
             StateHasChanged();
         });
     }
