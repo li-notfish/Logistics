@@ -1,4 +1,5 @@
 ﻿using Logistics.Shared;
+using Logistics.Shared.Enums;
 using Logistics.Shared.Model;
 
 namespace Logistics.Core.Service.Auth
@@ -7,6 +8,6 @@ namespace Logistics.Core.Service.Auth
     {
         Task<ApiResponse<int>> Ragister(Administrators administrators, string password);
         Task<bool> AdminExists(string name, string password);
-        Task<ApiResponse<string>> Login(string name, string password);
+        Task<ApiResponse<string>> Login(string name, string password,LoginType loginType);
     }
 }

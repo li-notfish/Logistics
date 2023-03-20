@@ -48,7 +48,7 @@ namespace Logistics.Core
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IWarehouseService, WarehouseService>();
-            builder.Services.AddScoped<IGoodsService, GoodsService>();  
+            builder.Services.AddScoped<IGoodsService, GoodsService>();
 
             var app = builder.Build();
             app.UseResponseCompression();

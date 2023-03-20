@@ -1,10 +1,14 @@
-﻿<MContainer Fluid Style="height:50px">
+﻿@inject NavigationManager Navigation;
+@inject ILocalStorageService LocalStrorageSerivce;
+@inject AuthenticationStateProvider AuthStateProvider;
+
+<MContainer Fluid Style="height:50px">
 	<MRow Justify="JustifyTypes.Center">
 		<MMenu Bottom MinWidth="200" Rounded="@true">
 			<ActivatorContent>
 				<MButton Icon XLarge @attributes="@context.Attrs">
 					<MAvatar Color="brown" Size="48">
-						<span class="white--text text-h5">Hi</span>
+						<span class="white--text text-h5">@UserName</span>
 					</MAvatar>
 				</MButton>
 			</ActivatorContent>
@@ -12,16 +16,21 @@
 				<MCard>
 					<MListItemContent Class="justify-center">
 						<div class="mx-auto text-center">
-							<MAvatar Color="brown">
-								<span class="white--text text-h5">Hi</span>
-							</MAvatar>
-							<h3>Hello</h3>
-							<MDivider class="my-3"></MDivider>
-							<MButton Depressed Rounded Text>账号管理</MButton>
-							<MDivider class="my-3"></MDivider>
-							<MButton Depressed Rounded Text>登录</MButton>
-							<MDivider class="my-3"></MDivider>
-							<MButton Depressed Rounded Text>登出</MButton>
+							<AuthorizeView>
+								<Authorized>						
+									<MAvatar Color="brown">
+										<span class="white--text text-h5">@UserName</span>
+									</MAvatar>
+									<h3>Hello,@UserName</h3>
+									<MDivider class="my-3"></MDivider>
+									<MButton Depressed Rounded Text>账号管理</MButton>
+									<MDivider class="my-3"></MDivider>
+									<MButton Depressed Rounded Text OnClick="LogOut">登出</MButton>
+								</Authorized>
+								<NotAuthorized>
+									<MButton Depressed Rounded Text OnClick="GoToLogin">登录</MButton>
+								</NotAuthorized>
+							</AuthorizeView>
 						</div>
 					</MListItemContent>
 				</MCard>
@@ -31,5 +40,30 @@
 </MContainer>
 
 @code {
-    
+	private string UserName = string.Empty;
+
+	private void GoToLogin()
+	{
+		Navigation.NavigateTo("/login");
+	}
+
+	private async Task LogOut()
+	{
+		await LocalStrorageSerivce.RemoveItemAsync("authToken");
+
+		 await LocalStrorageSerivce.RemoveItemAsync("username");
+
+		await AuthStateProvider.GetAuthenticationStateAsync();
+
+		Navigation.NavigateTo("/login");
+	}
+
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender != true)
+		{
+			UserName = await LocalStrorageSerivce.GetItemAsStringAsync("username");
+		}
+
+	}
 }

@@ -1,7 +1,15 @@
-﻿<MApp>
+﻿@inject NavigationManager Navigation;
+<MApp>
+    <CascadingAuthenticationState>
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                @{
+                    Navigation.NavigateTo("/login");
+                }
+            </NotAuthorized>
+        </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
@@ -11,4 +19,6 @@
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingAuthenticationState>
 </MApp>
+

@@ -20,12 +20,15 @@ namespace Logistics.AppClient {
                     .AddTransient<NewOrderPage>()
                     .AddScoped<ExpressPage>()
                     .AddScoped<MePage>()
-                    .AddScoped<MainViewModel>()
-                    .AddScoped<MeViewModel>()
-                    .AddScoped<ExpressViewModel>()
+                    .AddScoped<LoginPage>()
+                    .AddTransient<LoginViewModel>()
+                    .AddTransient<MainViewModel>()
+                    .AddTransient<MeViewModel>()
+                    .AddTransient<ExpressViewModel>()
                     .AddTransient<NewOrderViewModel>()
                     .AddScoped<IOrderService,OrderService>()
                     .AddScoped<IUserService,UserService>()
+                    .AddScoped<IAuthService,AuthService>()
                     .AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") }); ;
 
 #if DEBUG

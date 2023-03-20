@@ -18,7 +18,7 @@ namespace Logistics.Core.Controller
 
         [HttpPost("login")]
         public async Task<ActionResult<ApiResponse<string>>> Login(LoginRequest login) {
-            var response = await authService.Login(login.Name,login.Password);
+            var response = await authService.Login(login.Name,login.Password,login.LoginType);
             if (!response.Success) {
                 return BadRequest(response);
             }

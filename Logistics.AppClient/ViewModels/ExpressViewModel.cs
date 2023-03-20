@@ -17,6 +17,10 @@ namespace Logistics.AppClient.ViewModels
     {
         private readonly IOrderService _orderService;
 
+        private readonly IUserService _userService;
+
+        private string currentUser = string.Empty;
+
         [ObservableProperty]
         private List<Order> orders = new List<Order>() { 
             new Order() {
@@ -34,17 +38,25 @@ namespace Logistics.AppClient.ViewModels
             }
         };
 
-        public ExpressViewModel(IOrderService orderService)
+        public ExpressViewModel(IOrderService orderService,IUserService userService)
         {
             this._orderService = orderService;
-            GetOrderList();
+            currentUser = Preferences.Default.Get("UserName", string.Empty);
+			GetOrderList(0);
         }
 
-        private async Task GetOrderList() {
+        private async Task GetOrderList(int type) {
             try {
                 var result = await _orderService.GetAllAsync();
                 if (result != null) {
-                    Orders = result;
+                    if(type == 1)
+                    {
+						Orders = result.Where(x => x.Sender.Equals(currentUser)).ToList();
+					}
+                    else
+                    {
+						Orders = result.Where(x => x.Recipient.Equals(currentUser)).ToList();
+					}
                 }
             }
             catch (Exception ex) {
@@ -56,11 +68,11 @@ namespace Logistics.AppClient.ViewModels
 
         [RelayCommand]
         private async Task GetRecOrder() {
-            await GetOrderList();
+            await GetOrderList(0);
         }
         [RelayCommand]
         private async Task GetSendOrder() {
-            await GetOrderList();
+            await GetOrderList(1);
         }
     }
 }

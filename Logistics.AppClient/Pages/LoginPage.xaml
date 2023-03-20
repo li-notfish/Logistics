@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Logistics.AppClient.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
+    x:DataType="vm:LoginViewModel">
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25"
+        VerticalOptions="Center">
+
+        <Image
+            HeightRequest="100"
+            Source="company_logo.jpg"
+            WidthRequest="100" />
+
+        <VerticalStackLayout Spacing="5">
+            <Label
+                FontSize="24"
+                HorizontalTextAlignment="Center"
+                Text="欢迎!"
+                TextColor="Gray" />
+            <Label
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                Text="请登录你的账号！"
+                TextColor="Gray" />
+        </VerticalStackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Frame
+                BorderColor="White"
+                CornerRadius="28"
+                HasShadow="True"
+                HeightRequest="56"
+                WidthRequest="56"
+                ZIndex="1">
+                <Image
+                    HeightRequest="20"
+                    Source="user.png"
+                    WidthRequest="20" />
+            </Frame>
+            <Frame
+                Margin="-20,0,0,0"
+                Padding="0"
+                BorderColor="White"
+                HasShadow="True"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand">
+                <Entry
+                    Margin="20,0,0,0"
+                    Keyboard="Text"
+                    Placeholder="用户名"
+                    Text="{Binding LoginRequestdto.Name}"
+                    VerticalOptions="Center" />
+            </Frame>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Frame
+                BorderColor="White"
+                CornerRadius="28"
+                HasShadow="True"
+                HeightRequest="56"
+                WidthRequest="56"
+                ZIndex="1">
+                <Image
+                    HeightRequest="20"
+                    Source="lock.png"
+                    WidthRequest="20" />
+            </Frame>
+            <Frame
+                Margin="-20,0,0,0"
+                Padding="0"
+                BorderColor="White"
+                HasShadow="True"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand">
+                <Entry
+                    Margin="20,0,0,0"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    Text="{Binding LoginRequestdto.Password}"
+                    VerticalOptions="Center" />
+            </Frame>
+        </StackLayout>
+
+        <StackLayout
+            Orientation="Horizontal"
+            RadioButtonGroup.GroupName="Type"
+            RadioButtonGroup.SelectedValue="{Binding Select}"
+            Spacing="10">
+            <Label Padding="10" Text="用户类型" />
+            <RadioButton Content="用户" Value="1" />
+            <RadioButton Content="派送员" Value="2" />
+        </StackLayout>
+
+        <Button
+            Command="{Binding LoginCommand}"
+            CornerRadius="20"
+            HorizontalOptions="Center"
+            Text="Sign In"
+            WidthRequest="100" />
+
+        <StackLayout
+            HorizontalOptions="Center"
+            Orientation="Horizontal"
+            Spacing="5">
+            <Label Text="Don't have account?" TextColor="Gray" />
+            <Label Text="Sign Up here" TextColor="#50b3f2" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

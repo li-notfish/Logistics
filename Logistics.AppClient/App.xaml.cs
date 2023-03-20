@@ -1,9 +1,13 @@
-﻿namespace Logistics.AppClient {
+﻿using Logistics.AppClient.Pages;
+using Logistics.AppClient.ViewModels;
+using Logistics.Shared.Service;
+
+namespace Logistics.AppClient {
     public partial class App : Application {
         public App() {
             InitializeComponent();
-            MainPage = new DeliveryShell();
-            Shell.SetTabBarIsVisible(this, false);
+			MainPage = new AppShell();
+			Shell.SetTabBarIsVisible(this, false);
         }
     }
 }

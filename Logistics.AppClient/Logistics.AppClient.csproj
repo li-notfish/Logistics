@@ -69,10 +69,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\company_logo.jpg" />
 	  <None Remove="Resources\Images\home_black_24dp.svg" />
 	  <None Remove="Resources\Images\local_shipping_black_24dp.svg" />
+	  <None Remove="Resources\Images\lock.png" />
 	  <None Remove="Resources\Images\person_black_24dp.svg" />
 	  <None Remove="Resources\Images\touxiang.jpg" />
+	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -87,10 +90,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="DeliveryShell.xaml">
+	  <Compile Update="Pages\LoginPage.xaml.cs">
+	    <DependentUpon>LoginPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ExpressPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ExpressPage.xaml">
+	  <MauiXaml Update="Pages\LoadingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MePage.xaml">

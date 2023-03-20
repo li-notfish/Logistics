@@ -20,4 +20,11 @@ namespace Logistics.Shared.Enums {
         Out,
         In,
     }
+
+    public enum LoginType
+    {
+        Admin,
+        User,
+        Delivery
+    }
 }

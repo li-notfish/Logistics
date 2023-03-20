@@ -24,17 +24,29 @@ namespace Logistics.AppClient.ViewModels
         [ObservableProperty]
         private List<Order> orders = new List<Order>();
 
+        private string currentUser = string.Empty;
+
         public MainViewModel(IOrderService orderService)
         {
             this._orderService = orderService;
-            GetRecOrderCount();
+            currentUser = Preferences.Default.Get("UserName", string.Empty);
+
+			GetRecOrderCount();
         }
 
-        private async Task GetOrderList() {
+        private async Task GetOrderList(int type) {
             try {
                 var result = await _orderService.GetAllAsync();
                 if (result != null) {
-                    Orders = result;
+                    if(type == 1)
+                    {
+                        Orders = result.Where(x => x.Recipient.Equals(currentUser)).ToList();
+					}
+                    else
+                    {
+                        Orders = result.Where(x => x.Sender.Equals(currentUser)).ToList();
+                    }
+                    
                 }
             }
             catch (Exception ex) {
@@ -46,12 +58,12 @@ namespace Logistics.AppClient.ViewModels
 
         [RelayCommand]
         public async Task ToCreateOrder() {
-            await Shell.Current.GoToAsync("addorder");
+            await Shell.Current.GoToAsync($"{nameof(NewOrderPage)}");
         }
 
         [RelayCommand]
         public async Task GetRecOrderCount() {
-            await GetOrderList();
+            await GetOrderList(0);
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("派送中",0),
                 new OrderStateColletion("运输中",0),
@@ -81,7 +93,7 @@ namespace Logistics.AppClient.ViewModels
 
         [RelayCommand]
         public async Task GetSendOrderCount() {
-            await GetOrderList();
+            await GetOrderList(1);
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("待寄出",0),
                 new OrderStateColletion("待收件",0),
@@ -111,10 +123,6 @@ namespace Logistics.AppClient.ViewModels
                         break;
                 }
             }
-        }
-        [RelayCommand]
-        public void AddOrder() {
-            
         }
     }
 

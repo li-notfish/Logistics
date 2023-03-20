@@ -30,12 +30,12 @@
                             Padding="10"
                             FontAttributes="Bold"
                             FontSize="24"
-                            Text="UserName" />
+                            Text="{Binding User.Name}" />
                         <Label
                             Padding="10"
                             FontAttributes="None"
                             FontSize="20"
-                            Text="地址" />
+                            Text="{Binding User.Address}" />
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
             </Frame>
@@ -48,6 +48,7 @@
             <Button Text="修改地址" />
             <Button Text="修改密码" />
             <Button Text="设置" />
+            <Button Command="{Binding LogoutCommand}" Text="注销" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

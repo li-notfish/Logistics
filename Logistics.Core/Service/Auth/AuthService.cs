@@ -1,5 +1,6 @@
 ﻿using Logistics.Core.Context;
 using Logistics.Shared;
+using Logistics.Shared.Enums;
 using Logistics.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,14 +28,40 @@ namespace Logistics.Core.Service.Auth
             return false;
         }
 
-        public async Task<ApiResponse<string>> Login(string name, string password)
+        public async Task<ApiResponse<string>> Login(string name, string password,LoginType loginType)
         {
             var respone = new ApiResponse<string>();
-            var result = await logistics.Administrators.FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Password.Equals(password));
+            object result = new object();
+            switch (loginType)
+            {
+                case LoginType.Admin:
+					result = await logistics.Administrators.FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Password.Equals(password));
+					break;
+                case LoginType.User:
+                    result = await logistics.Users.FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Password.Equals(password));
+                    break;
+                case LoginType.Delivery:
+                    result = await logistics.Deliveries.FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Password.Equals(password));
+					break;
+            }
+            
             if (result != null)
             {
                 respone.Success = true;
-                respone.Data = CreateToken(result);
+                LoginRequest loginRequest = new LoginRequest(name, password);
+                switch (loginType)
+                {
+                    case LoginType.Admin:
+                        loginRequest.Id = (result as Administrators).Id;
+						break;
+                    case LoginType.User:
+						loginRequest.Id = (result as User).Id;
+						break;
+                    case LoginType.Delivery:
+						loginRequest.Id = (result as Delivery).Id;
+						break;
+                }
+                respone.Data = CreateToken(loginRequest);
             }
             else
             {
@@ -49,11 +76,12 @@ namespace Logistics.Core.Service.Auth
             throw new NotImplementedException();
         }
 
-        private string CreateToken(Administrators administrators)
+        private string CreateToken(LoginRequest loginRequest)
         {
             List<Claim> claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier,administrators.Id.ToString()),
-                new Claim(ClaimTypes.Name,administrators.Name.ToString()),
+                new Claim(ClaimTypes.NameIdentifier,loginRequest.Id.ToString()),
+                new Claim(ClaimTypes.Name,loginRequest.Name.ToString()),
+                new Claim(ClaimTypes.Role, loginRequest.LoginType.ToString())
 
             };
 
