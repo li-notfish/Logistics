@@ -74,6 +74,7 @@
 	  <None Remove="Resources\Images\local_shipping_black_24dp.svg" />
 	  <None Remove="Resources\Images\lock.png" />
 	  <None Remove="Resources\Images\person_black_24dp.svg" />
+	  <None Remove="Resources\Images\send_black_24dp.svg" />
 	  <None Remove="Resources\Images\touxiang.jpg" />
 	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>

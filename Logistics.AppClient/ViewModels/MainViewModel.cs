@@ -26,6 +26,15 @@ namespace Logistics.AppClient.ViewModels
 
         private string currentUser = string.Empty;
 
+        [ObservableProperty]
+        private Order singleOrder;
+
+        [ObservableProperty]
+        private string orderId = string.Empty;
+
+        [ObservableProperty]
+        private bool isSearch = false;
+
         public MainViewModel(IOrderService orderService)
         {
             this._orderService = orderService;
@@ -57,6 +66,16 @@ namespace Logistics.AppClient.ViewModels
         }
 
         [RelayCommand]
+        public async Task SearchOrder(string id)
+        {
+            SingleOrder = Orders.SingleOrDefault(x => x.OrderId.Equals(OrderId));
+            if(SingleOrder != null)
+            {
+                IsSearch = true;
+            }
+		}
+
+		[RelayCommand]
         public async Task ToCreateOrder() {
             await Shell.Current.GoToAsync($"{nameof(NewOrderPage)}");
         }
