@@ -36,8 +36,9 @@
         hubConnection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5173/sendorderhub")
             .Build();
-
         await hubConnection.StartAsync();
+
+        await hubConnection.InvokeAsync("AddToGroup","Admin");
 
         hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
         {

@@ -10,4 +10,5 @@ public partial class MePage : ContentPage
 
 		BindingContext = meViewModel;
 	}
+
 }

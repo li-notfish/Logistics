@@ -30,4 +30,10 @@
     <ProjectReference Include="..\Logistics.Shared\Logistics.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="logistics.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

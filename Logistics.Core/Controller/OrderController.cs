@@ -17,6 +17,8 @@ namespace Logistics.Core.Controller
 
         [HttpGet]
         public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll() => await orderService.GetAllAsync();
+        [HttpGet("{deliveryId}")]
+        public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll(int deliveryId) => await orderService.GetAllAsync(deliveryId);
 
         [HttpGet("{orderState:int}")]
         public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll(int? orderState) => await orderService.GetAllAsync((OrderState)orderState);

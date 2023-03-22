@@ -2,6 +2,8 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Logistics.AppClient.Messager;
 using Logistics.AppClient.Pages;
 using Logistics.Shared.Enums;
 using Logistics.Shared.Model;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Logistics.AppClient.ViewModels
 {
-	public partial class LoginViewModel : ObservableObject
+	public partial class LoginViewModel : ObservableRecipient
 	{
 		private readonly IAuthService authService;
 		private IUserService userService;
@@ -27,7 +29,7 @@ namespace Logistics.AppClient.ViewModels
 
         public LoginViewModel()
         {
-			http.BaseAddress = new Uri("http://localhost:5173/");
+			http.BaseAddress = new Uri("https://logisticscore20230322160309.azurewebsites.net/");
 			this.authService = new AuthService(http);
 			this.LoginRequestdto = new LoginRequest();
         }
@@ -52,15 +54,25 @@ namespace Logistics.AppClient.ViewModels
 					}
 					else
 					{
+						
 						deliveryService = new DeliveryService(http);
 						var list = await deliveryService.GetAllAsync();
 						LoginRequestdto.Id = list.FirstOrDefault(x => x.Name == LoginRequestdto.Name && x.Password.Equals(LoginRequestdto.Password)).Id;
 					}
-
 					await SecureStorage.SetAsync("IsLogin","true");
 					Preferences.Default.Set("UserName", LoginRequestdto.Name);
 					Preferences.Default.Set("Id", LoginRequestdto.Id);
-					await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+					Preferences.Default.Set("Type",Select);
+					WeakReferenceMessenger.Default.Send(new LoginMessage(Select));
+					if(Select == 1)
+					{
+						await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+					}
+					else
+					{
+						await Shell.Current.GoToAsync($"///{nameof(DeliveryHome)}");
+					}
+					
 				}
 				else
 				{

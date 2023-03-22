@@ -3,6 +3,9 @@
     x:Class="Logistics.AppClient.Pages.MePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cv="clr-namespace:Logistics.AppClient.Converter"
+    xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
+    x:DataType="vm:MeViewModel"
     BackgroundColor="Azure">
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +28,7 @@
                                 RadiusY="50" />
                         </Image.Clip>
                     </Image>
-                    <VerticalStackLayout>
+                    <VerticalStackLayout BackgroundColor="Beige" IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}">
                         <Label
                             Padding="10"
                             FontAttributes="Bold"
@@ -36,6 +39,18 @@
                             FontAttributes="None"
                             FontSize="20"
                             Text="{Binding User.Address}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout BackgroundColor="Chocolate" IsVisible="{Binding IsDelivery}">
+                        <Label
+                            Padding="10"
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            Text="{Binding Delivery.Name}" />
+                        <Label
+                            Padding="10"
+                            FontAttributes="None"
+                            FontSize="20"
+                            Text="{Binding Delivery.Address}" />
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
             </Frame>

@@ -33,7 +33,7 @@ namespace Logistics.AppClient.ViewModels
             order = new Order();
 
             hubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5173/sendorderhub")
+                .WithUrl("https://logisticscore20230322160309.azurewebsites.net/sendorderhub")
                 .Build();
             hubConnection.On<List<string>>("Users",RefreshUsers);
 
@@ -64,7 +64,7 @@ namespace Logistics.AppClient.ViewModels
                     Order.Goods.Name = Order.OrderInfo;
                     var result = await _orderService.AddAsync(Order);
                     if (result != null) {
-                        await hubConnection.InvokeAsync("SendMessage", Order.Sender,Order.OrderId);
+                        await hubConnection.InvokeAsync("SendMessage", Order.Sender,Order.OrderId,"Admin");
                         await Shell.Current.GoToAsync("../");
                     }
                     else {

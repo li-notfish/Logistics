@@ -15,7 +15,7 @@ namespace Logistics.Web {
             // Add services to the container.
             builder.Services.AddMasaBlazor();
             builder.Services.AddBlazoredLocalStorage();
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://logisticscore20230322160309.azurewebsites.net/") });
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService,UserService>();

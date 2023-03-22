@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace Logistics.Shared.Service {
     public interface IOrderService : IBaseService<Order> {
-    }
+		Task<List<Order>> GetAllAsync(int deliveryId);
+	}
 }

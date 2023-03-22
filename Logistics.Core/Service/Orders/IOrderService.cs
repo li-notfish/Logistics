@@ -12,5 +12,6 @@ namespace Logistics.Core.Service.Orders
         Task<ApiResponse<Order>> GetAsync(string id);
         Task<ApiResponse<List<Order>>> GetAllAsync();
         Task<ApiResponse<List<Order>>> GetAllAsync(OrderState? orderState);
-    }
+		Task<ApiResponse<List<Order>>> GetAllAsync(int deliveryId);
+	}
 }

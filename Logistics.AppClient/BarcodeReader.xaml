@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Logistics.AppClient.BarcodeReaderView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    Title="扫码器">
+    <VerticalStackLayout>
+        <zxing:CameraBarcodeReaderView
+            x:Name="BarcodeReader"
+            BarcodesDetected="BarcodeReader_BarcodesDetected"
+            HeightRequest="300"
+            IsDetecting="true"
+            IsTorchOn="false"
+            WidthRequest="300" />
+        <Button
+            Padding="10"
+            Clicked="Button_Clicked"
+            Text="返回" />
+    </VerticalStackLayout>
+</ContentPage>

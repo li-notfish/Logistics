@@ -83,6 +83,20 @@ namespace Logistics.Core.Service.Orders
 
         }
 
+        public async Task<ApiResponse<List<Order>>> GetAllAsync(int deliveryId)
+        {
+            try
+            {
+                var orders = await context.Orders.Include(x => x.Goods).Where(x => x.DeliveryId == deliveryId).ToListAsync();
+
+                return new ApiResponse<List<Order>>(orders,true,"Completed");
+            }
+            catch (Exception ex)
+            {
+				return new ApiResponse<List<Order>>(false, ex.Message);
+			}
+        }
+
         public async Task<ApiResponse<Order>> GetAsync(string id)
         {
             try

@@ -11,7 +11,18 @@ public partial class LoadingPage : ContentPage
 	{
 		if(await IsLogin())
 		{
-			await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+			if(Preferences.Default.ContainsKey("Type"))
+			{
+				if(Preferences.Default.Get<int>("Type",-1) == 1)
+				{
+					await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
+				}
+				else
+				{
+					await Shell.Current.GoToAsync($"///{nameof(DeliveryHome)}");
+				}
+			}
+			
 		}
 		else
 		{
