@@ -102,13 +102,5 @@
             HorizontalOptions="Center"
             Text="Sign In"
             WidthRequest="100" />
-
-        <StackLayout
-            HorizontalOptions="Center"
-            Orientation="Horizontal"
-            Spacing="5">
-            <Label Text="Don't have account?" TextColor="Gray" />
-            <Label Text="Sign Up here" TextColor="#50b3f2" />
-        </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

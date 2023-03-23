@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Logistics.AppClient.Pages;
 using Logistics.Shared.Model;
 using Logistics.Shared.Service;
 using System;
@@ -73,6 +74,14 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task GetSendOrder() {
             await GetOrderList(1);
+        }
+
+        [RelayCommand]
+        private async Task GoToDetail(string orderId)
+        {
+            var navigationParamters = new Dictionary<string, object>();
+            navigationParamters.Add("orderId", orderId);
+            await Shell.Current.GoToAsync($"{nameof(OrderDetail)}", navigationParamters);
         }
     }
 }

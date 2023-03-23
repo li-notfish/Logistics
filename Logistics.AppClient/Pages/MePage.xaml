@@ -28,7 +28,7 @@
                                 RadiusY="50" />
                         </Image.Clip>
                     </Image>
-                    <VerticalStackLayout BackgroundColor="Beige" IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}">
+                    <VerticalStackLayout IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}">
                         <Label
                             Padding="10"
                             FontAttributes="Bold"
@@ -40,7 +40,7 @@
                             FontSize="20"
                             Text="{Binding User.Address}" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout BackgroundColor="Chocolate" IsVisible="{Binding IsDelivery}">
+                    <VerticalStackLayout IsVisible="{Binding IsDelivery}">
                         <Label
                             Padding="10"
                             FontAttributes="Bold"
@@ -59,9 +59,7 @@
             Grid.Row="1"
             Margin="10"
             Spacing="10">
-            <Button Text="管理手机号" />
-            <Button Text="修改地址" />
-            <Button Text="修改密码" />
+            <Button Command="{Binding GoDetailCommand}" Text="修改个人信息" />
             <Button Text="设置" />
             <Button Command="{Binding LogoutCommand}" Text="注销" />
         </VerticalStackLayout>

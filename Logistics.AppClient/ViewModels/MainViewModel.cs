@@ -143,6 +143,13 @@ namespace Logistics.AppClient.ViewModels
                 }
             }
         }
+        [RelayCommand]
+        private async Task GoToDetail(string orderId)
+        {
+            var navigationParamters = new Dictionary<string, object>();
+            navigationParamters.Add("orderId",orderId);
+            await Shell.Current.GoToAsync($"{nameof(OrderDetail)}",navigationParamters);
+        }
     }
 
     public record OrderStateColletion {

@@ -15,7 +15,7 @@ namespace Logistics.Shared.Service {
 
 		public async Task<List<Order>> GetAllAsync(int deliveryId)
 		{
-			var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<Order>>>(Route + $"{deliveryId}");
+			var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<Order>>>(Route + $"{deliveryId}/delivery");
 			return result.Data;
 		}
 	}

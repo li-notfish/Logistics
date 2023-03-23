@@ -322,6 +322,11 @@
     {
         load = true;
         var result = await orderService.GetAllAsync();
+        if(_search == null)
+        {
+            load = false;
+            return;
+        }
         Orders = result.Where(x => x.OrderId.Contains(_search)).ToList();
         load = false;
     }

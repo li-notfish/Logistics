@@ -17,13 +17,13 @@ namespace Logistics.Core.Controller
 
         [HttpGet]
         public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll() => await orderService.GetAllAsync();
-        [HttpGet("{deliveryId}")]
+        [HttpGet("{deliveryId}/delivery")]
         public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll(int deliveryId) => await orderService.GetAllAsync(deliveryId);
 
-        [HttpGet("{orderState:int}")]
+        [HttpGet("{orderState}")]
         public async Task<ActionResult<ApiResponse<List<Order>>>> GetAll(int? orderState) => await orderService.GetAllAsync((OrderState)orderState);
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/detail")]
         public async Task<ActionResult<ApiResponse<Order>>> Get(string id) => await orderService.GetAsync(id);
 
         [HttpPost]

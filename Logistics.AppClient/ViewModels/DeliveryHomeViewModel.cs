@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Logistics.AppClient.Pages;
 using Logistics.Shared.Model;
 using Logistics.Shared.Service;
 using System;
@@ -58,9 +60,15 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task SearchOrder()
         {
-            if (Orders == null)
+            if(Orders.Any(x => x.OrderId == OrderId))
             {
-                return;
+                var navigationParamters = new Dictionary<string, object>();
+                navigationParamters.Add("orderId", OrderId);
+                await Shell.Current.GoToAsync($"{nameof(OrderDetail)}", navigationParamters);
+            }
+            else
+            {
+                var toast = Toast.Make("你的配送表里没这个订单！");
             }
         }
 
@@ -117,6 +125,14 @@ namespace Logistics.AppClient.ViewModels
         {
             BarcodeReaderView barcodeReader = new BarcodeReaderView();
             await Shell.Current.Navigation.PushAsync(barcodeReader);
+        }
+
+        [RelayCommand]
+        private async Task GoToDetail(string orderId)
+        {
+            var navigationParamters = new Dictionary<string, object>();
+            navigationParamters.Add("orderId", orderId);
+            await Shell.Current.GoToAsync($"{nameof(OrderDetail)}", navigationParamters);
         }
     }
 }

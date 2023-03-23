@@ -7,7 +7,6 @@
     xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
     x:DataType="vm:DeliveryHomeViewModel">
     <AbsoluteLayout>
-
         <Grid
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All"
@@ -15,7 +14,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <!--  搜索框  -->
             <Frame
@@ -105,7 +104,7 @@
                 </Grid>
             </Frame>
             <!--  搜索内容  -->
-            <ScrollView Grid.Row="2">
+            <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand">
                 <CollectionView EmptyView="没有查到订单" ItemsSource="{Binding Orders}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" />
@@ -169,7 +168,10 @@
                                         HorizontalOptions="End"
                                         Spacing="20"
                                         VerticalOptions="End">
-                                        <Button Text="添加备注" />
+                                        <Button
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DeliveryHomeViewModel}}, Path=GoToDetailCommand}"
+                                            CommandParameter="{Binding OrderId}"
+                                            Text="查看详情" />
                                         <Button Margin="0,0,20,0" Text="删除订单" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
@@ -187,8 +189,10 @@
             BackgroundColor="Pink"
             Command="{Binding OpenBarcodeReaderCommand}"
             CornerRadius="28"
-            HeightRequest="56"
+            HeightRequest="{OnPlatform Android=96,
+                                       WinUI=52}"
             Source="send_black_24dp.png"
-            WidthRequest="56" />
+            WidthRequest="{OnPlatform Android=96,
+                                      WinUI=52}" />
     </AbsoluteLayout>
 </ContentPage>

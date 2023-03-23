@@ -61,7 +61,7 @@ namespace Logistics.Shared.Service {
         }
 
         public async Task<T> GetFirstOfDefaultAsync(string id) {
-            var result = await _httpClient.GetFromJsonAsync<ApiResponse<T>>(Route + $"{id}");
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<T>>(Route + $"{id}/detail");
             return result.Data;
         }
 

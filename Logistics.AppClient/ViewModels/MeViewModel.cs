@@ -34,20 +34,21 @@ namespace Logistics.AppClient.ViewModels
         {
             this._userService = userService;
             this._deliveryService = deliveryService;
-			
-            Task.Run(async () =>
-            {
-				await GetUser();
-			});
             WeakReferenceMessenger.Default.Register<MeViewModel, LoginMessage>(this, async (r,i) =>
             {
                 LoginType = Preferences.Default.Get<int>("Type", -1);
                 await r.GetUser();
             });
+
+            Task.Run(async () =>
+            {
+                await GetUser();
+            });
         }
 
         private async Task GetUser()
         {
+            LoginType = Preferences.Default.Get<int>("Type", -1);
             IsDelivery = LoginType == 2;
 
             if(Preferences.Default.ContainsKey("UserName"))
@@ -58,7 +59,7 @@ namespace Logistics.AppClient.ViewModels
 						User = await _userService.GetFirstOfDefaultAsync(Preferences.Default.Get("Id", -1));
 						break;
                     case 2:
-						Delivery = await _deliveryService.GetFirstOfDefaultAsync(Preferences.Default.Get<int>("Type", -1));
+						Delivery = await _deliveryService.GetFirstOfDefaultAsync(Preferences.Default.Get<int>("Id", -1));
                         break;
                     default:
                         break;
@@ -77,5 +78,10 @@ namespace Logistics.AppClient.ViewModels
 			await Shell.Current.GoToAsync($"///{nameof(LoginPage)}");
 		}
 
+        [RelayCommand]
+        private async Task GoDetail()
+        {
+            await Shell.Current.GoToAsync(nameof(MeDetailPage));
+        }
     }
 }

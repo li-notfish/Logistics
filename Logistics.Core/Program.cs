@@ -29,6 +29,16 @@ namespace Logistics.Core
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
+            builder.Services.AddCors(optin =>
+            {
+                optin.AddPolicy("any",builder =>
+                {
+                    builder
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader();
+                });
+            });
             //SignalRÒýÈë
             builder.Services.AddSignalR();
             builder.Services.AddResponseCompression(opts =>
@@ -51,6 +61,7 @@ namespace Logistics.Core
             builder.Services.AddScoped<IGoodsService, GoodsService>();
 
             var app = builder.Build();
+            app.UseCors("any");
             app.UseResponseCompression();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

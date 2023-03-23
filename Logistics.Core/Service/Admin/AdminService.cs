@@ -19,6 +19,10 @@ namespace Logistics.Core.Service.Admin
             try
             {
                 entity.CreateTime = DateTime.Now;
+                if(logisticsContext.Administrators.Any(x => x.Name.Equals(entity.Name)))
+                {
+                    return new ApiResponse<Administrators>(false, "创建失败,已有同名的管理员");
+                }
                 logisticsContext.Administrators.Add(entity);
                 if (await logisticsContext.SaveChangesAsync() > 0)
                 {

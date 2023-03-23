@@ -20,6 +20,7 @@ namespace Logistics.AppClient {
                 })
                 .Services
                     .AddScoped<MainPage>()
+                    .AddTransient<OrderDetail>()
                     .AddTransient<NewOrderPage>()
                     .AddTransient<ExpressPage>()
                     .AddTransient<MePage>()
@@ -31,6 +32,7 @@ namespace Logistics.AppClient {
                     .AddTransient<ExpressViewModel>()
                     .AddTransient<NewOrderViewModel>()
                     .AddTransient<DeliveryHomeViewModel>()
+                    .AddTransient<OrderDetailViewModel>()
                     .AddTransient<IDeliveryService, DeliveryService>()
                     .AddScoped<IOrderService,OrderService>()
                     .AddScoped<IUserService,UserService>()

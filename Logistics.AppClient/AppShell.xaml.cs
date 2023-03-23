@@ -13,6 +13,8 @@ namespace Logistics.AppClient {
             Routing.RegisterRoute(nameof(NewOrderPage),typeof(NewOrderPage));
             Routing.RegisterRoute(nameof(LoginPage),typeof(LoginPage));
             Routing.RegisterRoute(nameof(DeliveryHome),typeof(DeliveryHome));
+            Routing.RegisterRoute(nameof(OrderDetail),typeof(OrderDetail));
+            Routing.RegisterRoute(nameof(MeDetailPage),typeof(MeDetailPage));
             BindingContext = ViewModel = new AppShellViewModel();
         }
        

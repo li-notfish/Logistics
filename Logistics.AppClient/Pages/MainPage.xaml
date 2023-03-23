@@ -177,7 +177,10 @@
                         HorizontalOptions="End"
                         Spacing="20"
                         VerticalOptions="End">
-                        <Button Text="添加备注" />
+                        <Button
+                            Command="{Binding GoToDetailCommand}"
+                            CommandParameter="{Binding SingleOrder.OrderId}"
+                            Text="查看信息" />
                         <Button Margin="0,0,20,0" Text="删除订单" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
@@ -191,9 +194,11 @@
             BackgroundColor="Pink"
             Command="{Binding ToCreateOrderCommand}"
             CornerRadius="28"
-            HeightRequest="56"
+            HeightRequest="{OnPlatform Android=96,
+                                       WinUI=52}"
             Source="send_black_24dp.png"
-            WidthRequest="56" />
+            WidthRequest="{OnPlatform Android=96,
+                                      WinUI=52}" />
     </AbsoluteLayout>
 
 </ContentPage>

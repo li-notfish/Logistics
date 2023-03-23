@@ -22,7 +22,7 @@
     <TabBar>
         <Tab
             Title="派送员主页"
-            Icon="home_black_24.png"
+            Icon="home_black_24dp.png"
             IsVisible="{Binding IsDelivery}">
             <ShellContent ContentTemplate="{DataTemplate local:DeliveryHome}" Route="DeliveryHome" />
         </Tab>
