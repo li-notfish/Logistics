@@ -14,7 +14,8 @@
             Grid.Row="0"
             Grid.RowSpan="3"
             BarcodesDetected="BarcodesDetected"
-            CameraLocation="Rear" />
+            CameraLocation="Rear"
+            IsDetecting="{Binding IsScanning}" />
 
         <Grid Grid.Row="0" BackgroundColor="#aa000000">
             <Label

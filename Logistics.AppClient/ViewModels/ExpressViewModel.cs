@@ -23,21 +23,7 @@ namespace Logistics.AppClient.ViewModels
         private string currentUser = string.Empty;
 
         [ObservableProperty]
-        private List<Order> orders = new List<Order>() { 
-            new Order() {
-                OrderId = "1244312341",
-                OrderDate = DateTime.Now,
-                OrderState = Shared.Enums.OrderState.None,
-                OrderInfo = "锅",
-                Sender = "MASA",
-                SenderCity = "广东深圳",
-                SenderPhone = "1234512312",
-                Recipient = "Stack",
-                RecipientCity = "广西南宁",
-                RecipientPhone = "12314123213",
-                Cost = 100,
-            }
-        };
+        private List<Order> orders = new List<Order>();
 
         public ExpressViewModel(IOrderService orderService,IUserService userService)
         {

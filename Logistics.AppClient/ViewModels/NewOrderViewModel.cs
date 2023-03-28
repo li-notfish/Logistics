@@ -18,6 +18,7 @@ namespace Logistics.AppClient.ViewModels
     public partial class NewOrderViewModel : ObservableObject
     {
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
 
         private readonly HubConnection hubConnection;
 
@@ -27,9 +28,13 @@ namespace Logistics.AppClient.ViewModels
         [ObservableProperty]
         private List<string> users;
 
-        public NewOrderViewModel(IOrderService orderService)
+        [ObservableProperty]
+        private User user;
+
+        public NewOrderViewModel(IOrderService orderService,IUserService userService)
         {
             this._orderService = orderService;
+            this._userService = userService;
             order = new Order();
 
             hubConnection = new HubConnectionBuilder()
@@ -38,6 +43,17 @@ namespace Logistics.AppClient.ViewModels
             hubConnection.On<List<string>>("Users",RefreshUsers);
 
             LinkTo();
+
+            Task.Run( async() =>
+            {
+                User = await userService.GetFirstOfDefaultAsync(Preferences.Default.Get("Id",-1));
+                if(User != null)
+                {
+                    Order.Sender = User.Name;
+                    Order.SenderPhone = User.Phone;
+                    Order.SenderCity = User.Address;
+                }
+            });
         }
 
         private async void LinkTo()

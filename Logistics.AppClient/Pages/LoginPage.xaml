@@ -80,7 +80,7 @@
                 <Entry
                     Margin="20,0,0,0"
                     IsPassword="True"
-                    Placeholder="Password"
+                    Placeholder="密码"
                     Text="{Binding LoginRequestdto.Password}"
                     VerticalOptions="Center" />
             </Frame>
@@ -100,7 +100,7 @@
             Command="{Binding LoginCommand}"
             CornerRadius="20"
             HorizontalOptions="Center"
-            Text="Sign In"
+            Text="登录"
             WidthRequest="100" />
     </VerticalStackLayout>
 </ContentPage>

@@ -123,8 +123,7 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task OpenBarcodeReader()
         {
-            BarcodeReaderView barcodeReader = new BarcodeReaderView();
-            await Shell.Current.Navigation.PushAsync(barcodeReader);
+            await Shell.Current.GoToAsync($"{nameof(BarcodeReaderView)}");
         }
 
         [RelayCommand]

@@ -79,7 +79,7 @@
                     </HorizontalStackLayout>
                     <CollectionView
                         Grid.Row="1"
-                        EmptyView="No Data"
+                        EmptyView="请稍等"
                         ItemsSource="{Binding Data}"
                         VerticalOptions="Start">
                         <CollectionView.ItemsLayout>

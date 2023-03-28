@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Logistics.AppClient.Pages;
 using Logistics.Shared.Enums;
 using Logistics.Shared.Model;
 using Logistics.Shared.Service;
@@ -82,7 +83,15 @@ namespace Logistics.AppClient.ViewModels
                 {
                     var toast = Toast.Make("更新状态成功！");
                     await toast.Show();
-                    await Shell.Current.GoToAsync("..");
+                    if(LoginType == 1)
+                    {
+                        await Shell.Current.GoToAsync($"../");
+                    }
+                    else if(LoginType == 2)
+                    {
+                        await Shell.Current.GoToAsync($"///{nameof(DeliveryHome)}");
+                    }
+
                 }
                 else
                 {
@@ -95,7 +104,14 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await Shell.Current.GoToAsync("..");
+            if (LoginType == 1)
+            {
+                await Shell.Current.GoToAsync($"../");
+            }
+            else if (LoginType == 2)
+            {
+                await Shell.Current.GoToAsync($"///{nameof(DeliveryHome)}");
+            }
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)

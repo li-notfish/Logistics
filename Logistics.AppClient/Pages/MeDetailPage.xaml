@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Logistics.AppClient.Pages.MeDetailPage"
-             Title="MeDetailPage">
+<ContentPage
+    x:Class="Logistics.AppClient.Pages.MeDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cv="clr-namespace:Logistics.AppClient.Converter"
+    xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
+    x:DataType="vm:MeDetailViewModel">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Frame>
+            <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <Label FontSize="24" Text="用户名:" />
+                    <Entry IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}" Text="{Binding User.Name}" />
+                    <Entry IsVisible="{Binding IsDelivery}" Text="{Binding Delivery.Name}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label FontSize="24" Text="电话号码:" />
+                    <Entry IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}" Text="{Binding User.Phone}" />
+                    <Entry IsVisible="{Binding IsDelivery}" Text="{Binding Delivery.Phone}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label FontSize="24" Text="地址:" />
+                    <Entry IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}" Text="{Binding User.Address}" />
+                    <Entry IsVisible="{Binding IsDelivery}" Text="{Binding Delivery.Address}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="修改密码:" />
+                    <Entry
+                        IsPassword="True"
+                        IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}"
+                        Text="{Binding User.Password}" />
+                    <Entry
+                        IsPassword="True"
+                        IsVisible="{Binding IsDelivery}"
+                        Text="{Binding Delivery.Password}" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout>
+                    <Button Command="{Binding PopToChangePasswordCommand}" Text="修改" />
+                    <Button Command="{Binding BackCommand}" Text="返回" />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </Frame>
     </VerticalStackLayout>
 </ContentPage>

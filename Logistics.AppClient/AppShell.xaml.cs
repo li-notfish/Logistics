@@ -15,6 +15,7 @@ namespace Logistics.AppClient {
             Routing.RegisterRoute(nameof(DeliveryHome),typeof(DeliveryHome));
             Routing.RegisterRoute(nameof(OrderDetail),typeof(OrderDetail));
             Routing.RegisterRoute(nameof(MeDetailPage),typeof(MeDetailPage));
+            Routing.RegisterRoute(nameof(BarcodeReaderView),typeof(BarcodeReaderView));
             BindingContext = ViewModel = new AppShellViewModel();
         }
        

@@ -68,6 +68,12 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         public async Task SearchOrder(string id)
         {
+            if(string.IsNullOrEmpty(OrderId))
+            {
+                IsSearch = false;
+                return;
+            }
+
             SingleOrder = Orders.SingleOrDefault(x => x.OrderId.Equals(OrderId));
             if(SingleOrder != null)
             {

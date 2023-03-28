@@ -10,8 +10,9 @@ namespace Logistics.AppClient.ViewModels
 {
     public partial class BarcodeReaderViewModel : ObservableObject
     {
+
         [ObservableProperty]
-        private string orderId = string.Empty;
+        private bool isScanning = true;
 
         public BarcodeReaderViewModel()
         {
