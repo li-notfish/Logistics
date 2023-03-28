@@ -7,9 +7,7 @@
 		<MMenu Bottom MinWidth="200" Rounded="@true">
 			<ActivatorContent>
 				<MButton Icon XLarge @attributes="@context.Attrs">
-					<MAvatar Color="brown" Size="48">
-						<span class="white--text text-h5">@UserName</span>
-					</MAvatar>
+						<MIcon Large>account_circle</MIcon>
 				</MButton>
 			</ActivatorContent>
 			<ChildContent>
@@ -18,10 +16,8 @@
 						<div class="mx-auto text-center">
 							<AuthorizeView>
 								<Authorized>						
-									<MAvatar Color="brown">
-										<span class="white--text text-h5">@UserName</span>
-									</MAvatar>
-									<h3>Hello,@UserName</h3>
+									<MIcon Large>account_circle</MIcon>
+									<h3>Hello,Admin</h3>
 									<MDivider class="my-3"></MDivider>
 									<MButton Depressed Rounded Text>账号管理</MButton>
 									<MDivider class="my-3"></MDivider>

@@ -19,7 +19,21 @@
                     <Image
                         Aspect="AspectFill"
                         HeightRequest="100"
-                        Source="touxiang.jpg"
+                        IsVisible="{Binding IsDelivery, Converter={cv:ShowDeliveryPageConverter}}"
+                        Source="person_black_24dp.png"
+                        WidthRequest="100">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                Center="50,50"
+                                RadiusX="50"
+                                RadiusY="50" />
+                        </Image.Clip>
+                    </Image>
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="100"
+                        IsVisible="{Binding IsDelivery}"
+                        Source="hail_black_24dp.png"
                         WidthRequest="100">
                         <Image.Clip>
                             <EllipseGeometry

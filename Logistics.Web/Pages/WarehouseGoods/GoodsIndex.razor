@@ -64,6 +64,10 @@
                 OnClick="() => EditItem(context.Item)">mdi-pencil</MIcon>
             <MIcon Small OnClick="() => DeleteItem(context.Item)">mdi-delete</MIcon>
         }
+        else if(context.Header.Value == nameof(Goods.GoodsState))
+        {
+            @UtilityChart.GoodsStateToString((int)@context.Value);
+        }
         else
         {
             @context.Value
@@ -135,6 +139,7 @@
         {
             Warehouses = warehouseResult;
         }
+        snackbar = false;
     }
 
     private void EditItem(Goods goods)

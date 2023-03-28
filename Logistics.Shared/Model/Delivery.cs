@@ -47,7 +47,7 @@ namespace Logistics.Shared.Model
             set => this.SetProperty(ref this.phone, value, true);
         }
 
-        private string description;
+        private string description = string.Empty;
         [DisplayName("备注")]
         public string Description {
             get => description;

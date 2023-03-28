@@ -7,29 +7,34 @@
 @attribute [AllowAnonymous]
 
 <PageTitle>登录</PageTitle>
-<h3>登录</h3>
-
-<EditForm Model="login" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="Name">名字</label>
-        <input id="Name" @bind-value="login.Name" class="form-control"/>
+ <MCard Width=510 Height=620 MaxHeight="620" Style="margin-left:25%">
+    <div class="tab-header login-tab" style="padding-top:25px">
+        <MForm Model="login" @ref="_loginForm" EnableValidation class="mt-12 mx-12 text-center">
+            <DataAnnotationsValidator />
+            <MTextField @bind-Value="@login.Name" Label="用户名" Placeholder="请输入用户名" Outlined Autofocus>
+                <PrependContent>
+                    <MIcon>mdi-account</MIcon>
+                </PrependContent>
+            </MTextField>
+            <MTextField @bind-Value="@login.Password" Class="mt-3" Label="密码" Type="Password">
+                <PrependContent>
+                    <MIcon>mdi-lock</MIcon>
+                </PrependContent>
+            </MTextField>
+            <MButton Class="rounded-pill text-btn white--text" Height=48 Width=340 Color="primary"  OnClick="HandleLogin">登录</MButton>
+            <ValidationSummary />
+        </MForm>
+        <div class="text-danger">
+            <span>@errorMessage</span>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="Password">密码</label>
-        <input id="Password" type="password" @bind-value="login.Password" class="form-control"/>
-    </div>
-    <button type="submit" class="btn btn-primary">登录</button>
-    <ValidationSummary />
-</EditForm>
-<div class="text-danger">
-    <span>@errorMessage</span>
-</div>
+</MCard>
 
 @code {
     private LoginRequest login = new LoginRequest();
     private string errorMessage = string.Empty;
     private string returnUrl = string.Empty;
+    MForm _loginForm = null!;
 
     protected override void OnInitialized()
     {
@@ -42,18 +47,22 @@
 
     private async Task HandleLogin() {
         login.LoginType = LoginType.Admin;
-        var result = await AuthService.Login(login);
-        if(result.Success)
+        if(_loginForm.Validate())
         {
-            errorMessage = string.Empty;
-            await LocalStorage.SetItemAsync("authToken",result.Data);
-            await LocalStorage.SetItemAsync("username",login.Name.ToString());
-            await AuthStateProvider.GetAuthenticationStateAsync();
-            Navigation.NavigateTo(returnUrl);
+            var result = await AuthService.Login(login);
+            if(result.Success)
+            {
+                errorMessage = string.Empty;
+                await LocalStorage.SetItemAsync("authToken",result.Data);
+                await LocalStorage.SetItemAsync("username",login.Name.ToString());
+                await AuthStateProvider.GetAuthenticationStateAsync();
+                Navigation.NavigateTo(returnUrl);
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
         }
-        else
-        {
-            errorMessage = result.Message;
-        }
+        
     }
 }

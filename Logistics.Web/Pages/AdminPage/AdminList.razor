@@ -63,6 +63,7 @@
         if(result!=null) {
             AdministratorsList = result;
         }
+        snackbar = false;
     }
     public void Close() {
         _dialog = false;
@@ -113,7 +114,7 @@
           Text="创建日期",
           Value=nameof(Administrators.CreateTime)
         },
-        new (){ Text= "Actions", Value= "actions",Sortable=false }
+        new (){ Text= "操作", Value= "actions",Sortable=false }
     };
 
     private void OnDialogValueChanged(bool _dialog)

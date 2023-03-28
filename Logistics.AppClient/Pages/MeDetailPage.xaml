@@ -7,7 +7,7 @@
     xmlns:vm="clr-namespace:Logistics.AppClient.ViewModels"
     x:DataType="vm:MeDetailViewModel">
     <VerticalStackLayout>
-        <Frame>
+        <Frame Margin="10">
             <VerticalStackLayout Spacing="10">
                 <VerticalStackLayout>
                     <Label FontSize="24" Text="用户名:" />
@@ -35,7 +35,7 @@
                         IsVisible="{Binding IsDelivery}"
                         Text="{Binding Delivery.Password}" />
                 </VerticalStackLayout>
-                <HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="10">
                     <Button Command="{Binding PopToChangePasswordCommand}" Text="修改" />
                     <Button Command="{Binding BackCommand}" Text="返回" />
                 </HorizontalStackLayout>

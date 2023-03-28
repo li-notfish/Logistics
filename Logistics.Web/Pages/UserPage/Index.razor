@@ -61,6 +61,7 @@
         if(result != null) {
             Users = result;
         }
+        snackbar = false;
     }
     private void Close() {
         user = new User();
@@ -135,6 +136,6 @@
             Text="创建日期",
             Value=nameof(User.CreateTime)
         },
-        new (){ Text= "Actions", Value= "actions",Sortable=false }
+        new (){ Text= "操作", Value= "actions",Sortable=false }
     };
 }

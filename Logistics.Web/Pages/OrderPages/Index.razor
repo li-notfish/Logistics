@@ -49,12 +49,12 @@
                                 <MRow>
                                     <MCol Cols="6">
                                         <MSelect TItem="Delivery"
-                                                TItemValue="int"
+                                                TItemValue="string"
                                                 TValue="string"
                                                 Items="Deliveries"
                                                 @bind-Value="delivery.Name"
                                                 ItemText="d => d.Name"
-                                                ItemValue="d => d.Id"
+                                                ItemValue="d => d.Name"
                                                 Label="选择派送员"
                                                 OnSelectedItemUpdate="item => delivery = item">
                                         </MSelect>
@@ -149,12 +149,16 @@
                OnClick="()=> DeleteItem(context.Item)">mdi-delete</MIcon>
             <MIcon Small OnClick="() => SendOrder()">
                 mdi-local_shipping
-            </MIcon>
-        }
-        else
-        {
-            @context.Value
-        }
+                </MIcon>
+            }
+            else if(context.Header.Value == nameof(Order.OrderState))
+            {
+                @UtilityChart.EnmuToStirng((int)@context.Value);
+            }
+            else
+            {
+                @context.Value
+            }
         </ItemColContent>
         <NoDataContent>
         <MButton Color="primary"
@@ -226,6 +230,7 @@
             Orders = result;
             load = false;
         }
+        snackbar = false;
     }
 
     public void Close() {
@@ -350,6 +355,6 @@
           new (){ Text= "订单详情", Value=nameof(Order.OrderInfo)},
           new (){ Text= "费用", Value=nameof(Order.Cost)},
           new (){ Text= "状态", Value=nameof(Order.OrderState)},
-          new (){ Text= "Actions", Value= "actions",Sortable=false }  
+          new (){ Text= "操作", Value= "actions",Sortable=false }  
       };
 }

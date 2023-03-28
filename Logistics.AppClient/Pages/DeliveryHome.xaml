@@ -191,7 +191,7 @@
             CornerRadius="28"
             HeightRequest="{OnPlatform Android=96,
                                        WinUI=52}"
-            Source="send_black_24dp.png"
+            Source="document_scanner_black_24dp.png"
             WidthRequest="{OnPlatform Android=96,
                                       WinUI=52}" />
     </AbsoluteLayout>

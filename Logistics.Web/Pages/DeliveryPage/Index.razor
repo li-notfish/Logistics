@@ -23,7 +23,11 @@
                Class="mr-2"
                OnClick="()=>EditItem(context.Item)">mdi-pencil</MIcon>
             <MIcon Small
-               OnClick="()=>DeleteItem(context.Item)">mdi-delete</MIcon>
+            OnClick="()=>DeleteItem(context.Item)">mdi-delete</MIcon>
+        }
+        else if(context.Header.Value == nameof(Delivery.State))
+        {
+            @UtilityChart.DeliveryEnmuToString((int)context.Value);
         }
         else
         {
@@ -61,6 +65,7 @@
         if(result != null) {
             Deliveries = result;
         }
+        snackbar = false;
     }
 
     private void Close() {
@@ -84,7 +89,7 @@
             message = "派送员的信息保存失败！";
         }
         snackbar = true;
-        GetDataAsync();
+        await GetDataAsync();
         Close();
     }
 
@@ -112,7 +117,7 @@
             message = "派送员信息删除失败！";
         }
         snackbar = true;
-        GetDataAsync();
+        await GetDataAsync();
         CloseDelete();
     }
 
@@ -139,6 +144,6 @@
             Text="状态",
             Value=nameof(Delivery.State)
         },
-        new (){ Text= "Actions", Value= "actions",Sortable=false }
+        new (){ Text= "操作", Value= "actions",Sortable=false }
     };
 }

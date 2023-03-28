@@ -91,7 +91,7 @@
             RadioButtonGroup.GroupName="Type"
             RadioButtonGroup.SelectedValue="{Binding Select}"
             Spacing="10">
-            <Label Padding="10" Text="用户类型" />
+            <Label Padding="10" Text="用户类型：" />
             <RadioButton Content="用户" Value="1" />
             <RadioButton Content="派送员" Value="2" />
         </StackLayout>

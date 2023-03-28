@@ -70,6 +70,8 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\company_logo.jpg" />
+	  <None Remove="Resources\Images\document_scanner_black_24dp.svg" />
+	  <None Remove="Resources\Images\hail_black_24dp.svg" />
 	  <None Remove="Resources\Images\home_black_24dp.svg" />
 	  <None Remove="Resources\Images\local_shipping_black_24dp.svg" />
 	  <None Remove="Resources\Images\lock.png" />
