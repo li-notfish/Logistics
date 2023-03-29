@@ -87,6 +87,8 @@
         }
         else {
             message = "派送员的信息保存失败！";
+            snackbar = true;
+            return;
         }
         snackbar = true;
         await GetDataAsync();

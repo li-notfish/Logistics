@@ -81,6 +81,8 @@
         }
         else {
             message = "用户信息保存失败！";
+            snackbar = true;
+            return;
         }
         snackbar = true;
         await GetData();

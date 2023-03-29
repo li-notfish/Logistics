@@ -87,6 +87,11 @@
                 message = "保存成功!";
                 snackbar = true;
             }
+            else
+            {
+                snackbar = true;
+                return;
+            }
         }
         await Initialize();
         Close();

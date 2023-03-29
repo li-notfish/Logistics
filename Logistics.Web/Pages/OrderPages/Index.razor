@@ -256,6 +256,8 @@
         }
         else {
             message = "订单信息保存失败！";
+            snackbar = true;
+            return;
         }
         await ReGetData();
         snackbar = true;
@@ -307,7 +309,11 @@
         else {
             message = "派单失败！";
         }
-        if(canDeliveryList.Count() != _selected.Count())
+        if(canDeliveryList.Count() == 0)
+        {
+            message = "派单失败，请检查物品是否出库！";
+        }
+        else if(canDeliveryList.Count() != _selected.Count())
         {
             message = "部分派单成功，请检查派单失败的订单物品是否出库！";
         }
