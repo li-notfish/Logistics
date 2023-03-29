@@ -92,6 +92,7 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task Refrash()
         {
+            await GetDeliveryOrder();
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("派送中",0),
                 new OrderStateColletion("运输中",0),

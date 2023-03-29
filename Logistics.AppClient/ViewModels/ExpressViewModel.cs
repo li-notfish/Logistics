@@ -29,7 +29,11 @@ namespace Logistics.AppClient.ViewModels
         {
             this._orderService = orderService;
             currentUser = Preferences.Default.Get("UserName", string.Empty);
-			GetOrderList(0);
+            Task.Run(async () =>
+            {
+                await GetOrderList(0);
+            });
+			
         }
 
         private async Task GetOrderList(int type) {

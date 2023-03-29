@@ -39,8 +39,8 @@ namespace Logistics.AppClient.ViewModels
         {
             this._orderService = orderService;
             currentUser = Preferences.Default.Get("UserName", string.Empty);
-
-			GetRecOrderCount();
+            Task.Run(GetRecOrderCount);
+			
         }
 
         private async Task GetOrderList(int type) {
@@ -88,7 +88,7 @@ namespace Logistics.AppClient.ViewModels
 
         [RelayCommand]
         public async Task GetRecOrderCount() {
-            await GetOrderList(0);
+            await GetOrderList(1);
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("派送中",0),
                 new OrderStateColletion("运输中",0),
@@ -118,7 +118,7 @@ namespace Logistics.AppClient.ViewModels
 
         [RelayCommand]
         public async Task GetSendOrderCount() {
-            await GetOrderList(1);
+            await GetOrderList(0);
             Data = new ObservableCollection<OrderStateColletion>() {
                 new OrderStateColletion("待寄出",0),
                 new OrderStateColletion("待收件",0),
