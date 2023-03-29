@@ -63,7 +63,6 @@
         if(result!=null) {
             AdministratorsList = result;
         }
-        snackbar = false;
     }
     public void Close() {
         _dialog = false;
@@ -71,7 +70,8 @@
     }
 
     public async Task Save() {
-        Administrators result; 
+        Administrators result;
+        UpdateSnackbarState();
         if(admin.Id == 0) {
             result = await adminService.AddAsync(admin);    
         }
@@ -128,6 +128,7 @@
     }
 
     private async Task DeleteItemConfirm() {
+        UpdateSnackbarState();
         var result = await adminService.DeleteAsync(admin.Id);
         if(result != null) {
             message = "管理员删除成功！";
@@ -138,5 +139,13 @@
         snackbar = true;
         await ReGetData();
         CloseDelete();
+    }
+
+    private void UpdateSnackbarState()
+    {
+        if(snackbar == true)
+        {
+            snackbar = false;
+        }
     }
 }

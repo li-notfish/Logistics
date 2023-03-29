@@ -65,7 +65,6 @@
         if(result != null) {
             Deliveries = result;
         }
-        snackbar = false;
     }
 
     private void Close() {
@@ -74,6 +73,7 @@
     }
 
     private async Task Save() {
+        UpdateSnackbarState();
         Delivery result;
         if(delivery.Id == 0) {
             result = await  DeliveryService.AddAsync(delivery);
@@ -109,6 +109,7 @@
     }
 
     private async Task DeleteItemConfirm() {
+        UpdateSnackbarState();
         var result = DeliveryService.DeleteAsync(delivery.Id);
         if(result != null) {
             message = "派送员信息删除成功！";
@@ -146,4 +147,12 @@
         },
         new (){ Text= "操作", Value= "actions",Sortable=false }
     };
+
+    private void UpdateSnackbarState()
+    {
+        if(snackbar == true)
+        {
+            snackbar = false;
+        }
+    }
 }

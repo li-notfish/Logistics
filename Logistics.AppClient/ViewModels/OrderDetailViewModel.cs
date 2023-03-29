@@ -21,7 +21,7 @@ namespace Logistics.AppClient.ViewModels
         private string orderId = string.Empty;
 
         [ObservableProperty]
-        public List<string> orderStateString;
+        public List<string> orderStateString = new List<string>();
 
         [ObservableProperty]
         private Order orderDetail;

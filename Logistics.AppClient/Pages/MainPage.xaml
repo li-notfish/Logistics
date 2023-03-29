@@ -16,10 +16,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <!--  搜索框  -->
-            <Frame
-                Grid.Row="0"
-                Margin="5"
-                BackgroundColor="AntiqueWhite">
+            <Frame Grid.Row="0" Margin="5">
                 <VerticalStackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
@@ -181,7 +178,7 @@
                             Command="{Binding GoToDetailCommand}"
                             CommandParameter="{Binding SingleOrder.OrderId}"
                             Text="查看信息" />
-                        <Button Margin="0,0,20,0" Text="删除订单" />
+
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>

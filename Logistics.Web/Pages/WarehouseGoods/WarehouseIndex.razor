@@ -51,7 +51,6 @@
         {
             warehouses = result;
         }
-        snackbar = false;
     }
 
     private bool _dialog;
@@ -68,6 +67,7 @@
 
     public async Task Save()
     {
+        UpdateSnackbarState();
         Warehouse result;
         message = "保存失败!";
         if(warehouse.Id > 0)
@@ -106,6 +106,7 @@
 
     public async void DeleteItemConfirm()
     {
+        UpdateSnackbarState();
         Warehouse result;
         message = "删除失败";
         result = await WarehouseService.DeleteAsync(warehouse.Id);
@@ -146,4 +147,12 @@
         },
         new (){ Text= "操作", Value= "actions",Sortable=false }
     };
+
+    private void UpdateSnackbarState()
+    {
+        if(snackbar == true)
+        {
+            snackbar = false;
+        }
+    }
 }

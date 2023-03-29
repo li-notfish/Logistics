@@ -86,7 +86,6 @@
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExpressViewModel}}, Path=GoToDetailCommand}"
                                         CommandParameter="{Binding OrderId}"
                                         Text="查看详情" />
-                                    <Button Margin="0,0,20,0" Text="删除订单" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>

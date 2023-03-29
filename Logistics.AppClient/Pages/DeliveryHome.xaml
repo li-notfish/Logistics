@@ -17,10 +17,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <!--  搜索框  -->
-            <Frame
-                Grid.Row="0"
-                Margin="5"
-                BackgroundColor="AntiqueWhite">
+            <Frame Grid.Row="0" Margin="5">
                 <VerticalStackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
@@ -172,7 +169,6 @@
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DeliveryHomeViewModel}}, Path=GoToDetailCommand}"
                                             CommandParameter="{Binding OrderId}"
                                             Text="查看详情" />
-                                        <Button Margin="0,0,20,0" Text="删除订单" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
                             </Frame>

@@ -61,7 +61,6 @@
         if(result != null) {
             Users = result;
         }
-        snackbar = false;
     }
     private void Close() {
         user = new User();
@@ -69,6 +68,7 @@
     }
 
     private async Task Save() {
+        UpdateSnackbarState();
         User result;
         if(user.Id == 0) {
             result = await  UserService.AddAsync(user);
@@ -83,7 +83,7 @@
             message = "用户信息保存失败！";
         }
         snackbar = true;
-        GetData();
+        await GetData();
         Close();
     }
     private void EditItem(User item) {
@@ -102,6 +102,7 @@
     }
 
     private async Task DeleteItemConfirm() {
+        UpdateSnackbarState();
         var result = UserService.DeleteAsync(user.Id);
         if(result != null) {
             message = "删除成功！";
@@ -110,7 +111,7 @@
             message = "删除失败";
         }
         snackbar = true;
-        GetData();
+        await GetData();
         CloseDelete();
     }
     private List<DataTableHeader<User>> _header = new List<DataTableHeader<User>>
@@ -138,4 +139,12 @@
         },
         new (){ Text= "操作", Value= "actions",Sortable=false }
     };
+
+    private void UpdateSnackbarState()
+    {
+        if(snackbar == true)
+        {
+            snackbar = false;
+        }
+    }
 }

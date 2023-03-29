@@ -60,6 +60,13 @@ namespace Logistics.AppClient.ViewModels
         [RelayCommand]
         private async Task SearchOrder()
         {
+            if(string.IsNullOrEmpty(OrderId))
+            {
+                var toast = Toast.Make("请输入订单号后再进行搜索！");
+                await toast.Show();
+                return;
+            }
+
             if(Orders.Any(x => x.OrderId == OrderId))
             {
                 var navigationParamters = new Dictionary<string, object>();
@@ -69,6 +76,7 @@ namespace Logistics.AppClient.ViewModels
             else
             {
                 var toast = Toast.Make("你的配送表里没这个订单！");
+                await toast.Show();
             }
         }
 
@@ -79,12 +87,6 @@ namespace Logistics.AppClient.ViewModels
             {
                 Orders = await orderService.GetAllAsync(DeliveryHome.Id);
             }
-        }
-
-        [RelayCommand]
-        private async Task ToCompleteOrder()
-        {
-
         }
 
         [RelayCommand]

@@ -74,7 +74,6 @@
             Margin="10"
             Spacing="10">
             <Button Command="{Binding GoDetailCommand}" Text="修改个人信息" />
-            <Button Text="设置" />
             <Button Command="{Binding LogoutCommand}" Text="注销" />
         </VerticalStackLayout>
     </Grid>

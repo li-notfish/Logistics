@@ -61,9 +61,20 @@
                     HorizontalOptions="Fill"
                     Color="Gray" />
                 <HorizontalStackLayout
-                    HorizontalOptions="End"
-                    Spacing="20"
-                    VerticalOptions="End" />
+                    HorizontalOptions="Start"
+                    Spacing="10"
+                    VerticalOptions="End">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="物品信息:" />
+                    <Label
+                        FontAttributes="None"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding OrderDetail.OrderInfo}"
+                        VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>
         <HorizontalStackLayout Margin="10" Spacing="10">
@@ -71,7 +82,8 @@
             <Picker
                 x:Name="picker"
                 IsEnabled="{Binding IsDelivery}"
-                SelectedIndex="{Binding StateIndex}">
+                SelectedIndex="{Binding StateIndex}"
+                VerticalOptions="Center">
                 <Picker.Items>
                     <x:String>未配送</x:String>
                     <x:String>正在运输</x:String>
@@ -83,10 +95,18 @@
                 </Picker.Items>
             </Picker>
         </HorizontalStackLayout>
-        <Button Command="{Binding GoBackCommand}" Text="返回" />
-        <Button
-            Command="{Binding UpdateStateCommand}"
-            IsVisible="{Binding IsDelivery}"
-            Text="更新" />
+        <VerticalStackLayout Spacing="10">
+            <Button
+                Command="{Binding GoBackCommand}"
+                HeightRequest="50"
+                Text="返回"
+                WidthRequest="100" />
+            <Button
+                Command="{Binding UpdateStateCommand}"
+                HeightRequest="50"
+                IsVisible="{Binding IsDelivery}"
+                Text="更新"
+                WidthRequest="100" />
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
