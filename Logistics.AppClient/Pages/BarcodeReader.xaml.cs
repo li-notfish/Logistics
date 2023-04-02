@@ -25,6 +25,7 @@ public partial class BarcodeReaderView : ContentPage
             Multiple = false
         };
         BindingContext = this.barcodeReaderViewModel = barcodeReaderViewModel;
+        barcodeReaderViewModel.IsScanning = true;
     }
 
     protected void BarcodesDetected(object sender, BarcodeDetectionEventArgs e)

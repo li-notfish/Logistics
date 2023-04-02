@@ -29,6 +29,20 @@
                     刷新
                 </MButton>
                 <MSpacer Class="mx-4" Inset Vertical></MSpacer>
+                <MSelect @bind-Value="cityFilter"
+                Dense
+                Label="城市"
+                HideDetails="true"
+                Items="cityList"
+                ItemValue="i => i"
+                ItemText="i => i"
+                TItem="string"
+                TItemValue="string"
+                TValue="string"
+                OnSelectedItemUpdate="_ => GroubyCity(_)"/>
+                <MSpacer Class="mx-4" InSet Vertical></MSpacer>
+                <MButton Color="primary" Dark Class="mb-2" OnClick="() => GroubyCity(string.Empty)">清除</MButton>
+                <MSpacer Class="mx-4" InSet Vertical></MSpacer>
                 <MButton Color="primary"
                     Dark
                     Class="mb-2"
@@ -183,7 +197,8 @@
     private bool menu;
     private bool load = true;
     private string _search = string.Empty;
-
+    private string cityFilter = string.Empty;
+    private List<string> cityList = new List<string>();
 
     public string FormTitle
     {
@@ -219,6 +234,7 @@
         }
         if(result != null) {
             Orders = result;
+            cityList = Orders.GroupBy(x => x.SenderCity).Select(x => x.Key).ToList();
             load = false;
         }
     }
@@ -366,11 +382,30 @@
           new (){ Text= "操作", Value= "actions",Sortable=false }  
       };
 
-      private void UpdateSnackbarState()
+    private void UpdateSnackbarState()
     {
         if(snackbar == true)
         {
             snackbar = false;
         }
+    }
+
+    private async Task GroubyCity(string name)
+    {
+        cityFilter = name;
+        load = true;
+        await ReGetData();
+        var list = await DeliveryService.GetAllAsync();
+        if(string.IsNullOrEmpty(name))
+        {
+            return;
+        }
+        else
+        {
+            Orders = Orders.Where(x => x.SenderCity.Contains(name)).ToList();
+            Deliveries = list.Where(x => x.Address.Contains(cityFilter)).ToList();
+        }
+        
+        load = false;
     }
 }
