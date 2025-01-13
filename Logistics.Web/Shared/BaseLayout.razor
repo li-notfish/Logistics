@@ -11,7 +11,7 @@
             <CascadingValue Value="this" IsFixed>
                 @Body
             </CascadingValue>
-         <MobileMenuList @bind-Value="_showMobileMenuList" />
+        <MobileMenuList Value="_showMobileMenuList" ValueChanged="HandleOnAppBarNavIconClick" />
          </MErrorHandler>
 
 </MApp>
@@ -21,7 +21,7 @@
     internal bool ShowDrawer;
     private bool _hideAppBarNavIcon;
     private bool _showMobileMenuList;
-    internal EventCallback<bool> OnAppBarNavIconClick { get; set; }
+    internal EventCallback OnAppBarNavIconClick { get; set; }
 
     private void HandleOnAppBarNavIconClick()
     {

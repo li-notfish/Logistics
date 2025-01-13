@@ -39,7 +39,7 @@ namespace Logistics.Core
                     .AllowAnyHeader();
                 });
             });
-            //SignalRÒýÈë
+            //SignalRå¼•å…¥
             builder.Services.AddSignalR();
             builder.Services.AddResponseCompression(opts =>
             {
@@ -61,6 +61,7 @@ namespace Logistics.Core
             builder.Services.AddScoped<IGoodsService, GoodsService>();
 
             var app = builder.Build();
+
             app.UseCors("any");
             app.UseResponseCompression();
             // Configure the HTTP request pipeline.

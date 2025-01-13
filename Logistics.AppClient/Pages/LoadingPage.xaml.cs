@@ -1,3 +1,4 @@
+using Microsoft.Maui.Storage;
 namespace Logistics.AppClient.Pages;
 
 public partial class LoadingPage : ContentPage

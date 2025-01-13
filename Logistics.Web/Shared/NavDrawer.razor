@@ -87,10 +87,10 @@
 
 @code {
     [Parameter]
-    public bool Value { get; set; }
+    public bool? Value { get; set; }
 
     [Parameter]
-    public EventCallback<bool> ValueChanged { get; set; }
+    public EventCallback<bool?> ValueChanged { get; set; }
 
     public string ElementId => "nav-drawer";
 

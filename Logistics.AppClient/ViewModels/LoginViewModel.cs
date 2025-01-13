@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Storage;
 
 namespace Logistics.AppClient.ViewModels
 {
@@ -29,7 +30,7 @@ namespace Logistics.AppClient.ViewModels
 
         public LoginViewModel()
         {
-			http.BaseAddress = new Uri("https://logisticscore20230322160309.azurewebsites.net/");
+			http.BaseAddress = new Uri("http://localhost:5173/");
 			this.authService = new AuthService(http);
 			this.LoginRequestdto = new LoginRequest();
         }

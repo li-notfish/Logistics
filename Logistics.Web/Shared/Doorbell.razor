@@ -34,7 +34,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://logisticscore20230322160309.azurewebsites.net/sendorderhub")
+            .WithUrl("http://localhost:5173/sendorderhub")
             .Build();
         await hubConnection.StartAsync();
 

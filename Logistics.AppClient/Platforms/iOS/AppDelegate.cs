@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Microsoft.Maui;
 
 namespace Logistics.AppClient {
     [Register("AppDelegate")]

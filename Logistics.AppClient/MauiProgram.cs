@@ -41,7 +41,7 @@ namespace Logistics.AppClient {
                     .AddScoped<IOrderService,OrderService>()
                     .AddScoped<IUserService,UserService>()
                     .AddScoped<IAuthService,AuthService>()
-                    .AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://logisticscore20230322160309.azurewebsites.net/") }); ;
+                    .AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5173/") }); ;
 
 #if DEBUG
 		builder.Logging.AddDebug();
