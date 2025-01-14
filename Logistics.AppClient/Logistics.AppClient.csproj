@@ -90,10 +90,10 @@
     <None Remove="Resources\Images\user.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Maui" />
-    <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
     <PackageReference Include="ZXing.Net.Maui" />
     <PackageReference Include="ZXing.Net.Maui.Controls" />
   </ItemGroup>
@@ -138,6 +138,6 @@
     </MauiXaml>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.22" />
   </ItemGroup>
 </Project>

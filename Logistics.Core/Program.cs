@@ -18,6 +18,7 @@ namespace Logistics.Core
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.AddServiceDefaults();
 
             // Add services to the container.
             builder.Services.AddDbContext<LogisticsContext>(options =>
@@ -61,6 +62,8 @@ namespace Logistics.Core
             builder.Services.AddScoped<IGoodsService, GoodsService>();
 
             var app = builder.Build();
+
+            app.MapDefaultEndpoints();
 
             app.UseCors("any");
             app.UseResponseCompression();

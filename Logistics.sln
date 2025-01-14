@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistics.Web", "Logistics.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistics.AppClient", "Logistics.AppClient\Logistics.AppClient.csproj", "{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logistics.AppHost", "Logistics.AppHost\Logistics.AppHost.csproj", "{97B00CE6-3FE2-4A2A-80D6-36C1DEA0976E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logistics.ServiceDefaults", "Logistics.ServiceDefaults\Logistics.ServiceDefaults.csproj", "{E60C6E2C-A565-C6BD-7651-8231008BA76D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B6992394-FC29-4EFC-ABA2-B86DE64B0CEC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{97B00CE6-3FE2-4A2A-80D6-36C1DEA0976E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97B00CE6-3FE2-4A2A-80D6-36C1DEA0976E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97B00CE6-3FE2-4A2A-80D6-36C1DEA0976E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97B00CE6-3FE2-4A2A-80D6-36C1DEA0976E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E60C6E2C-A565-C6BD-7651-8231008BA76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E60C6E2C-A565-C6BD-7651-8231008BA76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E60C6E2C-A565-C6BD-7651-8231008BA76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E60C6E2C-A565-C6BD-7651-8231008BA76D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
